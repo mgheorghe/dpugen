@@ -1,0 +1,62 @@
+submodule DASH_ENI_SCALE {
+    yang-version 1.1;
+    belongs-to dashtd {
+        prefix "dash_eni_scale";
+    }
+    revision 2022-08-22;
+
+}
+
+
+/****
+    ### OVERLAY SECTION from SONiC-DASH schema https://github.com/Azure/DASH/blob/main/documentation/general/design/dash-sonic-hld.md ###
+
+
+    # DASH_ENI:{{eni}} 
+    "DASH_ENI": {
+        "name": {
+            "increment": {
+                "base": "vnet",
+                "start": 1,
+                "step": 1,
+                "count": 8  # TODO: copy count from eni count or make variables
+            }
+        },
+        "eni_id": {  # supports: increment
+            "increment": {
+                "start": 1,
+                "step": 1,
+                "count": 8  # TODO: copy count from eni count or make variables
+            }
+        },
+        "mac_address": {  # supports: increment
+            "increment": {
+                "start": "00:1A:C5:00:00:01",
+                "step": "00:00:00:18:00:00",
+                "count": 8  # TODO: copy count from eni count or make variables
+            }
+        },
+        "underlay_ip": {  # supports: increment
+            "increment": {
+                "start": "1.1.0.1",
+                "step": "1.0.0.0",
+                "count": 8  # TODO: copy count from eni count or make variables
+            }
+        },
+        "vnet": {  # supports: increment
+            "substitution": {
+                "base": "vnet#{0}abc-#{1}",
+                "params": [
+                    {
+                        "start": 1,
+                        "step": 1,
+                        "count": 4  # TODO: copy count from eni count or make variables
+                    },
+                    {
+                        "values": ["a", "b", "x"],
+                    }
+                ],
+                "count": 8
+            }
+        }
+    },
