@@ -67,9 +67,10 @@ TESTDATA = {
             },
             'prefix': 32,
             'nexthop': {  # supports: values
-                'values': ['220.0.1.2', '220.0.1.2', '220.0.3.2', '220.0.3.2', '220.0.5.2', '220.0.5.2', '220.0.7.2', '220.0.7.2']
+                'valuez': ['220.0.1.2', '220.0.1.2', '220.0.3.2', '220.0.3.2', '220.0.5.2', '220.0.5.2', '220.0.7.2', '220.0.7.2']
             },
-            'ifname': 'Ethernet0'
+            'ifname': 'Ethernet0',
+            'count': 8
         },
         {
             'address': {  # supports: increment
@@ -81,9 +82,10 @@ TESTDATA = {
             },
             'prefix': 32,
             'nexthop': {  # supports: values
-                'values': ['220.0.2.2', '220.0.2.2', '220.0.4.2', '220.0.4.2', '220.0.6.2', '220.0.6.2', '220.0.8.2', '220.0.8.2']
+                'valuez': ['220.0.2.2', '220.0.2.2', '220.0.4.2', '220.0.4.2', '220.0.6.2', '220.0.6.2', '220.0.8.2', '220.0.8.2']
             },
-            'ifname': 'Ethernet0'
+            'ifname': 'Ethernet0',
+            'count': 8
         },
     ],
 
@@ -115,7 +117,7 @@ TESTDATA = {
     },
 
     # DASH_ENI:{{eni}}
-    'DASH_ENI': {
+    'DASH_ENI_SCALE': {
         'name': {  # supports: substitution
             'substitution': {
                 'base': 'eni#{0}',
@@ -145,8 +147,8 @@ TESTDATA = {
         },
         'underlay_ip': {  # supports: increment
             'increment': {
-                'start': '1.1.0.1',
-                'step': '1.0.0.0',
+                'start': '221.0.1.1',
+                'step': '0.0.0.1',
                 'count': 8  # TODO: copy count from eni count or make variables
             }
         },
@@ -166,7 +168,7 @@ TESTDATA = {
     },
 
     # DASH_VNET_MAPPING_TABLE:{{vnet}}:{{ip_address}}
-    'SCALE_DASH_VNET_MAPPING_TABLE': {
+    'DASH_VNET_MAPPING_TABLE_SCALE': {
         'vnet': {  # supports: substitution
             'substitution': {
                 'base': 'vnet#{0}',
