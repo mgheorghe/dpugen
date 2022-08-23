@@ -167,12 +167,17 @@ TESTDATA = {
 
     # DASH_VNET_MAPPING_TABLE:{{vnet}}:{{ip_address}}
     'SCALE_DASH_VNET_MAPPING_TABLE': {
-        'vnet': {  # supports: increment
-            'increment': {
-                'base': 'vnet',
-                'start': 1,
-                'step': 1,
-                'count': 8  # TODO: copy count from eni count or make variables
+        'vnet': {  # supports: substitution
+            'substitution': {
+                'base': 'vnet#{0}',
+                'params': {
+                    0: {
+                        'start': 1,
+                        'step': 1,
+                        'count': 8
+                    },
+                },
+                'count': 8
             }
         },
         'ip_address': {
@@ -226,7 +231,7 @@ TESTDATA = {
                 'count': 3
             }
         }
-        mac: },
+    },
 
     # DASH_ACL_RULE:{{group_id}}:{{rule_num}}
     'DASH_ACL_RULE': {
@@ -261,31 +266,31 @@ TESTDATA = {
         'dst_port': [],
     },
 
-    # DASH_ROUTE_TABLE:{{eni}}:{{prefix}}
-    'DASH_ROUTE_TABLE': {
-        'eni': '',
-        'prefix': '',
-        'action_type': '{{routing_type}} ',
-        'vnet': '{{vnet_name}} (OPTIONAL)',
-        'appliance': '{{appliance_id}} (OPTIONAL)',
-        'overlay_ip': '{{ip_address}} (OPTIONAL)',
-        'underlay_ip': '{{ip_address}} (OPTIONAL)',
-        'overlay_sip': '{{ip_address}} (OPTIONAL)',
-        'underlay_dip': '{{ip_address}} (OPTIONAL)',
-        'metering_bucket': '{{bucket_id}} (OPTIONAL) ',
-    },
+    # # DASH_ROUTE_TABLE:{{eni}}:{{prefix}}
+    # 'DASH_ROUTE_TABLE': {
+    #     'eni': '',
+    #     'prefix': '',
+    #     'action_type': '{{routing_type}} ',
+    #     'vnet': '{{vnet_name}} (OPTIONAL)',
+    #     'appliance': '{{appliance_id}} (OPTIONAL)',
+    #     'overlay_ip': '{{ip_address}} (OPTIONAL)',
+    #     'underlay_ip': '{{ip_address}} (OPTIONAL)',
+    #     'overlay_sip': '{{ip_address}} (OPTIONAL)',
+    #     'underlay_dip': '{{ip_address}} (OPTIONAL)',
+    #     'metering_bucket': '{{bucket_id}} (OPTIONAL) ',
+    # },
 
-    # DASH_ROUTE_RULE_TABLE:{{eni}}:{{vni}}:{{prefix}}
-    'DASH_ROUTE_RULE_TABLE': {
-        'eni': '',
-        'vni': '',
-        'prefix': '',
-        'action_type': '{{routing_type}} ',
-        'priority': '{{priority}}',
-        'protocol': '{{protocol_value}} (OPTIONAL)',
-        'vnet': '{{vnet_name}} (OPTIONAL)',
-        'pa_validation': '{{bool}} (OPTIONAL)',
-        'metering_bucket': '{{bucket_id}} (OPTIONAL) ',
-    }
+    # # DASH_ROUTE_RULE_TABLE:{{eni}}:{{vni}}:{{prefix}}
+    # 'DASH_ROUTE_RULE_TABLE': {
+    #     'eni': '',
+    #     'vni': '',
+    #     'prefix': '',
+    #     'action_type': '{{routing_type}} ',
+    #     'priority': '{{priority}}',
+    #     'protocol': '{{protocol_value}} (OPTIONAL)',
+    #     'vnet': '{{vnet_name}} (OPTIONAL)',
+    #     'pa_validation': '{{bool}} (OPTIONAL)',
+    #     'metering_bucket': '{{bucket_id}} (OPTIONAL) ',
+    # }
 
 }
