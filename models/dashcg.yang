@@ -1,21 +1,12 @@
 module dashtd {
+  
     yang-version 1.1;
     namespace "https://github.com/Azure/DASH";
     prefix "dashtd";
 
+    include "dash_eni_scale";
+
     revision "2022-08-22" {
         description "Dash test data definition file";
-    }
-    rpc hello-world {
-        input {
-            leaf name {
-                type string;
-            }
-        }
-        output {
-            leaf greeting {
-                type string;
-            }
-        }
     }
 }

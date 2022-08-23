@@ -1,0 +1,49 @@
+{
+    "DASH_ENI": {
+        "name": {
+            "increment": {
+                "base": "vnet",
+                "start": 1,
+                "step": 1,
+                "count": 8
+            }
+        },
+        "eni_id": {
+            "increment": {
+                "start": 1,
+                "step": 1,
+                "count": 8
+            }
+        },
+        "mac_address": {
+            "increment": {
+                "start": "00:1A:C5:00:00:01",
+                "step": "00:00:00:18:00:00",
+                "count": 8
+            }
+        },
+        "underlay_ip": {
+            "increment": {
+                "start": "1.1.0.1",
+                "step": "1.0.0.0",
+                "count": 8
+            }
+        },
+        "vnet": {
+            "substitution": {
+                "base": "vnet#{0}abc-#{1}",
+                "params": [
+                    {
+                        "start": 1,
+                        "step": 1,
+                        "count": 4
+                    },
+                    {
+                        "values": ["a", "b", "x"]
+                    }
+                ],
+                "count": 8
+            }
+        }
+    }
+}
