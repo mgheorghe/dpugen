@@ -56,7 +56,7 @@ TESTDATA = {
     },
 
     # https://github.com/sonic-net/SONiC/blob/master/doc/vrf/sonic-vrf-hld.md
-    'STATIC_ROUTE': [
+    'STATIC_ROUTE_SCALE': [
         {
             'address': {  # supports: increment
                 'increment': {
