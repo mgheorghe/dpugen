@@ -5,9 +5,10 @@ dflt_params = {
     'ACL_RULES_NSG':                    1000,
     'ACL_TABLE_COUNT':                  3,
     'ENI_COUNT':                        8,
+    'ENI_START':                        11,
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',
     'ENI_STEP':                         1,
-    'ENI_L2R_STEP':                     100,
+    'ENI_L2R_STEP':                     90,
     'IP_PER_ACL_RULE':                  255,
     'IP_MAPPED_PER_ACL_RULE':           40,
     'IP_ROUTE_DIVIDER_PER_ACL_RULE':    8,       # must be 2^N
