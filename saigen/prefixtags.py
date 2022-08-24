@@ -2,8 +2,8 @@
 
 import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from saigen.confbase import *
+from saigen.confutils import *
 
 
 class PrefixTags(ConfBase):

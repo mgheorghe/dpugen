@@ -101,7 +101,7 @@ Usage:
 ./generate.d.py -o tmp.json    - generate output to file tmp.json
 ./generate.d.py -o /dev/null   - generate output to nowhere (good for testing)
 ./generate.d.py -c list        - generate just the list items w/o parent dictionary
-dashgen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, etc.
+saigen/aclgroups.py [options] - run one sub-generator, e.g. acls, routetables, etc.
                                - many different subgenerators available, support same options as uber-generator
 
 Passing parameters. Provided as Python dict, see dflt_params.py for available items
@@ -116,7 +116,7 @@ Can use defaults; override from file; override again from cmdline (all 3 sources
 Examples:
 ./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
 ./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
-dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
+saigen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
 
 
 

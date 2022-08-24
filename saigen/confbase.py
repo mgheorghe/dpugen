@@ -6,7 +6,7 @@ from datetime import datetime
 import macaddress
 from munch import DefaultMunch
 
-from dashgen.dflt_params import *
+from saigen.dflt_params import *
 
 ipp = ipaddress.ip_address
 macM = macaddress.MAC

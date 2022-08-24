@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
-import dashgen
-from dashgen.confbase import *
-from dashgen.confutils import *
+import saigen
+from saigen.confbase import *
+from saigen.confutils import *
 
 print('generating config')
 
@@ -10,22 +10,22 @@ parser = commonArgParser()
 args = parser.parse_args()
 
 
-class DashConfig(ConfBase):
+class SaiConfig(ConfBase):
 
     def __init__(self, params={}):
-        super().__init__('dash-config', params)
+        super().__init__('sai-config', params)
 
     def generate(self):
         # Pass top-level params to sub-generrators.
         self.configs = [
-            dashgen.enis.Enis(self.params_dict),
-            dashgen.aclgroups.AclGroups(self.params_dict),
-            dashgen.vpcs.Vpcs(self.params_dict),
-            dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
-            dashgen.vpcmappings.VpcMappings(self.params_dict),
-            dashgen.routingappliances.RoutingAppliances(self.params_dict),
-            dashgen.routetables.RouteTables(self.params_dict),
-            dashgen.prefixtags.PrefixTags(self.params_dict),
+            saigen.enis.Enis(self.params_dict),
+            saigen.aclgroups.AclGroups(self.params_dict),
+            saigen.vpcs.Vpcs(self.params_dict),
+            saigen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
+            saigen.vpcmappings.VpcMappings(self.params_dict),
+            saigen.routingappliances.RoutingAppliances(self.params_dict),
+            saigen.routetables.RouteTables(self.params_dict),
+            saigen.prefixtags.PrefixTags(self.params_dict),
         ]
 
     def toDict(self):
@@ -36,7 +36,7 @@ class DashConfig(ConfBase):
 
 
 if __name__ == "__main__":
-    conf = DashConfig()
+    conf = SaiConfig()
     common_parse_args(conf)
     conf.generate()
     common_output(conf)
