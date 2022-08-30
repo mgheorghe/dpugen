@@ -32,7 +32,7 @@ class Enis(ConfBase):
                     'SAI_ENI_ATTR_ADMIN_STATE': 'True',
                     'SAI_ENI_ATTR_VM_UNDERLAY_DIP': str(vm_underlay_dip),
                     'SAI_ENI_ATTR_VM_VNI': '%d' % eni,
-                    'SAI_ENI_ATTR_VNET_ID': 'vnet-%d' % eni_index,
+                    'SAI_ENI_ATTR_VNET_ID': '${vnet#%d}' % eni_index,
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
