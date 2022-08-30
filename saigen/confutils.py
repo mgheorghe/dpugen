@@ -16,10 +16,10 @@ import textwrap
 
 
 class IterEncoder(json.JSONEncoder):
-    """
+    '''
     JSON Encoder that encodes iterators as well.
     Write directly to file to use minimal memory
-    """
+    '''
     class FakeListIterator(list):
         def __init__(self, iterable):
             self.iterable = iter(iterable)
@@ -35,13 +35,13 @@ class IterEncoder(json.JSONEncoder):
             return itertools.chain([self.firstitem], self.iterable)
 
         def __len__(self):
-            raise NotImplementedError("Fakelist has no length")
+            raise NotImplementedError('Fakelist has no length')
 
         def __getitem__(self, i):
-            raise NotImplementedError("Fakelist has no getitem")
+            raise NotImplementedError('Fakelist has no getitem')
 
         def __setitem__(self, i):
-            raise NotImplementedError("Fakelist has no setitem")
+            raise NotImplementedError('Fakelist has no setitem')
 
         def __bool__(self):
             return self.truthy
@@ -56,7 +56,7 @@ def writeListFileIter(config, format, filename='<stdout>'):
     if filename == '<stdout>':
         writeListFpIter(config, format, sys.stdout)
     else:
-        with io.open(filename, "wt") as fp:
+        with io.open(filename, 'wt') as fp:
             writeListFpIter(config, format, fp)
 
 
@@ -115,9 +115,9 @@ Can use defaults; override from file; override again from cmdline (all 3 sources
 ./generate.d.py -p PARAM_FILE -P PARAMS     - override with params from file and cmdline; generate output
 
 Examples:
-./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
-./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
-saigen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
+./generate.d.py -d -p params_small.py -P '{'ENI_COUNT': 16}'  - use params_small.py but override ENI_COUNT; display params
+./generate.d.py -p params_hero.py -o tmp.json                 - generate full 'hero test' scale config as json file
+saigen/vpcmappingtypes.py -m -M 'Kewl Config!'               - generate dict of vpcmappingtypes, include meta with message            
 
 
 
@@ -147,7 +147,7 @@ saigen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of 
 
     parser.add_argument(
         '-o', '--output', default='<stdout>', metavar='OFILE',
-        help="Output file (default: standard output)")
+        help='Output file (default: standard output)')
 
     return parser
 
@@ -184,7 +184,7 @@ def common_output(self):
     #     # streaming list output:
     writeListFileIter(self.items(), self.args.format, self.args.output)
     # else:
-    #     raise Exception("Unknown content specifier: '%s'" % self.args.content)
+    #     raise Exception('Unknown content specifier: '%s'' % self.args.content)
 
 
 def common_main(self):
