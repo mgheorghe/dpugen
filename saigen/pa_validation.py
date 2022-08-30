@@ -54,12 +54,12 @@ class PaValidation(ConfBase):
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
                 },
-                "OP": "create",
+                'OP': 'create',
             }
             for stage in range(1, (p.ACL_TABLE_COUNT+1)):
                 table_id = eni * 1000 + stage
-                eni_data['attributes']['SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = "${in_acl_group#%d}" % table_id
-                eni_data['attributes']['SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = "${out_acl_group#%d}" % table_id
+                eni_data['attributes']['SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${in_acl_group#%d}' % table_id
+                eni_data['attributes']['SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${out_acl_group#%d}' % table_id
 
             yield eni_data
 

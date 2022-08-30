@@ -40,7 +40,7 @@ class SaiConfig(ConfBase):
         #[].extend(c.items() for c in self.configs)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = SaiConfig()
     common_parse_args(conf)
     conf.generate()

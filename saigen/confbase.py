@@ -32,7 +32,7 @@ class ConfBase(ABC):
         self.params = DefaultMunch.fromDict(self.params_dict)
         # print ('%s: self.params=' % self.dictname, self.params)
         self.cooked_params = DefaultMunch.fromDict(self.cooked_params_dict)
-        # print ("cooked_params = ", self.cooked_params)
+        # print ('cooked_params = ', self.cooked_params)
 
     def cookParams(self):
         self.cooked_params_dict = {}
@@ -66,7 +66,7 @@ class ConfBase(ABC):
         return len(self.items())
 
     def itemsGenerated(self):
-        """ Last count of # yields, reset each time at begining"""
+        ''' Last count of # yields, reset each time at begining'''
         return self.num_yields
 
     # def toDict(self):
@@ -76,10 +76,10 @@ class ConfBase(ABC):
         return self.params_dict
 
     def getMeta(self, message=''):
-        """Generate metadata. For reference, could also add e.g. data to help drive tests"""
+        '''Generate metadata. For reference, could also add e.g. data to help drive tests'''
         return {
             'meta': {
-                'tstamp': datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+                'tstamp': datetime.now().strftime('%m/%d/%Y, %H:%M:%S'),
                 'msg': message,
                 'params': self.getParams()
             }

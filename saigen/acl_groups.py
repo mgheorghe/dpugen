@@ -23,23 +23,23 @@ class AclGroups(ConfBase):
 
                 self.numYields += 1
                 in_acl_group_data = {
-                    'name': "in_acl_group#%d" % table_id,
-                    "type": "SAI_OBJECT_TYPE_DASH_ACL_GROUP",
-                    "attributes": {
-                        "SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY": "SAI_IP_ADDR_FAMILY_IPV4"
+                    'name': 'in_acl_group#%d' % table_id,
+                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
+                    'attributes': {
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY': 'SAI_IP_ADDR_FAMILY_IPV4'
                     },
-                    "OP": "create",
+                    'OP': 'create',
                 }
                 yield in_acl_group_data
 
                 self.numYields += 1
                 in_acl_group_data = {
-                    'name': "out_acl_group#%d" % table_id,
-                    "type": "SAI_OBJECT_TYPE_DASH_ACL_GROUP",
-                    "attributes": {
-                        "SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY": "SAI_IP_ADDR_FAMILY_IPV4"
+                    'name': 'out_acl_group#%d' % table_id,
+                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
+                    'attributes': {
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY': 'SAI_IP_ADDR_FAMILY_IPV4'
                     },
-                    "OP": "create",
+                    'OP': 'create',
                 }
                 yield in_acl_group_data
 

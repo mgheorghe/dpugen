@@ -24,15 +24,15 @@ class AddressMaps(ConfBase):
             self.numYields += 1
             address_map_data = {
                 'name': 'address_map#%d' % eni_index,
-                "type": "SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY",
-                "key": {
-                    "switch_id": "SWITCH_ID",
-                    "address": "ENI_MAC"
+                'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
+                'key': {
+                    'switch_id': 'SWITCH_ID',
+                    'address': 'ENI_MAC'
                 },
-                "attributes": {
-                    "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID": "eni_id",
+                'attributes': {
+                    'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID': 'eni_id',
                 },
-                "OP": "create",
+                'OP': 'create',
             }
 
             yield address_map_data

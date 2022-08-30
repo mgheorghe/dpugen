@@ -23,16 +23,16 @@ class Vips(ConfBase):
 
             self.numYields += 1
             vip_data = {
-                "name": "vip_1",
-                "type": "OBJECT_TYPE_VIP_ENTRY",
-                "key": {
-                    "SWITCH": "$switch",
-                    "VIP": "$vip"
+                'name': 'vip#%d' % eni_index,
+                'type': 'OBJECT_TYPE_VIP_ENTRY',
+                'key': {
+                    'SWITCH': '$switch',
+                    'VIP': '$vip'
                 },
-                "attributes": {
-                    "SAI_VIP_ENTRY_ATTR_ACTION": "SAI_VIP_ENTRY_ACTION_ACCEPT",
+                'attributes': {
+                    'SAI_VIP_ENTRY_ATTR_ACTION': 'SAI_VIP_ENTRY_ACTION_ACCEPT',
                 },
-                "OP": "create",
+                'OP': 'create',
             }
 
             yield vip_data
