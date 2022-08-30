@@ -6,14 +6,14 @@ from saigen.confbase import *
 from saigen.confutils import *
 
 
-class Enis(ConfBase):
+class PaValidation(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
 
     def items(self):
         self.numYields = 0
-        print('  Generating Enis ...', file=sys.stderr)
+        print('  Generating PaValidation ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
         vm_underlay_dip = ipaddress.ip_address(p.PAL)
@@ -65,5 +65,5 @@ class Enis(ConfBase):
 
 
 if __name__ == '__main__':
-    conf = Enis()
+    conf = PaValidation()
     common_main(conf)

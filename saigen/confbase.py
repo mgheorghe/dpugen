@@ -1,4 +1,5 @@
 import ipaddress
+import pprint
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from datetime import datetime
@@ -14,8 +15,7 @@ macM = macaddress.MAC
 
 class ConfBase(ABC):
 
-    def __init__(self, name='base', params={}):
-        self.dictname = name
+    def __init__(self, params={}):
         self.dflt_params = deepcopy(dflt_params)
         self.cooked_params = {}
         self.mergeParams(params)
@@ -69,22 +69,20 @@ class ConfBase(ABC):
         """ Last count of # yields, reset each time at begining"""
         return self.num_yields
 
-    def dictName(self):
-        return self.dictname
-
-    def toDict(self):
-        return {self.dictname: list(self.items())}
+    # def toDict(self):
+    #     return {self.dictname: list(self.items())}
 
     def getParams(self):
         return self.params_dict
 
     def getMeta(self, message=''):
-        """Generate metadata. FOr reference, could also add e.g. data to help drive tests"""
-        return {'meta': {
-            'tstamp': datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
-            'msg': message,
-            'params': self.getParams()
-        }
+        """Generate metadata. For reference, could also add e.g. data to help drive tests"""
+        return {
+            'meta': {
+                'tstamp': datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+                'msg': message,
+                'params': self.getParams()
+            }
         }
 
     def pretty(self):
