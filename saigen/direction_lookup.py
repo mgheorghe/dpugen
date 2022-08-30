@@ -13,7 +13,7 @@ class DirectionLookup(ConfBase):
 
     def items(self):
         self.numYields = 0
-        print('  Generating %s...' % self.dictname, file=sys.stderr)
+        print('  Generating DirectionLookup ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
         vm_underlay_dip = ipaddress.ip_address(p.PAL)
