@@ -1,5 +1,6 @@
 import argparse
 import collections
+import io
 import itertools
 import json
 import sys
@@ -55,7 +56,7 @@ def writeListFileIter(config, format, filename='<stdout>'):
     if filename == '<stdout>':
         writeListFpIter(config, format, sys.stdout)
     else:
-        with open(filename, "wt") as file:
+        with io.open(filename, "wt") as fp:
             writeListFpIter(config, format, fp)
 
 
@@ -85,7 +86,7 @@ def writeDictFileIter(config, format, filename='<stdout>'):
             fp = sys.stdout
             _writeDictFileIter(config, fp)
         else:
-            with open(filename, 'wt') as fp:
+            with io.open(filename, 'wt') as fp:
                 _writeDictFileIter(config, fp)
     else:
         raise NotImplementedError('ERROR: unsupported format %s' % format)
@@ -126,8 +127,8 @@ saigen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of 
     parser.add_argument('-f', '--format', choices=['json'], default='json',
                         help='Config output format.')
 
-    parser.add_argument('-c', '--content', choices=['dict', 'list'], default='dict',
-                        help='Emit dictionary (with inner lists), or list items only')
+    # parser.add_argument('-c', '--content', choices=['dict', 'list'], default='list',
+    #                     help='Emit dictionary (with inner lists), or list items only')
 
     parser.add_argument('-d', '--dump-params', action='store_true',
                         help='Just dump paramters (defaults with user-defined merged in')
@@ -158,7 +159,7 @@ def common_parse_args(self):
     # Prams from file override defaults; params from cmd-line override all
     params = {}
     if self.args.param_file:
-        with open(self.args.param_file, 'r') as fp:
+        with io.open(self.args.param_file, 'r') as fp:
             params = eval(fp.read())
     if self.args.set_params:
         params.update(eval(self.args.set_params))
@@ -170,18 +171,20 @@ def common_parse_args(self):
 
 
 def common_output(self):
-    if self.args.content == 'dict':
-        d = self.toDict()
-        if (self.args.meta):
-            d.update(self.getMeta(self.args.msg))
-        # streaming dict output:
-        writeDictFileIter(d, self.args.format, self.args.output)
+    # import pdb
+    # pdb.set_trace()
+    # if self.args.content == 'dict':
+    #     d = self.toDict()
+    #     if (self.args.meta):
+    #         d.update(self.getMeta(self.args.msg))
+    #     # streaming dict output:
+    #     writeDictFileIter(d, self.args.format, self.args.output)
 
-    elif self.args.content == 'list':
-        # streaming list output:
-        writeListFileIter(self.items(), self.args.format, self.args.output)
-    else:
-        raise Exception("Unknown content specifier: '%s'" % self.args.content)
+    # elif self.args.content == 'list':
+    #     # streaming list output:
+    writeListFileIter(self.items(), self.args.format, self.args.output)
+    # else:
+    #     raise Exception("Unknown content specifier: '%s'" % self.args.content)
 
 
 def common_main(self):
