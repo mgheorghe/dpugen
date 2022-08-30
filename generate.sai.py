@@ -32,7 +32,12 @@ class SaiConfig(ConfBase):
     #     return {x.dictName(): x.items() for x in self.configs}
 
     def items(self):
-        return (c.items() for c in self.configs)
+        result = []
+        for c in self.configs:
+            result.extend(c.items())
+        return result
+        #(c.items() for c in self.configs)
+        #[].extend(c.items() for c in self.configs)
 
 
 if __name__ == "__main__":
