@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+from itertools import chain
 
 from saigen.confbase import *
 from saigen.confutils import *
@@ -60,7 +61,7 @@ class Enis(ConfBase):
                 table_id = eni * 1000 + stage
                 eni_data['attributes']['SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${in_acl_group#%d}' % table_id
                 eni_data['attributes']['SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${out_acl_group#%d}' % table_id
-
+            eni_data['attributes'] = [*chain(*eni_data['attributes'].items())]
             yield eni_data
 
 

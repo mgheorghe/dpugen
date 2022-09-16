@@ -29,9 +29,9 @@ class Vips(ConfBase):
                     'SWITCH': '$switch',
                     'VIP': '$vip'
                 },
-                'attributes': {
-                    'SAI_VIP_ENTRY_ATTR_ACTION': 'SAI_VIP_ENTRY_ACTION_ACCEPT',
-                },
+                'attributes': [
+                    'SAI_VIP_ENTRY_ATTR_ACTION', 'SAI_VIP_ENTRY_ACTION_ACCEPT',
+                ],
                 'OP': 'create',
             }
 

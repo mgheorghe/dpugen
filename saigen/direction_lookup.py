@@ -28,9 +28,9 @@ class DirectionLookup(ConfBase):
                     'switch_id': 'SWITCH_ID',
                     'vni': 'DIR_LOOKUP_VNI'
                 },
-                'attributes': {
-                    'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION': 'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
-                },
+                'attributes': [
+                    'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION', 'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
+                ],
                 'OP': 'create',
             }
 

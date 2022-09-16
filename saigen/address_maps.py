@@ -29,9 +29,9 @@ class AddressMaps(ConfBase):
                     'switch_id': 'SWITCH_ID',
                     'address': 'ENI_MAC'
                 },
-                'attributes': {
-                    'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID': 'eni_id',
-                },
+                'attributes': [
+                    'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID', 'eni_id',
+                ],
                 'OP': 'create',
             }
 

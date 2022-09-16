@@ -12,6 +12,8 @@ dflt_params = {
     'IP_PER_ACL_RULE':                  255,
     'IP_MAPPED_PER_ACL_RULE':           40,
     'IP_ROUTE_DIVIDER_PER_ACL_RULE':    8,       # must be 2^N
+    'PA_VALIDATION_START':              100,
+    'PA_VALIDATION_COUNT':              1,
 
     # Params requiring cooking before use:
     'IP_STEP1':                         '0.0.0.1',

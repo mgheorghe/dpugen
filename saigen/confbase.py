@@ -15,9 +15,10 @@ macM = macaddress.MAC
 
 class ConfBase(ABC):
 
-    def __init__(self, params={}):
-        self.dflt_params = deepcopy(dflt_params)
+    def __init__(self, params=None, defaults=None):
+        self.dflt_params = deepcopy(defaults if defaults is not None else dflt_params)
         self.cooked_params = {}
+        params = params or {}
         self.mergeParams(params)
         self.numYields = 0
 
