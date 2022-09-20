@@ -18,50 +18,25 @@ class PaValidation(ConfBase):
         cp = self.cooked_params
         vm_underlay_dip = ipaddress.ip_address(p.PAL)
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for pa_validation_index, pa_validation in enumerate(range(p.PA_VALIDATION_START, p.PA_VALIDATION_START + p.PA_VALIDATION_COUNT)):
             vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
-            eni_data = {
-                'name': 'eni#%d' % eni_index,
-                'type': 'SAI_OBJECT_TYPE_ENI',
-                'attributes': {
-                    'SAI_ENI_ATTR_CPS': '10000',
-                    'SAI_ENI_ATTR_PPS': '100000',
-                    'SAI_ENI_ATTR_FLOWS': '100000',
-                    'SAI_ENI_ATTR_ADMIN_STATE': 'True',
-                    'SAI_ENI_ATTR_VM_UNDERLAY_DIP': str(vm_underlay_dip),
-                    'SAI_ENI_ATTR_VM_VNI': '%d' % eni,
-                    'SAI_ENI_ATTR_VNET_ID': 'vnet-%d' % eni_index,
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
-                },
-                'OP': 'create',
+            pa_validation_data = {
+                        "name": 'pa_validation#%d' % pa_validation_index,
+                        "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
+                        "key" : {
+                            "switch_id" : "$SWITCH_ID",
+                            "eni_id" : "$eni",
+                            "sip" : "20.20.20.20",
+                            "vni" : "1000"
+                        },
+                        "attributes" : [
+                            "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"
+                        ],
+                        'OP': 'create',
             }
-            for stage in range(1, (p.ACL_TABLE_COUNT+1)):
-                table_id = eni * 1000 + stage
-                eni_data['attributes']['SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${in_acl_group#%d}' % table_id
-                eni_data['attributes']['SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${out_acl_group#%d}' % table_id
-
-            yield eni_data
+            yield pa_validation_data
 
 
 if __name__ == '__main__':

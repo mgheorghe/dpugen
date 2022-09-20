@@ -25,9 +25,9 @@ class Vnets(ConfBase):
             vnet_data = {
                 'name': 'vnet#%d' % eni_index,
                 'type': 'SAI_OBJECT_TYPE_VNET',
-                'attributes': {
-                    'SAI_VNET_ATTR_VNI': 'DIR_LOOKUP_ENI',
-                },
+                'attributes': [
+                    'SAI_VNET_ATTR_VNI', 'DIR_LOOKUP_ENI',
+                ],
                 'OP': 'create',
             }
 
