@@ -24,7 +24,7 @@ class Enis(ConfBase):
 
             self.numYields += 1
             eni_data = {
-                'name': 'eni#%d' % eni_index,
+                'name': 'eni#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_ENI',
                 'attributes': {
                     'SAI_ENI_ATTR_CPS': '10000',
@@ -33,7 +33,7 @@ class Enis(ConfBase):
                     'SAI_ENI_ATTR_ADMIN_STATE': 'True',
                     'SAI_ENI_ATTR_VM_UNDERLAY_DIP': str(vm_underlay_dip),
                     'SAI_ENI_ATTR_VM_VNI': '%d' % eni,
-                    'SAI_ENI_ATTR_VNET_ID': '${vnet#%d}' % eni_index,
+                    'SAI_ENI_ATTR_VNET_ID': '${vnet#%d}' % eni,
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
@@ -55,7 +55,7 @@ class Enis(ConfBase):
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
                 },
-                'OP': 'create',
+                'op': 'create',
             }
             for stage in range(1, (p.ACL_TABLE_COUNT+1)):
                 table_id = eni * 1000 + stage

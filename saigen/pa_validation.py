@@ -23,18 +23,18 @@ class PaValidation(ConfBase):
 
             self.numYields += 1
             pa_validation_data = {
-                        "name": 'pa_validation#%d' % pa_validation_index,
-                        "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
-                        "key" : {
-                            "switch_id" : "$SWITCH_ID",
-                            "eni_id" : "$eni",
-                            "sip" : "20.20.20.20",
-                            "vni" : "1000"
-                        },
-                        "attributes" : [
-                            "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"
-                        ],
-                        'OP': 'create',
+                "name": 'pa_validation#%d' % pa_validation_index,
+                "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
+                "key" : {
+                    "switch_id" : "$SWITCH_ID",
+                    "eni_id" : "$eni",
+                    "sip" : "20.20.20.20",
+                    "vni" : "1000"
+                },
+                "attributes" : [
+                    "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"
+                ],
+                'op': 'create',
             }
             yield pa_validation_data
 

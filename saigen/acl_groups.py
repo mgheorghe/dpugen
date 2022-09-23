@@ -26,9 +26,10 @@ class AclGroups(ConfBase):
                     'name': 'in_acl_group#%d' % table_id,
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 'SAI_IP_ADDR_FAMILY_IPV4'
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 
+                        'SAI_IP_ADDR_FAMILY_IPV4',
                     ],
-                    'OP': 'create',
+                    'op': 'create',
                 }
                 yield in_acl_group_data
 
@@ -37,9 +38,10 @@ class AclGroups(ConfBase):
                     'name': 'out_acl_group#%d' % table_id,
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 'SAI_IP_ADDR_FAMILY_IPV4'
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 
+                        'SAI_IP_ADDR_FAMILY_IPV4',
                     ],
-                    'OP': 'create',
+                    'op': 'create',
                 }
                 yield in_acl_group_data
 

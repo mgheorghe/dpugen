@@ -28,7 +28,7 @@ class InboundRouting(ConfBase):
                 'attributes': [
                     'SAI_VNET_ATTR_VNI', 'DIR_LOOKUP_ENI',
                 ],
-                'OP': 'create',
+                'op': 'create',
             }
 
             yield vnet_data
