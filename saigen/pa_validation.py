@@ -16,14 +16,13 @@ class PaValidation(ConfBase):
         print('  Generating PaValidation ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
-        vm_underlay_dip = ipaddress.ip_address(p.PAL)
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
+            vm_underlay_dip = ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
             pa_validation_data = {
-                "name": 'pa_validation#%d' % pa_validation_index,
+                "name": 'pa_validation#%d' % eni,
                 "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
                 "key" : {
                     "switch_id" : "$SWITCH_ID",
