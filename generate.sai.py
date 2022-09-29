@@ -36,7 +36,7 @@ class SaiConfig(ConfBase):
         for c in self.configs:
             result.extend(c.items())
         return result
-        #(c.items() for c in self.configs)
+        #[c.items() for c in self.configs]
         #[].extend(c.items() for c in self.configs)
 
 
