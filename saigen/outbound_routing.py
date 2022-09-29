@@ -17,24 +17,25 @@ class OutboundRouting(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+            remote_ip = ipaddress.ip_address(p.IP_R_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP4))
 
             self.numYields += 1
-            ore_data = {
-                "name": "ore#%d" % ore_index,
+            outbound_routing_data = {
+                "name": "outbound_routing_#%d" % eni,
                 "op": "create",
                 "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
                 "key": {
                     "switch_id": "$SWITCH_ID",
-                    "eni_id": "$eni",
-                    "destination": "10.1.0.0/16"
+                    "eni_id": "$eni%d" % eni,
+                    "destination": "%s/9" % (remote_ip)
                 },
                 "attributes": [
                     "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet"
+                    "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#%d" % eni
                 ]
             }
 
-            yield ore_data
+            yield outbound_routing_data
 
 
 if __name__ == '__main__':
