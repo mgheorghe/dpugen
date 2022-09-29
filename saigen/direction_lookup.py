@@ -23,7 +23,7 @@ class DirectionLookup(ConfBase):
 
             self.numYields += 1
             direction_lookup_data = {
-                'name': 'direction_lookup_entry#%d' % eni,
+                'name': 'direction_lookup_entry_#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',

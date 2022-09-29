@@ -18,7 +18,7 @@ class Vips(ConfBase):
 
         self.numYields += 1
         vip_data = {
-            'name': 'vip#1',
+            'name': 'vip_#1',
             'type': 'OBJECT_TYPE_VIP_ENTRY',
             'key': {
                 'SWITCH': '$switch',

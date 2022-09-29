@@ -18,17 +18,17 @@ class PaValidation(ConfBase):
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            vm_underlay_dip = ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1))
+            eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP4))
 
             self.numYields += 1
             pa_validation_data = {
-                "name": 'pa_validation#%d' % eni,
+                "name": 'pa_validation_#%d' % eni,
                 "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
                 "key" : {
                     "switch_id" : "$SWITCH_ID",
                     "eni_id" : "$eni",
-                    "sip" : "20.20.20.20",
-                    "vni" : "1000"
+                    "sip" : str(eni_ip),
+                    "vni" : eni
                 },
                 "attributes" : [
                     "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"

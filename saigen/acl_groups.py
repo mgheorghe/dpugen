@@ -23,7 +23,7 @@ class AclGroups(ConfBase):
 
                 self.numYields += 1
                 in_acl_group_data = {
-                    'name': 'in_acl_group#%d' % table_id,
+                    'name': 'in_acl_group_#%d' % table_id,
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
                         'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 
@@ -35,7 +35,7 @@ class AclGroups(ConfBase):
 
                 self.numYields += 1
                 in_acl_group_data = {
-                    'name': 'out_acl_group#%d' % table_id,
+                    'name': 'out_acl_group_#%d' % table_id,
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
                         'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 

@@ -27,14 +27,14 @@ class AddressMaps(ConfBase):
 
             self.numYields += 1
             address_map = {
-                'name': 'address_map#%d' % self.numYields,
+                'name': 'address_map_#%d' % self.numYields,
                 'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
                     'address': eni_mac
                 },
                 'attributes': [
-                    'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID', '$eni#%d' % eni,
+                    'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID', '$eni_#%d' % eni,
                 ],
                 'op': 'create',
             }

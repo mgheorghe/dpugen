@@ -23,7 +23,7 @@ class InboundRouting(ConfBase):
 
             self.numYields += 1
             vnet_data = {
-                'name': 'vnet#%d' % eni_index,
+                'name': 'vnet_#%d' % eni_index,
                 'type': 'SAI_OBJECT_TYPE_VNET',
                 'attributes': [
                     'SAI_VNET_ATTR_VNI', 'DIR_LOOKUP_ENI',
