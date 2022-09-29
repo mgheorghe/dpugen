@@ -16,7 +16,7 @@ class OutboundCaToPa(ConfBase):
         print('  Generating Outbound CA to PA validation entry ...', file=sys.stderr)
         p = self.params
 
-        for ocp_index, ocp in enumerate(range(p.OUTBOUND_CA_TO_PA_START, p.OUTBOUND_CA_TO_PA_START + p.OUTBOUND_CA_TO_PA_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
 
             self.numYields += 1
             ocp_data = {

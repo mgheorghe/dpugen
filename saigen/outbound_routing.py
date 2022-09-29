@@ -16,7 +16,7 @@ class OutboundRouting(ConfBase):
         print('  Generating OutboundRouting ...', file=sys.stderr)
         p = self.params
 
-        for ore_index, ore in enumerate(range(p.OUTBOUND_ROUTING_START, p.OUTBOUND_ROUTING_START + p.OUTBOUND_ROUTING_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
 
             self.numYields += 1
             ore_data = {
