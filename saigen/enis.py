@@ -26,42 +26,43 @@ class Enis(ConfBase):
             eni_data = {
                 'name': 'eni#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_ENI',
-                'attributes': {
-                    'SAI_ENI_ATTR_CPS': '10000',
-                    'SAI_ENI_ATTR_PPS': '100000',
-                    'SAI_ENI_ATTR_FLOWS': '100000',
-                    'SAI_ENI_ATTR_ADMIN_STATE': 'True',
-                    'SAI_ENI_ATTR_VM_UNDERLAY_DIP': str(vm_underlay_dip),
-                    'SAI_ENI_ATTR_VM_VNI': '%d' % eni,
-                    'SAI_ENI_ATTR_VNET_ID': '${vnet#%d}' % eni,
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V4_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_INBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE5_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE1_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE2_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID': '0',
-                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID': '0',
-                },
+                'attributes': [
+                    'SAI_ENI_ATTR_CPS', '10000',
+                    'SAI_ENI_ATTR_PPS', '100000',
+                    'SAI_ENI_ATTR_FLOWS', '100000',
+                    'SAI_ENI_ATTR_ADMIN_STATE', 'True',
+                    'SAI_ENI_ATTR_VM_UNDERLAY_DIP', str(vm_underlay_dip),
+                    'SAI_ENI_ATTR_VM_VNI', '%d' % eni,
+                    'SAI_ENI_ATTR_VNET_ID', '${vnet#%d}' % eni,
+                    'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V4_STAGE4_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V4_STAGE5_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V6_STAGE1_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V6_STAGE2_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V6_STAGE3_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V6_STAGE4_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_INBOUND_V6_STAGE5_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE1_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE2_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE3_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE4_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V4_STAGE5_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE1_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE2_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID', '0',
+                    'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID', '0',
+                ],
                 'op': 'create',
             }
             for stage in range(1, (p.ACL_TABLE_COUNT+1)):
                 table_id = eni * 1000 + stage
-                eni_data['attributes']['SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${in_acl_group#%d}' % table_id
-                eni_data['attributes']['SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage] = '${out_acl_group#%d}' % table_id
-            eni_data['attributes'] = [*chain(*eni_data['attributes'].items())]
+                stage_index = eni_data['attributes'].index('SAI_ENI_ATTR_INBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage)
+                eni_data['attributes'][stage_index + 1] = '${in_acl_group#%d}' % table_id
+                stage_index = eni_data['attributes'].index('SAI_ENI_ATTR_OUTBOUND_V4_STAGE%d_DASH_ACL_GROUP_ID' % stage)
+                eni_data['attributes'][stage_index + 1] = '${out_acl_group#%d}' % table_id
             yield eni_data
 
 
