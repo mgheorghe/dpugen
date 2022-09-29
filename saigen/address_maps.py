@@ -42,7 +42,7 @@ class AddressMaps(ConfBase):
                             'name': 'address_map#%d' % self.numYields,
                             'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                             'key': {
-                                'switch_id': 'SWITCH_ID',
+                                'switch_id': '$SWITCH_ID',
                                 'address': remote_expanded_mac
                             },
                             'attributes': [
@@ -64,7 +64,7 @@ class AddressMaps(ConfBase):
                             'name': 'address_map#%d' % self.numYields,
                             'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                             'key': {
-                                'switch_id': 'SWITCH_ID',
+                                'switch_id': '$SWITCH_ID',
                                 'address': remote_expanded_mac
                             },
                             'attributes': [

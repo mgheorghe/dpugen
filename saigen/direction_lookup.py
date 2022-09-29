@@ -26,7 +26,7 @@ class DirectionLookup(ConfBase):
                 'name': 'direction_lookup_entry#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
                 'key': {
-                    'switch_id': 'SWITCH_ID',
+                    'switch_id': '$SWITCH_ID',
                     'vni': eni,
                 },
                 'attributes': [
