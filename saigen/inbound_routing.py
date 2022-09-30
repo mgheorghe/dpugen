@@ -16,10 +16,8 @@ class InboundRouting(ConfBase):
         print('  Generating InboundRouting ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
-        vm_underlay_dip = ipaddress.ip_address(p.PAL)
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
             inbound_routing_data = {
