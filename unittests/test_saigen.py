@@ -11,8 +11,7 @@ SWITCH_ID = 5
 
 class TestSaigen:
 
-    # @pytest.mark.parametrize("config_file", ['vnet_outbound_simple', 'vnet_outbound_scale'])
-    @pytest.mark.parametrize("config_file", ['vnet_outbound_simple'])
+    @pytest.mark.parametrize("config_file", ['vnet_outbound_simple', 'vnet_outbound_scale'])
     def test_(self, confgen, config_file):
 
         with (current_file_dir / f'{config_file}_in.json').open(mode='r') as in_file:

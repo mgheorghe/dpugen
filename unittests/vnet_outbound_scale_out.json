@@ -1,6 +1,6 @@
 [
   {
-    "name": "vpe#1",
+    "name": "vpe#0",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
     "key": {
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "name": "vpe#2",
+    "name": "vpe#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
     "key": {
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "name": "dle#100",
+    "name": "dle#0",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY",
     "key": {
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "name": "dle#200",
+    "name": "dle#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY",
     "key": {
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "name": "vnet#1000",
+    "name": "vnet#0",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VNET",
     "attributes": [
@@ -56,11 +56,45 @@
     ]
   },
   {
-    "name": "vnet#2000",
+    "name": "vnet#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VNET",
     "attributes": [
       "SAI_VNET_ATTR_VNI", "2000"
+    ]
+  },
+  {
+    "name": "eni#0",
+    "op": "create",
+    "type": "SAI_OBJECT_TYPE_ENI",
+    "attributes": [
+      "SAI_ENI_ATTR_CPS", "10000",
+      "SAI_ENI_ATTR_PPS", "100000",
+      "SAI_ENI_ATTR_FLOWS", "100000",
+      "SAI_ENI_ATTR_ADMIN_STATE", "True",
+      "SAI_ENI_ATTR_VM_UNDERLAY_DIP", "172.16.1.1",
+      "SAI_ENI_ATTR_VM_VNI", "9",
+      "SAI_ENI_ATTR_VNET_ID", "$vnet#0",
+      "SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V4_STAGE4_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V4_STAGE5_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V6_STAGE1_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V6_STAGE2_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V6_STAGE3_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V6_STAGE4_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_INBOUND_V6_STAGE5_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE4_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE5_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE1_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE2_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID", "0",
+      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID", "0"
     ]
   },
   {
@@ -72,9 +106,9 @@
       "SAI_ENI_ATTR_PPS", "100000",
       "SAI_ENI_ATTR_FLOWS", "100000",
       "SAI_ENI_ATTR_ADMIN_STATE", "True",
-      "SAI_ENI_ATTR_VM_UNDERLAY_DIP", "172.16.1.1",
-      "SAI_ENI_ATTR_VM_VNI", "9",
-      "SAI_ENI_ATTR_VNET_ID", "$vnet#1000",
+      "SAI_ENI_ATTR_VM_UNDERLAY_DIP", "172.16.2.1",
+      "SAI_ENI_ATTR_VM_VNI", "10",
+      "SAI_ENI_ATTR_VNET_ID", "$vnet#1",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
@@ -98,37 +132,15 @@
     ]
   },
   {
-    "name": "eni#2",
+    "name": "eam#0",
     "op": "create",
-    "type": "SAI_OBJECT_TYPE_ENI",
+    "type": "SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY",
+    "key": {
+      "switch_id": "$SWITCH_ID",
+      "address": "00:CC:CC:CC:00:00"
+    },
     "attributes": [
-      "SAI_ENI_ATTR_CPS", "10000",
-      "SAI_ENI_ATTR_PPS", "100000",
-      "SAI_ENI_ATTR_FLOWS", "100000",
-      "SAI_ENI_ATTR_ADMIN_STATE", "True",
-      "SAI_ENI_ATTR_VM_UNDERLAY_DIP", "172.16.2.1",
-      "SAI_ENI_ATTR_VM_VNI", "9",
-      "SAI_ENI_ATTR_VNET_ID", "$vnet#2000",
-      "SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V4_STAGE4_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V4_STAGE5_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V6_STAGE1_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V6_STAGE2_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V6_STAGE3_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V6_STAGE4_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_INBOUND_V6_STAGE5_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE4_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V4_STAGE5_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE1_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE2_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID", "0",
-      "SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID", "0"
+      "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID", "$eni#0"
     ]
   },
   {
@@ -137,22 +149,24 @@
     "type": "SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "address": "00:CC:CC:CC:00:00"
+      "address": "00:CC:CC:CC:00:01"
     },
     "attributes": [
       "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID", "$eni#1"
     ]
   },
   {
-    "name": "eam#2",
+    "name": "ore#0",
     "op": "create",
-    "type": "SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY",
+    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "address": "00:CC:CC:CC:00:01"
+      "eni_id": "$eni#0",
+      "destination": "10.1.2.0/24"
     },
     "attributes": [
-      "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID", "$eni#2"
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#0"
     ]
   },
   {
@@ -161,12 +175,12 @@
     "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "eni_id": "$eni#1",
-      "destination": "10.1.0.0/16"
+      "eni_id": "$eni#0",
+      "destination": "10.1.3.0/24"
     },
     "attributes": [
       "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#1000"
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#0"
     ]
   },
   {
@@ -176,11 +190,11 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "eni_id": "$eni#1",
-      "destination": "10.1.1.0/16"
+      "destination": "10.1.2.0/24"
     },
     "attributes": [
       "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#2000"
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#1"
     ]
   },
   {
@@ -189,26 +203,27 @@
     "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "eni_id": "$eni#2",
-      "destination": "10.1.0.0/16"
+      "eni_id": "$eni#1",
+      "destination": "10.1.3.0/24"
     },
     "attributes": [
       "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#1000"
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#1"
     ]
   },
   {
-    "name": "ore#4",
+    "name": "ocpe#0",
     "op": "create",
-    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
+    "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "eni_id": "$eni#2",
-      "destination": "10.1.1.0/16"
+      "dst_vnet_id": "$vnet#0",
+      "dip": "10.1.2.50"
     },
     "attributes": [
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet#2000"
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.1.20",
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:00",
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI", "True"
     ]
   },
   {
@@ -217,11 +232,11 @@
     "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "dst_vnet_id": "$vnet#1000",
-      "dip": "10.1.2.50"
+      "dst_vnet_id": "$vnet#0",
+      "dip": "10.1.3.50"
     },
     "attributes": [
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.1.20",
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.2.20",
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:01",
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI", "True"
     ]
@@ -232,11 +247,11 @@
     "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "dst_vnet_id": "$vnet#2000",
-      "dip": "10.1.3.50"
+      "dst_vnet_id": "$vnet#1",
+      "dip": "10.1.2.50"
     },
     "attributes": [
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.2.20",
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.3.20",
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:02",
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI", "True"
     ]
@@ -247,29 +262,13 @@
     "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "dst_vnet_id": "$vnet#1000",
-      "dip": "10.1.4.50"
-    },
-    "attributes": [
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.3.20",
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:03",
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI", "True"
-    ]
-  },
-  {
-    "name": "ocpe#4",
-    "op": "create",
-    "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
-    "key": {
-      "switch_id": "$SWITCH_ID",
-      "dst_vnet_id": "$vnet#2000",
-      "dip": "10.1.5.50"
+      "dst_vnet_id": "$vnet#1",
+      "dip": "10.1.3.50"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP", "172.16.4.20",
-      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:04",
+      "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC", "00:DD:DD:DD:DD:03",
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI", "True"
     ]
   }
 ]
-
