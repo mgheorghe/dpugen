@@ -19,13 +19,13 @@ class Vips(ConfBase):
         self.numYields += 1
         vip_data = {
             'name': 'vip_#1',
-            'type': 'OBJECT_TYPE_VIP_ENTRY',
+            'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
             'key': {
-                'SWITCH': '$switch',
-                'VIP': p.LOOPBACK
+                'switch_id': '$SWITCH_ID',
+                'vip': p.LOOPBACK
             },
             'attributes': [
-                'SAI_VIP_ENTRY_ATTR_ACTION', 
+                'SAI_VIP_ENTRY_ATTR_ACTION',
                 'SAI_VIP_ENTRY_ACTION_ACCEPT',
             ],
             'op': 'create',
