@@ -22,16 +22,24 @@ class InboundRouting(ConfBase):
             vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
-            vnet_data = {
-                'name': 'vnet_#%d' % eni_index,
-                'type': 'SAI_OBJECT_TYPE_VNET',
+            inbound_routing_data = {
+                'name': 'inbound_routing_#%d' % eni,
+                'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
+                'key': {
+                    'switch_id': '$SWITCH_ID',
+                    'eni_id': '%d' % eni,
+                    'vni': '%d' % eni
+                },
                 'attributes': [
-                    'SAI_VNET_ATTR_VNI', 'DIR_LOOKUP_ENI',
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',
+                    'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',
+                    '$vnet_1'
                 ],
-                'op': 'create',
+                'op': 'create'
             }
 
-            yield vnet_data
+            yield inbound_routing_data
 
 
 if __name__ == '__main__':
