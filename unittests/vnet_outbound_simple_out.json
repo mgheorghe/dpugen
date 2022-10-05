@@ -1,6 +1,6 @@
 [
   {
-    "name": "vpe",
+    "name": "vip_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VIP_ENTRY",
     "key": {
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "name": "dle",
+    "name": "direction_lookup_entry_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY",
     "key": {
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "name": "in_acl_group_id",
+    "name": "in_acl_group_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_DASH_ACL_GROUP",
     "attributes": [
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "name": "out_acl_group_id",
+    "name": "out_acl_group_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_DASH_ACL_GROUP",
     "attributes": [
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "name": "vnet",
+    "name": "vnet_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_VNET",
     "attributes": [
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "name": "eni",
+    "name": "eni_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_ENI",
     "attributes": [
@@ -58,7 +58,7 @@
       "SAI_ENI_ATTR_ADMIN_STATE", "True",
       "SAI_ENI_ATTR_VM_UNDERLAY_DIP", "172.16.1.1",
       "SAI_ENI_ATTR_VM_VNI", "9",
-      "SAI_ENI_ATTR_VNET_ID", "$vnet",
+      "SAI_ENI_ATTR_VNET_ID", "$vnet_#1",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID", "0",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID", "0",
       "SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID", "0",
@@ -82,7 +82,7 @@
     ]
   },
   {
-    "name": "eam",
+    "name": "eni_ether_address_map_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY",
     "key": {
@@ -90,30 +90,30 @@
       "address": "00:CC:CC:CC:00:00"
     },
     "attributes": [
-      "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID", "$eni"
+      "SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID", "$eni_#1"
     ]
   },
   {
-    "name": "ore",
+    "name": "outbound_routing_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "eni_id": "$eni",
+      "eni_id": "$eni_#1",
       "destination": "10.1.0.0/16"
     },
     "attributes": [
       "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet"
+      "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#1"
     ]
   },
   {
-    "name": "ocpe",
+    "name": "outbound_ca_to_pa_#1",
     "op": "create",
     "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
     "key": {
       "switch_id": "$SWITCH_ID",
-      "dst_vnet_id": "$vnet",
+      "dst_vnet_id": "$vnet_#1",
       "dip": "10.1.2.50"
     },
     "attributes": [

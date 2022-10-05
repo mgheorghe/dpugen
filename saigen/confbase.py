@@ -67,7 +67,7 @@ class ConfBase(ABC):
         return len(self.items())
 
     def itemsGenerated(self):
-        ''' Last count of # yields, reset each time at begining'''
+        ''' Last count of # yields, reset each time at beginning'''
         return self.num_yields
 
     # def toDict(self):
