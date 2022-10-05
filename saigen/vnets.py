@@ -22,8 +22,8 @@ class Vnets(ConfBase):
                 'name': 'vnet_#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_VNET',
                 'attributes': [
-                    'SAI_VNET_ATTR_VNI', 
-                    eni,
+                    'SAI_VNET_ATTR_VNI',
+                    getattr(p.DASH_VNET, 'vnet').VNI,  # FIXME
                 ],
                 'op': 'create',
             }
