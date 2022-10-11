@@ -22,7 +22,7 @@ class Vnets(ConfBase):
                 'name': 'vnet_#%d' % eni,
                 'type': 'SAI_OBJECT_TYPE_VNET',
                 'attributes': [
-                    'SAI_VNET_ATTR_VNI', 
+                    'SAI_VNET_ATTR_VNI',
                     eni,
                 ],
                 'op': 'create',
