@@ -17,23 +17,23 @@ class PaValidation(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP4))
 
             self.numYields += 1
             pa_validation_data = {
                 "name": 'pa_validation_#%d' % eni,
+                'op': 'create',
                 "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
                 "key" : {
                     "switch_id" : "$SWITCH_ID",
-                    "eni_id" : "$eni",
+                    "eni_id" : "eni_#%d" % eni,
                     "sip" : str(eni_ip),
                     "vni" : eni
                 },
                 "attributes" : [
                     "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"
-                ],
-                'op': 'create',
+                ]
             }
             yield pa_validation_data
 

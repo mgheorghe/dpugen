@@ -18,22 +18,22 @@ class DirectionLookup(ConfBase):
         cp = self.cooked_params
         vm_underlay_dip = ipaddress.ip_address(p.PAL)
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
             direction_lookup_data = {
                 'name': 'direction_lookup_entry_#%d' % eni,
+                'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
-                    'vni': eni,
+                    'vni': '%d' % eni,
                 },
                 'attributes': [
                     'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION', 
                     'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
-                ],
-                'op': 'create',
+                ]
             }
 
             yield direction_lookup_data

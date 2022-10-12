@@ -17,7 +17,7 @@ class AddressMaps(ConfBase):
         print('  Generating address maps ...', file=sys.stderr)
         p = self.params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
 
             eni_mac = str(
                 macaddress.MAC(
@@ -28,6 +28,7 @@ class AddressMaps(ConfBase):
             self.numYields += 1
             address_map = {
                 'name': 'eni_ether_address_map_#%d' % self.numYields,
+                'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
@@ -35,8 +36,7 @@ class AddressMaps(ConfBase):
                 },
                 'attributes': [
                     'SAI_ENI_ETHER_ADDRESS_MAP_ENTRY_ATTR_ENI_ID', '$eni_#%d' % eni,
-                ],
-                'op': 'create',
+                ]
             }
 
             yield address_map

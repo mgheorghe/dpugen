@@ -19,6 +19,7 @@ class Vips(ConfBase):
         self.numYields += 1
         vip_data = {
             'name': 'vip_#1',
+            'op': 'create',
             'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
             'key': {
                 'switch_id': '$SWITCH_ID',
@@ -27,8 +28,7 @@ class Vips(ConfBase):
             'attributes': [
                 'SAI_VIP_ENTRY_ATTR_ACTION',
                 'SAI_VIP_ENTRY_ACTION_ACCEPT',
-            ],
-            'op': 'create',
+            ]
         }
 
         yield vip_data

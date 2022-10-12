@@ -26,7 +26,7 @@ class OutboundRouting(ConfBase):
                 "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
                 "key": {
                     "switch_id": "$SWITCH_ID",
-                    "eni_id": "$eni%d" % eni,
+                    "eni_id": "$eni_#%d" % eni,
                     "destination": "%s/9" % (remote_ip)
                 },
                 "attributes": [

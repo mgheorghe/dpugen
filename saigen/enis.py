@@ -18,12 +18,13 @@ class Enis(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             vm_underlay_dip = ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1))
 
             self.numYields += 1
             eni_data = {
                 'name': 'eni_#%d' % eni,
+                'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_ENI',
                 'attributes': [
                     'SAI_ENI_ATTR_CPS', '10000',
@@ -53,8 +54,7 @@ class Enis(ConfBase):
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID', '0',
-                ],
-                'op': 'create',
+                ]
             }
             for stage in range(1, (p.ACL_TABLE_COUNT+1)):
                 table_id = eni * 1000 + stage
