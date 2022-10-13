@@ -17,18 +17,20 @@ class Vnets(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            self.numYields += 1
-            vnet_data = {
-                'name': 'vnet_#%d' % eni,
-                'op': 'create',
-                'type': 'SAI_OBJECT_TYPE_VNET',
-                'attributes': [
-                    'SAI_VNET_ATTR_VNI',
-                    '%d' % eni,
-                ]
-            }
+            for vnet_index in range(p.VNET_PER_ENI):
+                vnet = eni + vnet_index
+                self.numYields += 1
+                vnet_data = {
+                    'name': 'vnet_#%d' % vnet,
+                    'op': 'create',
+                    'type': 'SAI_OBJECT_TYPE_VNET',
+                    'attributes': [
+                        'SAI_VNET_ATTR_VNI',
+                        '%d' % eni,
+                    ]
+                }
 
-            yield vnet_data
+                yield vnet_data
 
 
 if __name__ == '__main__':

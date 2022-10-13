@@ -9,6 +9,7 @@ dflt_params = {
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',
     'ENI_STEP':                         1000,
     'ENI_L2R_STEP':                     10000,
+    'VNET_PER_ENI':                     2, # 16
     'IP_PER_ACL_RULE':                  255,
     'IP_MAPPED_PER_ACL_RULE':           40,
     'IP_ROUTE_DIVIDER_PER_ACL_RULE':    8,       # must be 2^N
