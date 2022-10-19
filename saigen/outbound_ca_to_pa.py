@@ -26,7 +26,7 @@ class OutboundCaToPa(ConfBase):
 
             for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
                 for ip_index in range(1, (p.ACL_RULES_NSG//2+1)):
-                    remote_ip_a = ipa(p.IP_R_START) + eni_index * ipa(p.IP_STEP4) + (table_index - 1) * 4 * ipa(p.IP_STEP3) + (ip_index - 1) * ipa(p.IP_STEP2) * 2
+                    remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP4)) + (table_index - 1) * 4 * int(ipa(p.IP_STEP3)) + (ip_index - 1) * int(ipa(p.IP_STEP2)) * 2
                     remote_mac_a = str(
                         maca(
                             int(maca(p.MAC_R_START)) +
