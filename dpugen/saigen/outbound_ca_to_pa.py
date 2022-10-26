@@ -18,14 +18,14 @@ class OutboundCaToPa(ConfBase):
         print('  Generating Outbound CA to PA validation entry ...', file=sys.stderr)
         p = self.params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             print("    map:eni:%d" % eni)
             vtep_remote = ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index
 
-            vnet_id = p.ENI_L2R_STEP + eni
+            vnet_id =  eni
 
-            for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
-                for ip_index in range(1, (p.ACL_RULES_NSG//2+1)):
+            for table_index in range(1, 2):
+                for ip_index in range(1, 2):
                     remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP4)) + (table_index - 1) * 4 * int(ipa(p.IP_STEP3)) + (ip_index - 1) * int(ipa(p.IP_STEP2)) * 2
                     remote_mac_a = str(
                         maca(

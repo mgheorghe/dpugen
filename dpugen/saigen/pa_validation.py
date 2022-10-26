@@ -27,7 +27,7 @@ class PaValidation(ConfBase):
                 "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
                 "key" : {
                     "switch_id" : "$SWITCH_ID",
-                    "eni_id" : "eni_#%d" % eni,
+                    "eni_id" : "$eni_#%d" % eni,
                     "sip" : str(eni_ip),
                     "vni" : eni
                 },
