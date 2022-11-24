@@ -1,5 +1,6 @@
 import argparse
 import collections
+import io
 import itertools
 import json
 import sys
@@ -15,10 +16,10 @@ import textwrap
 
 
 class IterEncoder(json.JSONEncoder):
-    """
+    '''
     JSON Encoder that encodes iterators as well.
     Write directly to file to use minimal memory
-    """
+    '''
     class FakeListIterator(list):
         def __init__(self, iterable):
             self.iterable = iter(iterable)
@@ -34,13 +35,13 @@ class IterEncoder(json.JSONEncoder):
             return itertools.chain([self.firstitem], self.iterable)
 
         def __len__(self):
-            raise NotImplementedError("Fakelist has no length")
+            raise NotImplementedError('Fakelist has no length')
 
         def __getitem__(self, i):
-            raise NotImplementedError("Fakelist has no getitem")
+            raise NotImplementedError('Fakelist has no getitem')
 
         def __setitem__(self, i):
-            raise NotImplementedError("Fakelist has no setitem")
+            raise NotImplementedError('Fakelist has no setitem')
 
         def __bool__(self):
             return self.truthy
@@ -55,7 +56,7 @@ def writeListFileIter(config, format, filename='<stdout>'):
     if filename == '<stdout>':
         writeListFpIter(config, format, sys.stdout)
     else:
-        with open(filename, "wt") as file:
+        with io.open(filename, 'wt') as fp:
             writeListFpIter(config, format, fp)
 
 
@@ -85,7 +86,7 @@ def writeDictFileIter(config, format, filename='<stdout>'):
             fp = sys.stdout
             _writeDictFileIter(config, fp)
         else:
-            with open(filename, 'wt') as fp:
+            with io.open(filename, 'wt') as fp:
                 _writeDictFileIter(config, fp)
     else:
         raise NotImplementedError('ERROR: unsupported format %s' % format)
@@ -114,9 +115,9 @@ Can use defaults; override from file; override again from cmdline (all 3 sources
 ./generate.d.py -p PARAM_FILE -P PARAMS     - override with params from file and cmdline; generate output
 
 Examples:
-./generate.d.py -d -p params_small.py -P "{'ENI_COUNT': 16}"  - use params_small.py but override ENI_COUNT; display params
-./generate.d.py -p params_hero.py -o tmp.json                 - generate full "hero test" scale config as json file
-dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of vpcmappingtypes, include meta with message            
+./generate.d.py -d -p params_small.py -P '{'ENI_COUNT': 16}'  - use params_small.py but override ENI_COUNT; display params
+./generate.d.py -p params_hero.py -o tmp.json                 - generate full 'hero test' scale config as json file
+dashgen/vpcmappingtypes.py -m -M 'Kewl Config!'               - generate dict of vpcmappingtypes, include meta with message            
 
 
 
@@ -126,8 +127,8 @@ dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of
     parser.add_argument('-f', '--format', choices=['json'], default='json',
                         help='Config output format.')
 
-    parser.add_argument('-c', '--content', choices=['dict', 'list'], default='dict',
-                        help='Emit dictionary (with inner lists), or list items only')
+    # parser.add_argument('-c', '--content', choices=['dict', 'list'], default='list',
+    #                     help='Emit dictionary (with inner lists), or list items only')
 
     parser.add_argument('-d', '--dump-params', action='store_true',
                         help='Just dump paramters (defaults with user-defined merged in')
@@ -146,7 +147,7 @@ dashgen/vpcmappingtypes.py -m -M "Kewl Config!"               - generate dict of
 
     parser.add_argument(
         '-o', '--output', default='<stdout>', metavar='OFILE',
-        help="Output file (default: standard output)")
+        help='Output file (default: standard output)')
 
     return parser
 
@@ -158,7 +159,7 @@ def common_parse_args(self):
     # Prams from file override defaults; params from cmd-line override all
     params = {}
     if self.args.param_file:
-        with open(self.args.param_file, 'r') as fp:
+        with io.open(self.args.param_file, 'r') as fp:
             params = eval(fp.read())
     if self.args.set_params:
         params.update(eval(self.args.set_params))
@@ -170,18 +171,20 @@ def common_parse_args(self):
 
 
 def common_output(self):
-    if self.args.content == 'dict':
-        d = self.toDict()
-        if (self.args.meta):
-            d.update(self.getMeta(self.args.msg))
-        # streaming dict output:
-        writeDictFileIter(d, self.args.format, self.args.output)
+    # import pdb
+    # pdb.set_trace()
+    # if self.args.content == 'dict':
+    #     d = self.toDict()
+    #     if (self.args.meta):
+    #         d.update(self.getMeta(self.args.msg))
+    #     # streaming dict output:
+    #     writeDictFileIter(d, self.args.format, self.args.output)
 
-    elif self.args.content == 'list':
-        # streaming list output:
-        writeListFileIter(self.items(), self.args.format, self.args.output)
-    else:
-        raise Exception("Unknown content specifier: '%s'" % self.args.content)
+    # elif self.args.content == 'list':
+    #     # streaming list output:
+    writeListFileIter(self.items(), self.args.format, self.args.output)
+    # else:
+    #     raise Exception('Unknown content specifier: '%s'' % self.args.content)
 
 
 def common_main(self):

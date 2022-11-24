@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+import os
 
 from dashgen.confbase import *
 from dashgen.confutils import *
@@ -9,11 +10,11 @@ from dashgen.confutils import *
 class PrefixTags(ConfBase):
 
     def __init__(self, params={}):
-        super().__init__('prefix-tags', params)
+        super().__init__(params)
 
     def items(self):
         self.numYields = 0
-        print('  Generating %s...' % self.dictname, file=sys.stderr)
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
         for eni_index in range(1, p.ENI_COUNT+1):

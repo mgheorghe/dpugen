@@ -4,14 +4,15 @@ from dashgen.confbase import *
 from dashgen.confutils import *
 from copy import deepcopy
 import sys
+import os
 class AclGroups(ConfBase):
 
     def __init__(self, params={}):
-        super().__init__('acl-groups', params)
+        super().__init__(params)
     
     def items(self):
         self.numYields = 0
-        print('  Generating %s...' % self.dictname, file=sys.stderr)
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p=self.params
         cp=self.cooked_params
         IP_STEP1=cp.IP_STEP1

@@ -33,7 +33,8 @@ class ConfBase(ABC):
         self.params = DefaultMunch.fromDict(self.params_dict)
         #print ('%s: self.params=' , self.params)
         self.cooked_params = DefaultMunch.fromDict(self.cooked_params_dict)
-        #print ('cooked_params = ', self.cooked_params)
+        # print ("cooked_params = ", self.cooked_params)
+
     def cookParams(self):
         self.cooked_params_dict = {}
         for ip in [

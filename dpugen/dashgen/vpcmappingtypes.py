@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import sys
+import os
 
 from dashgen.confbase import *
 from dashgen.confutils import *
@@ -9,11 +10,11 @@ from dashgen.confutils import *
 class VpcMappingTypes(ConfBase):
 
     def __init__(self, params={}):
-        super().__init__('vpc-mappings-routing-types', params)
+        super().__init__(params)
 
     def items(self):
         self.numYields = 0
-        print('  Generating %s...' % self.dictname, file=sys.stderr)
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
 

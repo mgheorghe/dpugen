@@ -3,6 +3,7 @@
 import math
 import sys
 from copy import deepcopy
+import os
 
 from dashgen.confbase import *
 from dashgen.confutils import *
@@ -11,11 +12,11 @@ from dashgen.confutils import *
 class RouteTables(ConfBase):
 
     def __init__(self, params={}):
-        super().__init__('route-tables', params)
+        super().__init__(params)
 
     def items(self):
         self.numYields = 0
-        print('  Generating %s...' % self.dictname, file=sys.stderr)
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
         # optimizations:

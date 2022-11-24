@@ -117,7 +117,7 @@ Can use defaults; override from file; override again from cmdline (all 3 sources
 Examples:
 ./generate.d.py -d -p params_small.py -P '{'ENI_COUNT': 16}'  - use params_small.py but override ENI_COUNT; display params
 ./generate.d.py -p params_hero.py -o tmp.json                 - generate full 'hero test' scale config as json file
-saigen/vpcmappingtypes.py -m -M 'Kewl Config!'               - generate dict of vpcmappingtypes, include meta with message            
+saigen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of vpcmappingtypes, include meta with message            
 
 
 
