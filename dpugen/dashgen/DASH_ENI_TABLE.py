@@ -46,20 +46,20 @@ class Enis(ConfBase):
 
             self.numYields += 1
             yield {
-                    #{
-                        'DASH_ENI_TABLE:eni-%d' % eni : {
-                            'eni_id': 'eni-%d' % eni,
-                            'mac_address': local_mac,
-                            'underlay_ip': vm_underlay_dip,
-                            'admin_state': 'enabled',
-                            'vnet': 'vnet-%d' % eni,
-                            #'qos': 'qos100'
-                        },
-                        'OP': 'SET'
-                  #  }
-                    # 'acls-v4-in': acl_tables_in,
-                    # 'acls-v4-out': acl_tables_out,
-                    # 'route-table-v4': 'route-table-%d' % eni_index
+                # {
+                'DASH_ENI_TABLE:eni-%d' % eni: {
+                    'eni_id': 'eni-%d' % eni,
+                    'mac_address': local_mac,
+                    'underlay_ip': vm_underlay_dip,
+                    'admin_state': 'enabled',
+                    'vnet': 'vnet-%d' % eni,
+                            # 'qos': 'qos100'
+                },
+                'OP': 'SET'
+                #  }
+                # 'acls-v4-in': acl_tables_in,
+                # 'acls-v4-out': acl_tables_out,
+                # 'route-table-v4': 'route-table-%d' % eni_index
             }
 
 

@@ -33,14 +33,14 @@ class RouteTables(ConfBase):
         ENI_L2R_STEP = p.ENI_L2R_STEP
 
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
-        for eni_index in range(1, p.ENI_COUNT+1):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             routes = []
             ip_prefixes = []
             ip_prefixes_append = ip_prefixes.append
 
-            IP_L = IP_L_START + (eni_index - 1) * IP_STEP4
+            IP_L = IP_L_START + eni_index * IP_STEP4
             r_vpc = eni_index + ENI_L2R_STEP
-            # IP_R = IP_R_START + (eni_index - 1) * IP_STEP4
+            # IP_R = IP_R_START + eni_index * IP_STEP4
             routes.append(
                 {
                     "ip-prefixes": ["%s/32" % IP_L],
@@ -55,7 +55,7 @@ class RouteTables(ConfBase):
                 #table_id = eni_index * 1000 + table_index
 
                 for acl_index in range(1, (ACL_RULES_NSG+1)):
-                    remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (acl_index - 1) * IP_STEP2
+                    remote_ip = IP_R_START + eni_index * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (acl_index - 1) * IP_STEP2
                     no_of_route_groups = IP_PER_ACL_RULE // IP_ROUTE_DIVIDER_PER_ACL_RULE
                     for ip_index in range(0, no_of_route_groups):
                         ip_prefix = remote_ip - 1 + ip_index * IP_ROUTE_DIVIDER_PER_ACL_RULE * IP_STEP1
@@ -65,28 +65,17 @@ class RouteTables(ConfBase):
                             mask = 32 - prefix_index + 1
                             if mask == 32:
                                 ip_prefix = ip_prefix + 1
-                            ip_prefixes_append("%s/%d" % (ip_prefix, mask))
+
+                            self.numYields += 1
+                            yield {
+                                "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, ip_prefix, mask): {
+                                    "action_type": "vnet",
+                                    "vnet": "Vnet2"
+                                },
+                                "OP": "SET"
+                            }
+
                             ip_prefix = ip_prefix + IP_STEP1 * nr_of_ips
-
-            routes.append(
-                {
-                    "ip-prefixes": ip_prefixes,
-                    "action": {
-                        "routing-type": "vpc",
-                        "vpc-id": "vpc-%d" % r_vpc
-                    }
-                }
-            )
-
-            self.numYields += 1
-            yield \
-                {
-                    "ROUTE-TABLE:%d" % eni_index: {
-                        "route-table-id": "route-table-%d" % eni_index,
-                        "ip-version": "IPv4",
-                        "routes": routes
-                    }
-                }
 
 
 if __name__ == "__main__":

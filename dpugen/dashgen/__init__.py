@@ -9,5 +9,5 @@ import dashgen.prefixtags
 import dashgen.vpcs
 import dashgen.DASH_VNET_MAPPING_TABLE
 import dashgen.vpcmappingtypes
-import dashgen.routetables
-import dashgen.routingappliances
+import dashgen.DASH_ROUTE_TABLE
+import dashgen.DASH_ROUTE_RULE_TABLE
