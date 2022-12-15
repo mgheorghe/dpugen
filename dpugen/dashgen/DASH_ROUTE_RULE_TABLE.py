@@ -31,7 +31,7 @@ class RouteRules(ConfBase):
             IP_R = IP_R_START + eni_index * IP_STEP4
             self.numYields += 1
             yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" (eni, eni): {
+                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" % (eni, eni): {
                     "action_type": "decap",
                     "priority": "1",
                     "protocol": "0",
@@ -43,7 +43,7 @@ class RouteRules(ConfBase):
 
             self.numYields += 1
             yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" (eni, r_vpc): {
+                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" % (eni, r_vpc): {
                     "action_type": "decap",
                     "priority": "1",
                     "protocol": "0",

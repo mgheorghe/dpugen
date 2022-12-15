@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import saigen
 from saigen.confbase import *
 from saigen.confutils import *
@@ -13,7 +14,7 @@ class SaiConfig(ConfBase):
         super().__init__(params)
 
     def generate(self):
-        # Pass top-level params to sub-generrators.
+        # Pass top-level params to sub-generators.
         self.configs = [
             saigen.vips.Vips(self.params_dict),
             saigen.direction_lookup.DirectionLookup(self.params_dict),
