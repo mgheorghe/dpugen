@@ -3,7 +3,7 @@ from saigen.confbase import *
 from saigen.confutils import *
 
 
-print('generating config')
+print('generating config', file=sys.stderr)
 
 
 
@@ -46,4 +46,4 @@ if __name__ == '__main__':
     common_parse_args(conf)
     conf.generate()
     common_output(conf)
-    print('done')
+    print('done', file=sys.stderr)

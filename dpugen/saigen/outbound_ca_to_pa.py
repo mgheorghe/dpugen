@@ -19,7 +19,7 @@ class OutboundCaToPa(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            print("    map:eni:%d" % eni)
+            print("    map:eni:%d" % eni, file=sys.stderr)
             vtep_remote = ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index
 
             vnet_id =  eni
