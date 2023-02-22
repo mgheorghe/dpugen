@@ -20,46 +20,40 @@ class Enis(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             local_mac = str(macaddress.MAC(int(cp.MAC_L_START)+eni_index*int(macaddress.MAC(p.ENI_MAC_STEP)))).replace('-', ':')
 
-            vm_underlay_dip = str(ipaddress.ip_address(p.PAL) + eni * int(ipaddress.ip_address(p.IP_STEP1)))
+            vm_underlay_dip = str(ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1)))
 
-            acl_tables_in = []
-            acl_tables_out = []
+            acl_nsgs_in = []
+            acl_nsgs_out = []
 
-            for table_index in range(1, (p.ACL_TABLE_COUNT*2+1)):
-                table_id = eni_index * 1000 + table_index
+            for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
+                nsg_id = eni_index * 1000 + nsg_index
 
-                stage = (table_index - 1) % 3 + 1
-                if table_index < 4:
-                    acl_tables_in.append(
+                stage = (nsg_index - 1) % 3 + 1
+                if nsg_index < 4:
+                    acl_nsgs_in.append(
                         {
-                            'acl-group-id': 'acl-group-%d' % table_id,
+                            'acl-group-id': 'acl-group-%d' % nsg_id,
                             'stage': stage
                         }
                     )
                 else:
-                    acl_tables_out.append(
+                    acl_nsgs_out.append(
                         {
-                            'acl-group-id': 'acl-group-%d' % table_id,
+                            'acl-group-id': 'acl-group-%d' % nsg_id,
                             'stage': stage
                         }
                     )
 
             self.numYields += 1
             yield {
-                # {
-                'DASH_ENI_TABLE:eni-%d' % eni: {
+                'DASH_ENI_NSG:eni-%d' % eni: {
                     'eni_id': 'eni-%d' % eni,
                     'mac_address': local_mac,
                     'underlay_ip': vm_underlay_dip,
                     'admin_state': 'enabled',
                     'vnet': 'vnet-%d' % eni,
-                            # 'qos': 'qos100'
                 },
                 'OP': 'SET'
-                #  }
-                # 'acls-v4-in': acl_tables_in,
-                # 'acls-v4-out': acl_tables_out,
-                # 'route-table-v4': 'route-table-%d' % eni_index
             }
 
 

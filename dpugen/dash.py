@@ -25,8 +25,8 @@ class DashConfig(ConfBase):
             # dashgen.vpcs.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
             dashgen.DASH_VNET_MAPPING_TABLE.Mappings(self.params_dict),
-            dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
-            dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
+            #dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
+            #dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
             # dashgen.prefixtags.PrefixTags(self.params_dict),
         ]
 
