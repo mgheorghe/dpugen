@@ -39,9 +39,9 @@ class ConfBase(ABC):
         self.cooked_params_dict = {}
         for ip in [
             'IP_STEP1',
-            'IP_STEP2',
-            'IP_STEP3',
-            'IP_STEP4',
+            'IP_STEP_ENI',
+            'IP_STEP_NSG',
+            'IP_STEP_ACL',
             'IP_STEPE'
         ]:
             self.cooked_params_dict[ip] = int(ipp(self.params_dict[ip]))

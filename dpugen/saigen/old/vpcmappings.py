@@ -20,16 +20,16 @@ class VpcMappings(ConfBase):
         PAL = cp.PAL
         PAR = cp.PAR
         IP_STEP1 = cp.IP_STEP1
-        IP_STEP2 = cp.IP_STEP2
-        IP_STEP3 = cp.IP_STEP3
-        IP_STEP4 = cp.IP_STEP4
+        IP_STEP_ACL = cp.IP_STEP_ACL
+        IP_STEP_NSG = cp.IP_STEP_NSG
+        IP_STEP_ENI = cp.IP_STEP_ENI
         IP_R_START = cp.IP_R_START
         IP_L_START = cp.IP_L_START
-        ACL_TABLE_COUNT = p.ACL_TABLE_COUNT
+        ACL_NSG_COUNT = p.ACL_NSG_COUNT
         ACL_RULES_NSG = p.ACL_RULES_NSG
         ENI_MAC_STEP = p.ENI_MAC_STEP
         MAC_L_START = cp.MAC_L_START
-        ACL_TABLE_MAC_STEP = p.ACL_TABLE_MAC_STEP
+        ACL_NSG_MAC_STEP = p.ACL_NSG_MAC_STEP
         ACL_POLICY_MAC_STEP = p.ACL_POLICY_MAC_STEP
         IP_MAPPED_PER_ACL_RULE = p.IP_MAPPED_PER_ACL_RULE
         ENI_COUNT = p.ENI_COUNT
@@ -39,7 +39,7 @@ class VpcMappings(ConfBase):
             PAL = PAL + IP_STEP1
             PAR = PAR + IP_STEP1
 
-            local_ip = IP_L_START + (eni_index - 1) * IP_STEP4
+            local_ip = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             local_mac = str(
                 macaddress.MAC(
                     int(MAC_L_START) +
@@ -68,14 +68,14 @@ class VpcMappings(ConfBase):
             r_mappings = []
             r_mappings_append = r_mappings.append
             r_vpc = eni_index + ENI_L2R_STEP
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (ACL_NSG_COUNT*2+1)):
                 for ip_index in range(1, (ACL_RULES_NSG+1)):
-                    remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (ip_index - 1) * IP_STEP2
+                    remote_ip = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (table_index - 1) * IP_STEP_NSG + (ip_index - 1) * IP_STEP_ACL
                     remote_mac = str(
                         macaddress.MAC(
                             int(macaddress.MAC('00:1B:6E:80:00:01')) +
                             (eni_index - 1) * int(macaddress.MAC(ENI_MAC_STEP)) +
-                            (table_index - 1) * int(macaddress.MAC(ACL_TABLE_MAC_STEP)) +
+                            (table_index - 1) * int(macaddress.MAC(ACL_NSG_MAC_STEP)) +
                             (ip_index - 1) * int(macaddress.MAC(ACL_POLICY_MAC_STEP))
                         )
                     ).replace('-', ':')

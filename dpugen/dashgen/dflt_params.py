@@ -4,6 +4,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'DC_START':                        '220.0.1.1',                # '220.0.1.2'
     'DC_STEP':                         '0.0.1.0',                  # '0.0.1.0'
 
+    'LOOPBACK':                        '221.0.0.1',                # '221.0.0.1'
     'PAL':                             '221.1.0.1',                # '221.1.0.1'
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
 
@@ -12,6 +13,8 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',       # '00:00:00:18:00:00'
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000
+
+    'VNET_PER_ENI':                     1,                         # 16
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',

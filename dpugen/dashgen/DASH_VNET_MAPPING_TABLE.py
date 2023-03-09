@@ -20,7 +20,7 @@ class Mappings(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
             vtep_local = cp.PAL + eni_index * cp.IP_STEP1
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
@@ -120,6 +120,6 @@ class Mappings(ConfBase):
             debug_file.close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = Mappings()
     common_main(conf)

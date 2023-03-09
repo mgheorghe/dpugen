@@ -22,12 +22,12 @@ class RouteTables(ConfBase):
         IP_ROUTE_DIVIDER_PER_ACL_RULE = p.IP_ROUTE_DIVIDER_PER_ACL_RULE
         IP_PER_ACL_RULE = p.IP_PER_ACL_RULE
         IP_STEP1 = cp.IP_STEP1
-        IP_STEP2 = cp.IP_STEP2
-        IP_STEP3 = cp.IP_STEP3
-        IP_STEP4 = cp.IP_STEP4
+        IP_STEP_ACL = cp.IP_STEP_ACL
+        IP_STEP_NSG = cp.IP_STEP_NSG
+        IP_STEP_ENI = cp.IP_STEP_ENI
         IP_R_START = cp.IP_R_START
         IP_L_START = cp.IP_L_START
-        ACL_TABLE_COUNT = p.ACL_TABLE_COUNT
+        ACL_NSG_COUNT = p.ACL_NSG_COUNT
         ACL_RULES_NSG = p.ACL_RULES_NSG
         ENI_L2R_STEP = p.ENI_L2R_STEP
 
@@ -37,9 +37,9 @@ class RouteTables(ConfBase):
             ip_prefixes = []
             ip_prefixes_append = ip_prefixes.append
 
-            IP_L = IP_L_START + (eni_index - 1) * IP_STEP4
+            IP_L = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             r_vpc = eni_index + ENI_L2R_STEP
-            # IP_R = IP_R_START + (eni_index - 1) * IP_STEP4
+            # IP_R = IP_R_START + (eni_index - 1) * IP_STEP_ENI
             routes.append(
                 {
                     "ip-prefixes": ["%s/32" % IP_L],
@@ -50,11 +50,11 @@ class RouteTables(ConfBase):
                 }
             )
 
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (ACL_NSG_COUNT*2+1)):
                 #table_id = eni_index * 1000 + table_index
 
                 for acl_index in range(1, (ACL_RULES_NSG+1)):
-                    remote_ip = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index - 1) * 4 * IP_STEP3 + (acl_index - 1) * IP_STEP2
+                    remote_ip = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (table_index - 1) * IP_STEP_NSG + (acl_index - 1) * IP_STEP_ACL
                     no_of_route_groups = IP_PER_ACL_RULE // IP_ROUTE_DIVIDER_PER_ACL_RULE
                     for ip_index in range(0, no_of_route_groups):
                         ip_prefix = remote_ip - 1 + ip_index * IP_ROUTE_DIVIDER_PER_ACL_RULE * IP_STEP1

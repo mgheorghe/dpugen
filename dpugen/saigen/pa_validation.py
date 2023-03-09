@@ -18,7 +18,7 @@ class PaValidation(ConfBase):
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP4))
+            eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP_ENI))
 
             self.numYields += 1
             pa_validation_data = {

@@ -26,12 +26,12 @@ class OutboundCaToPa(ConfBase):
 
             for table_index in range(1, 2):
                 for ip_index in range(1, 2):
-                    remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP4)) + (table_index - 1) * 4 * int(ipa(p.IP_STEP3)) + (ip_index - 1) * int(ipa(p.IP_STEP2)) * 2
+                    remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (table_index - 1) * int(ipa(p.IP_STEP_NSG)) + (ip_index - 1) * int(ipa(p.IP_STEP_ACL)) * 2
                     remote_mac_a = str(
                         maca(
                             int(maca(p.MAC_R_START)) +
                             eni_index * int(maca(p.ENI_MAC_STEP)) +
-                            (table_index - 1) * int(maca(p.ACL_TABLE_MAC_STEP)) +
+                            (table_index - 1) * int(maca(p.ACL_NSG_MAC_STEP)) +
                             (ip_index - 1) * int(maca(p.ACL_POLICY_MAC_STEP)) * 2
                         )
                     ).replace('-', ':')

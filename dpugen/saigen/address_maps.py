@@ -1,21 +1,24 @@
 #!/usr/bin/python3
 
+import os
 import sys
+from copy import deepcopy
+import io
 
 from saigen.confbase import *
 from saigen.confutils import *
 
 
-class AddressMaps(ConfBase):
-    '''Configures the MAC value of the ENI'''
+class Mappings(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
 
     def items(self):
         self.numYields = 0
-        print('  Generating address maps ...', file=sys.stderr)
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
+        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
 
@@ -43,5 +46,5 @@ class AddressMaps(ConfBase):
 
 
 if __name__ == '__main__':
-    conf = AddressMaps()
+    conf = Mappings()
     common_main(conf)

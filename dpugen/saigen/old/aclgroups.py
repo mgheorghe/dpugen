@@ -15,29 +15,29 @@ class AclGroups(ConfBase):
         p=self.params
         cp=self.cooked_params
         IP_STEP1=cp.IP_STEP1
-        IP_STEP2=cp.IP_STEP2
-        IP_STEP3=cp.IP_STEP3
-        IP_STEP4=cp.IP_STEP4
+        IP_STEP_ACL=cp.IP_STEP_ACL
+        IP_STEP_NSG=cp.IP_STEP_NSG
+        IP_STEP_ENI=cp.IP_STEP_ENI
         IP_STEPE=cp.IP_STEPE
         IP_R_START=cp.IP_R_START
         IP_L_START=cp.IP_L_START
-        ACL_TABLE_COUNT=p.ACL_TABLE_COUNT
+        ACL_NSG_COUNT=p.ACL_NSG_COUNT
         ACL_RULES_NSG=p.ACL_RULES_NSG
         IP_PER_ACL_RULE=p.IP_PER_ACL_RULE
         
         for eni_index in range(1, p.ENI_COUNT + 1):
-            local_ip = IP_L_START + (eni_index - 1) * IP_STEP4
+            local_ip = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             l_ip_ac = deepcopy(str(local_ip)+"/32")
 
-            for table_index in range(1, (ACL_TABLE_COUNT*2+1)):
+            for table_index in range(1, (ACL_NSG_COUNT*2+1)):
                 table_id = eni_index * 1000 + table_index
 
                 rules = []
                 rappend = rules.append
                 for ip_index in range(1, (ACL_RULES_NSG+1), 2):
                     rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
-                    remote_ip_a = IP_R_START + (eni_index - 1) * IP_STEP4 + (
-                        table_index - 1) * 4 * IP_STEP3 + (ip_index - 1) * IP_STEP2
+                    remote_ip_a = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (
+                        table_index - 1) * IP_STEP_NSG + (ip_index - 1) * IP_STEP_ACL
 
                     ip_list_a = [str(remote_ip_a + expanded_index * IP_STEPE)+"/32" for expanded_index in range(0, IP_PER_ACL_RULE)]
                     ip_list_a.append(l_ip_ac)
@@ -68,9 +68,9 @@ class AclGroups(ConfBase):
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
                 if ((table_index - 1) % 3) == 2:
                     rule_id_a = table_id * 10 *ACL_RULES_NSG + ip_index
-                    all_ipsA = IP_R_START + (eni_index - 1) * IP_STEP4 + (table_index % 6) * 4 * IP_STEP3
-                    all_ipsB = all_ipsA + 1 * 4 * IP_STEP3
-                    all_ipsC = all_ipsA + 2 * 4 * IP_STEP3
+                    all_ipsA = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (table_index % 6) * IP_STEP_NSG
+                    all_ipsB = all_ipsA + 1 * IP_STEP_NSG
+                    all_ipsC = all_ipsA + 2 * IP_STEP_NSG
 
                     ip_list_all = [
                         l_ip_ac,

@@ -18,7 +18,7 @@ class AclGroups(ConfBase):
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            for stage in range(1, (p.ACL_TABLE_COUNT+1)):
+            for stage in range(1, (p.ACL_NSG_COUNT+1)):
                 table_id = eni * 1000 + stage
 
                 self.numYields += 1

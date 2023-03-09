@@ -17,7 +17,7 @@ class OutboundRouting(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT* p.ENI_STEP, p.ENI_STEP)):
-            remote_ip = ipaddress.ip_address(p.IP_R_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP4))
+            remote_ip = ipaddress.ip_address(p.IP_R_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP_ENI))
 
             self.numYields += 1
             outbound_routing_data = {

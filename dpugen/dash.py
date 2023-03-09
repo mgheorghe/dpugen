@@ -16,7 +16,7 @@ class DashConfig(ConfBase):
         super().__init__(params)
 
     def generate(self):
-        # Pass top-level params to sub-generrators.
+        # Pass top-level params to sub-generators.
         self.configs = [
             dashgen.DASH_APPLIANCE_TABLE.Appliance(self.params_dict),
             dashgen.DASH_VNET_TABLE.Vnets(self.params_dict),
@@ -25,8 +25,8 @@ class DashConfig(ConfBase):
             # dashgen.vpcs.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
             dashgen.DASH_VNET_MAPPING_TABLE.Mappings(self.params_dict),
-            #dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
-            #dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
+            # dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
+            # dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
             # dashgen.prefixtags.PrefixTags(self.params_dict),
         ]
 
@@ -44,8 +44,7 @@ class DashConfig(ConfBase):
     def write2File(self, fformat, outfile):
         writeListFileIter(self.items(), fformat, outfile)
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = DashConfig()
     common_parse_args(conf)
     conf.generate()

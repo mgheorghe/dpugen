@@ -146,7 +146,7 @@ saigen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of
                         help='use parameter dict from file, partial is OK; overrides defaults')
 
     parser.add_argument(
-        '-o', '--output', default='<stdout>', metavar='OFILE',
+        '-o', '--output', default='sai-mir1.json', metavar='OFILE',
         help='Output file (default: standard output)')
 
     return parser

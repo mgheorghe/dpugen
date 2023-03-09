@@ -17,9 +17,9 @@ class PrefixTags(ConfBase):
         p = self.params
         cp = self.cooked_params
         for eni_index in range(1, p.ENI_COUNT+1):
-            IP_L = cp.IP_L_START + (eni_index - 1) * cp.IP_STEP4
+            IP_L = cp.IP_L_START + (eni_index - 1) * cp.IP_STEP_ENI
             r_vpc = eni_index + p.ENI_L2R_STEP
-            IP_R = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP4
+            IP_R = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP_ENI
             self.numYields += 1
             yield \
                 {
