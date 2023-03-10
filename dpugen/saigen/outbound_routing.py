@@ -7,37 +7,6 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-TEMPLATE_OUTBOUND_ROUTE_MAPED = {
-    "name": "outbound_routing_#%(ENI)d",
-    "op": "create",
-    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
-    "key": {
-        "switch_id": "$SWITCH_ID",
-        "eni_id": "$eni_#%(ENI)d",
-        "destination": "%(REMOTE_IP)s/%(MASK)d"
-    },
-    "attributes": [
-        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%(ENI)d"
-    ]
-}
-
-
-TEMPLATE_OUTBOUND_ROUTE_ROUTED = {
-    "name": "outbound_routing_#%(ENI)d",
-    "op": "create",
-    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
-    "key": {
-        "switch_id": "$SWITCH_ID",
-        "eni_id": "$eni_#%(ENI)d",
-        "destination": "%(REMOTE_IP)s/%(MASK)d"
-    },
-    "attributes": [
-        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%(ENI)d"
-    ]
-}
-
 
 class OutboundRouting(ConfBase):
 

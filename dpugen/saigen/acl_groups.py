@@ -6,16 +6,6 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-TEMPLATE_DASH_ACL_GROUP = {
-    'name': '%(NAME)s',
-    'op': 'create',
-    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
-    'attributes': [
-        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
-        'SAI_IP_ADDR_FAMILY_IPV4',
-    ]
-}
-
 
 class AclGroups(ConfBase):
 
@@ -32,13 +22,25 @@ class AclGroups(ConfBase):
                 table_id = eni * 1000 + stage
 
                 self.num_yields += 1
-                yield TEMPLATE_DASH_ACL_GROUP % {
-                    'NAME': 'in_acl_group_#%d' % table_id
+                yield {
+                    'name': 'in_acl_group_#%d' % table_id,
+                    'op': 'create',
+                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
+                    'attributes': [
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
+                        'SAI_IP_ADDR_FAMILY_IPV4',
+                    ]
                 }
 
                 self.num_yields += 1
-                yield TEMPLATE_DASH_ACL_GROUP % {
-                    'NAME': 'out_acl_group_#%d' % table_id
+                yield {
+                    'name': 'out_acl_group_#%d' % table_id,
+                    'op': 'create',
+                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
+                    'attributes': [
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
+                        'SAI_IP_ADDR_FAMILY_IPV4',
+                    ]
                 }
 
 
