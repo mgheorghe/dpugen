@@ -13,7 +13,7 @@ class VpcMappings(ConfBase):
         super().__init__('vpc-mappings', params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -62,7 +62,7 @@ class VpcMappings(ConfBase):
                     },
                 }
             )
-            self.numYields += 1
+            self.num_yields += 1
             yield l_vpc_mapping
 
             r_mappings = []
@@ -105,7 +105,7 @@ class VpcMappings(ConfBase):
                 }
             )
 
-            self.numYields += 1
+            self.num_yields += 1
             yield r_vpc_mapping
 
 

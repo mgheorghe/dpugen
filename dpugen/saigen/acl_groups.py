@@ -12,7 +12,7 @@ class AclGroups(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating AclGroups ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -21,7 +21,7 @@ class AclGroups(ConfBase):
             for stage in range(1, (p.ACL_NSG_COUNT+1)):
                 table_id = eni * 1000 + stage
 
-                self.numYields += 1
+                self.num_yields += 1
                 in_acl_group_data = {
                     'name': 'in_acl_group_#%d' % table_id,
                     'op': 'create',
@@ -33,7 +33,7 @@ class AclGroups(ConfBase):
                 }
                 yield in_acl_group_data
 
-                self.numYields += 1
+                self.num_yields += 1
                 in_acl_group_data = {
                     'name': 'out_acl_group_#%d' % table_id,
                     'op': 'create',

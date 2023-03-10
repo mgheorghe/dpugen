@@ -20,7 +20,7 @@ class ConfBase(ABC):
         self.cooked_params = {}
         params = params or {}
         self.mergeParams(params)
-        self.numYields = 0
+        self.num_yields = 0
 
     def mergeParams(self, params):
         # Merge provided params into/onto defaults

@@ -13,13 +13,13 @@ class Vnets(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            self.numYields += 1
+            self.num_yields += 1
 
             yield {
                 'DASH_VNET_TABLE:vnet-%d' % eni: {
@@ -28,7 +28,7 @@ class Vnets(ConfBase):
                 'OP': 'SET'
             }
 
-            self.numYields += 1
+            self.num_yields += 1
             r_vni_id = p.ENI_L2R_STEP + eni
 
             yield {

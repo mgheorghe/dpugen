@@ -12,11 +12,11 @@ class Vips(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating Vips ...', file=sys.stderr)
         p = self.params
 
-        self.numYields += 1
+        self.num_yields += 1
         vip_data = {
             'name': 'vip_#1',
             'op': 'create',

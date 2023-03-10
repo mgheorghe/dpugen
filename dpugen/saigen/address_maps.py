@@ -15,7 +15,7 @@ class Mappings(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -28,9 +28,9 @@ class Mappings(ConfBase):
                 )
             ).replace('-', ':')
 
-            self.numYields += 1
+            self.num_yields += 1
             address_map = {
-                'name': 'eni_ether_address_map_#%d' % self.numYields,
+                'name': 'eni_ether_address_map_#%d' % self.num_yields,
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                 'key': {

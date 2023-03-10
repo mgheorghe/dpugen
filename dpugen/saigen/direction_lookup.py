@@ -12,7 +12,7 @@ class DirectionLookup(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating DirectionLookup ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -21,7 +21,7 @@ class DirectionLookup(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             vm_underlay_dip = vm_underlay_dip + int(ipaddress.ip_address(p.IP_STEP1))
 
-            self.numYields += 1
+            self.num_yields += 1
             direction_lookup_data = {
                 'name': 'direction_lookup_entry_#%d' % eni,
                 'op': 'create',

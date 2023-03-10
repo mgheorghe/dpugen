@@ -13,7 +13,7 @@ class VpcMappingTypes(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -27,7 +27,7 @@ class VpcMappingTypes(ConfBase):
         # return generator from list for consistency with other subgenerators
         for x in vpcmappingtypes:
 
-            self.numYields += 1
+            self.num_yields += 1
             yield x
 
 

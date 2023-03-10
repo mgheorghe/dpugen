@@ -13,7 +13,7 @@ class PrefixTags(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -21,7 +21,7 @@ class PrefixTags(ConfBase):
             IP_L = cp.IP_L_START + (eni_index - 1) * cp.IP_STEP_ENI
             r_vpc = eni_index + p.ENI_L2R_STEP
             IP_R = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP_ENI
-            self.numYields += 1
+            self.num_yields += 1
             yield \
                 {
                     "PREFIX-TAG:VPC:%d" % eni_index: {
@@ -33,7 +33,7 @@ class PrefixTags(ConfBase):
                     },
                 }
 
-            self.numYields += 1
+            self.num_yields += 1
             yield \
                 {
                     "PREFIX-TAG:VPC:%d" % r_vpc: {

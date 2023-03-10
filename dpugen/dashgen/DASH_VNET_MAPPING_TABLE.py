@@ -15,7 +15,7 @@ class Mappings(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -33,7 +33,7 @@ class Mappings(ConfBase):
                 )
             ).replace('-', ':')
 
-            self.numYields += 1
+            self.num_yields += 1
 
             r_mappings = []
             r_mappings_append = r_mappings.append
@@ -63,7 +63,7 @@ class Mappings(ConfBase):
                                 )
                             ).replace('-', ':')
 
-                            self.numYields += 1
+                            self.num_yields += 1
                             yield {
                                 "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, remote_expanded_ip): {
                                     "routing_type": "vnet_encap",
@@ -85,7 +85,7 @@ class Mappings(ConfBase):
                                 )
                             ).replace('-', ':')
 
-                            self.numYields += 1
+                            self.num_yields += 1
                             yield {
                                 "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, remote_expanded_ip): {
                                     "routing_type": "vnet_encap",
@@ -106,7 +106,7 @@ class Mappings(ConfBase):
                     )
                 ).replace('-', ':')
 
-                self.numYields += 1
+                self.num_yields += 1
                 yield {
                     "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, remote_expanded_ip): {
                         "routing_type": "vnet_encap",

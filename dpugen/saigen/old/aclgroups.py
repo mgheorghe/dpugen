@@ -10,7 +10,7 @@ class AclGroups(ConfBase):
         super().__init__('acl-groups', params)
     
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p=self.params
         cp=self.cooked_params
@@ -97,7 +97,7 @@ class AclGroups(ConfBase):
                         }
                     }
                 )
-                self.numYields+=1
+                self.num_yields+=1
                 yield acl_group
 
 if __name__ == "__main__":

@@ -13,7 +13,7 @@ class Vpcs(ConfBase):
         super().__init__('vpc', params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -27,7 +27,7 @@ class Vpcs(ConfBase):
             IP_L = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             r_vpc = eni_index + ENI_L2R_STEP
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP_ENI
-            self.numYields += 1
+            self.num_yields += 1
             yield {
                 "VPC:%d" % eni_index: {
                     "vpc-id": "vpc-%d" % eni_index,
@@ -39,7 +39,7 @@ class Vpcs(ConfBase):
                 },
             }
 
-            self.numYields += 1
+            self.num_yields += 1
             yield {
                 "VPC:%d" % r_vpc: {
                     "vpc-id": "vpc-%d" % r_vpc,

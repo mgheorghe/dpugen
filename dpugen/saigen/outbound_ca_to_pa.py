@@ -14,7 +14,7 @@ class OutboundCaToPa(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating Outbound CA to PA validation entry ...', file=sys.stderr)
         p = self.params
 
@@ -45,9 +45,9 @@ class OutboundCaToPa(ConfBase):
                         ).replace('-', ':')
 
 
-                        self.numYields += 1
+                        self.num_yields += 1
                         outbound_ca_to_pa_data = {
-                            "name": "outbound_ca_to_pa_#%d" % self.numYields,
+                            "name": "outbound_ca_to_pa_#%d" % self.num_yields,
                             "op": "create",
                             "type": "SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY",
                             "key": {

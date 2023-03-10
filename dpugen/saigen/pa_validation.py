@@ -12,7 +12,7 @@ class PaValidation(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating PaValidation ...', file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -20,7 +20,7 @@ class PaValidation(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP_ENI))
 
-            self.numYields += 1
+            self.num_yields += 1
             pa_validation_data = {
                 "name": 'pa_validation_#%d' % eni,
                 'op': 'create',

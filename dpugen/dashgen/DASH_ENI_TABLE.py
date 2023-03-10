@@ -13,7 +13,7 @@ class Enis(ConfBase):
         super().__init__(params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -44,7 +44,7 @@ class Enis(ConfBase):
                         }
                     )
 
-            self.numYields += 1
+            self.num_yields += 1
             yield {
                 'DASH_ENI_NSG:eni-%d' % eni: {
                     'eni_id': 'eni-%d' % eni,

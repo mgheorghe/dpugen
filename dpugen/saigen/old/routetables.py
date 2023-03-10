@@ -14,7 +14,7 @@ class RouteTables(ConfBase):
         super().__init__('route-tables', params)
 
     def items(self):
-        self.numYields = 0
+        self.num_yields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -77,7 +77,7 @@ class RouteTables(ConfBase):
                 }
             )
 
-            self.numYields += 1
+            self.num_yields += 1
             yield \
                 {
                     "ROUTE-TABLE:%d" % eni_index: {
