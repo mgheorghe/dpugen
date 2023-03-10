@@ -2,8 +2,6 @@
 
 import os
 import sys
-from copy import deepcopy
-import io
 
 from saigen.confbase import *
 from saigen.confutils import *
