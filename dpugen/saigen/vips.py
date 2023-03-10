@@ -24,7 +24,7 @@ class Vips(ConfBase):
             'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
             'key': {
                 'switch_id': '$SWITCH_ID',
-                'vip': 'p.LOOPBACK'
+                'vip': '%s' % p.LOOPBACK
             },
             'attributes': [
                 'SAI_VIP_ENTRY_ATTR_ACTION',
