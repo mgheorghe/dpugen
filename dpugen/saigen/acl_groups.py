@@ -1,9 +1,20 @@
 #!/usr/bin/python3
 
+import os
 import sys
 
 from saigen.confbase import *
 from saigen.confutils import *
+
+TEMPLATE_DASH_ACL_GROUP = {
+    'name': '%(NAME)s',
+    'op': 'create',
+    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
+    'attributes': [
+        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
+        'SAI_IP_ADDR_FAMILY_IPV4',
+    ]
+}
 
 
 class AclGroups(ConfBase):
@@ -12,38 +23,23 @@ class AclGroups(ConfBase):
         super().__init__(params)
 
     def items(self):
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         self.num_yields = 0
-        print('  Generating AclGroups ...', file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             for stage in range(1, (p.ACL_NSG_COUNT+1)):
                 table_id = eni * 1000 + stage
 
                 self.num_yields += 1
-                in_acl_group_data = {
-                    'name': 'in_acl_group_#%d' % table_id,
-                    'op': 'create',
-                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
-                    'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 
-                        'SAI_IP_ADDR_FAMILY_IPV4',
-                    ]
+                yield TEMPLATE_DASH_ACL_GROUP % {
+                    'NAME': 'in_acl_group_#%d' % table_id
                 }
-                yield in_acl_group_data
 
                 self.num_yields += 1
-                in_acl_group_data = {
-                    'name': 'out_acl_group_#%d' % table_id,
-                    'op': 'create',
-                    'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
-                    'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 
-                        'SAI_IP_ADDR_FAMILY_IPV4',
-                    ]
+                yield TEMPLATE_DASH_ACL_GROUP % {
+                    'NAME': 'out_acl_group_#%d' % table_id
                 }
-                yield in_acl_group_data
 
 
 if __name__ == '__main__':

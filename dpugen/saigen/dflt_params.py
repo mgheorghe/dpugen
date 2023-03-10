@@ -19,8 +19,8 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',
 
-    'IP_L_START':                       '1.1.0.1',
-    'IP_R_START':                       '1.4.0.1',
+    'IP_L_START':                       '1.1.0.1',               # local, eni
+    'IP_R_START':                       '1.4.0.1',               # remote, the world
 
     'ACL_NSG_COUNT':                    5,                       # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    10,                      # 1000
