@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-import sys
 import os
+import sys
 
 from saigen.confbase import *
 from saigen.confutils import *
@@ -16,7 +16,6 @@ class Enis(ConfBase):
         self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             vm_underlay_dip = str(ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1)))

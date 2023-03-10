@@ -6,20 +6,6 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-TEMPLATE_DIRECTION_LOOKUP = {
-    'name': 'direction_lookup_entry_#%(ENI)d',
-    'op': 'create',
-    'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
-    'key': {
-        'switch_id': '$SWITCH_ID',
-        'vni': '%(ENI)d',
-    },
-    'attributes': [
-        'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION',
-        'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
-    ]
-}
-
 
 class DirectionLookup(ConfBase):
 
@@ -34,8 +20,18 @@ class DirectionLookup(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
 
             self.num_yields += 1
-            yield TEMPLATE_DIRECTION_LOOKUP % {
-                'ENI': eni
+            yield {
+                'name': 'direction_lookup_entry_#%d' % eni,
+                'op': 'create',
+                'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
+                'key': {
+                    'switch_id': '$SWITCH_ID',
+                    'vni': '%d' % (eni + p.ENI_L2R_STEP),
+                },
+                'attributes': [
+                    'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION',
+                    'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
+                ]
             }
 
 

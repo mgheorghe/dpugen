@@ -6,20 +6,6 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-TEMPLATE_VIP = {
-    'name': 'vip_#1',
-    'op': 'create',
-    'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
-    'key': {
-        'switch_id': '$SWITCH_ID',
-        'vip': '%(LOOPBACK)d'
-    },
-    'attributes': [
-        'SAI_VIP_ENTRY_ATTR_ACTION',
-        'SAI_VIP_ENTRY_ACTION_ACCEPT',
-    ]
-}
-
 
 class Vips(ConfBase):
 
@@ -32,8 +18,18 @@ class Vips(ConfBase):
         p = self.params
 
         self.num_yields += 1
-        yield TEMPLATE_VIP % {
-            'LOOPBACK': p.LOOPBACK
+        yield {
+            'name': 'vip_#1',
+            'op': 'create',
+            'type': 'SAI_OBJECT_TYPE_VIP_ENTRY',
+            'key': {
+                'switch_id': '$SWITCH_ID',
+                'vip': 'p.LOOPBACK'
+            },
+            'attributes': [
+                'SAI_VIP_ENTRY_ATTR_ACTION',
+                'SAI_VIP_ENTRY_ACTION_ACCEPT',
+            ]
         }
 
 

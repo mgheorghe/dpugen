@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 import sys
 
 from saigen.confbase import *
@@ -12,15 +13,16 @@ class Vnets(ConfBase):
         super().__init__(params)
 
     def items(self):
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         self.num_yields = 0
-        print('  Generating Vnets ...', file=sys.stderr)
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             for vnet_index in range(p.VNET_PER_ENI):
                 vnet = eni + vnet_index
+
                 self.num_yields += 1
-                vnet_data = {
+                yield {
                     'name': 'vnet_#%d' % vnet,
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_VNET',
@@ -29,8 +31,6 @@ class Vnets(ConfBase):
                         '%d' % eni,
                     ]
                 }
-
-                yield vnet_data
 
 
 if __name__ == '__main__':

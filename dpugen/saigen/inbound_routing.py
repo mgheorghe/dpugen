@@ -6,23 +6,6 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-TEMPLATE_INBOUND_ROUTE = {
-    'name': 'inbound_routing_#%(ENI)d',
-    'op': 'create',
-    'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
-    'key': {
-        'switch_id': '$SWITCH_ID',
-        'eni_id': '%(ENI)d',
-        'vni': '%(ENI)d'
-    },
-    'attributes': [
-        'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',
-        'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
-        'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',
-        '$vnet_#%(ENI)d'
-    ]
-}
-
 
 class InboundRouting(ConfBase):
 
@@ -36,8 +19,21 @@ class InboundRouting(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             self.num_yields += 1
-            yield TEMPLATE_INBOUND_ROUTE % {
-                'ENI':  eni
+            yield {
+                'name': 'inbound_routing_#%d' % eni,
+                'op': 'create',
+                'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
+                'key': {
+                    'switch_id': '$SWITCH_ID',
+                    'eni_id': '%d' % eni,
+                    'vni': '%d' % eni
+                },
+                'attributes': [
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',
+                    'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',
+                    '$vnet_#%d' % eni
+                ]
             }
 
 
