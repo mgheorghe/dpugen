@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import sys
 
 from saigen.confbase import *
 from saigen.confutils import *
@@ -29,7 +30,7 @@ class InboundRouting(ConfBase):
         super().__init__(params)
 
     def items(self):
-        print('  Generating %s ...' % os.path.basename(__file__))
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         self.num_yields = 0
         p = self.params
 
