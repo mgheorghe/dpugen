@@ -6,7 +6,7 @@ import sys
 from saigen.confbase import *
 from saigen.confutils import *
 
-ipa = ipaddress.ip_address
+ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 
 class InboundRouting(ConfBase):
 

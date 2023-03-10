@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 
+import os
 import sys
 
 from saigen.confbase import *
 from saigen.confutils import *
 
+ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 
 class PaValidation(ConfBase):
 
@@ -12,13 +14,12 @@ class PaValidation(ConfBase):
         super().__init__(params)
 
     def items(self):
+        print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         self.num_yields = 0
-        print('  Generating PaValidation ...', file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            eni_ip = ipaddress.ip_address(p.IP_L_START) + eni_index * int(ipaddress.ip_address(p.IP_STEP_ENI))
+            eni_ip = ipa(p.IP_L_START) + eni_index * int(ipa(p.IP_STEP_ENI))
 
             self.num_yields += 1
             pa_validation_data = {

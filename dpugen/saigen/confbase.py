@@ -9,8 +9,8 @@ from munch import DefaultMunch
 
 from saigen.dflt_params import *
 
-ipp = ipaddress.ip_address
-macM = macaddress.MAC
+ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
+maca = macaddress.MAC       # optimization so the . does not get executed multiple times
 
 
 class ConfBase(ABC):
@@ -44,19 +44,19 @@ class ConfBase(ABC):
             'IP_STEP_ACL',
             'IP_STEPE'
         ]:
-            self.cooked_params_dict[ip] = int(ipp(self.params_dict[ip]))
+            self.cooked_params_dict[ip] = int(ipa(self.params_dict[ip]))
         for ip in [
             'IP_L_START',
             'IP_R_START',
             'PAL',
             'PAR'
         ]:
-            self.cooked_params_dict[ip] = ipp(self.params_dict[ip])
+            self.cooked_params_dict[ip] = ipa(self.params_dict[ip])
         for mac in [
             'MAC_L_START',
             'MAC_R_START'
         ]:
-            self.cooked_params_dict[mac] = macM(self.params_dict[mac])
+            self.cooked_params_dict[mac] = maca(self.params_dict[mac])
 
     @abstractmethod
     def items(self):
