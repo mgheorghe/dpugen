@@ -97,7 +97,7 @@ class AclGroups(ConfBase):
                         }
                     }
                 )
-                self.num_yields+=1
+                self.num_yields += 1
                 yield acl_group
 
 if __name__ == "__main__":
