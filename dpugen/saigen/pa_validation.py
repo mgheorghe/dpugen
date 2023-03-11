@@ -27,10 +27,9 @@ class PaValidation(ConfBase):
                 'op': 'create',
                 "type" : "SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY",
                 "key" : {
-                    "switch_id" : "$SWITCH_ID",
-                    "eni_id" : "$eni_#%d" % eni,
-                    "sip" : str(eni_ip),
-                    "vni" : eni
+                    "switch_id": "$SWITCH_ID",
+                    "sip": str(eni_ip),
+                    "vnet_id": "vnet_#%d" % eni
                 },
                 "attributes" : [
                     "SAI_PA_VALIDATION_ENTRY_ATTR_ACTION", "SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT"
