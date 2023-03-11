@@ -31,9 +31,9 @@ class InboundRouting(ConfBase):
                     'switch_id': '$SWITCH_ID',
                     'eni_id': '%d' % eni,
                     'vni': '%d' % eni,
-                    "sip": "%s" % vtep_remote,
-                    "sip_mask": "255.255.255.255",
-                    "priority": 0
+                    'sip': '%s' % vtep_remote,
+                    'sip_mask': '255.255.255.255',
+                    'priority': 0
                 },
                 'attributes': [
                     'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',       'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',

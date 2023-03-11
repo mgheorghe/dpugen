@@ -57,17 +57,17 @@ class OutboundRouting(ConfBase):
                                 # routes that have a mac mapping
                                 self.num_yields += 1
                                 yield {
-                                    "name": "outbound_routing_#%d" % eni,
-                                    "op": "create",
-                                    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
-                                    "key": {
-                                        "switch_id": "$SWITCH_ID",
-                                        "eni_id": "$eni_#%d" % eni,
-                                        "destination": "%s/%d" % (ip_prefix, mask)
+                                    'name': 'outbound_routing_#%d' % eni,
+                                    'op': 'create',
+                                    'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
+                                    'key': {
+                                        'switch_id': '$SWITCH_ID',
+                                        'eni_id': '$eni_#%d' % eni,
+                                        'destination': '%s/%d' % (ip_prefix, mask)
                                     },
-                                    "attributes": [
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%d" % eni
+                                    'attributes': [
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET',
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#%d' % eni
                                     ]
                                 }
                                 added_route_count += 1
@@ -75,18 +75,18 @@ class OutboundRouting(ConfBase):
                                 # routes that do not have a mac mapping
                                 self.num_yields += 1
                                 yield {
-                                    "name": "outbound_routing_#%d" % eni,
-                                    "op": "create",
-                                    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
-                                    "key": {
-                                        "switch_id": "$SWITCH_ID",
-                                        "eni_id": "$eni_#%d" % eni,
-                                        "destination": "%s/%d" % (ip_prefix, mask)
+                                    'name': 'outbound_routing_#%d' % eni,
+                                    'op': 'create',
+                                    'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
+                                    'key': {
+                                        'switch_id': '$SWITCH_ID',
+                                        'eni_id': '$eni_#%d' % eni,
+                                        'destination': '%s/%d' % (ip_prefix, mask)
                                     },
-                                    "attributes": [
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT",
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%d" % eni,
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP", vtep_local
+                                    'attributes': [
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT',
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#%d' % eni,
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP', vtep_local
                                     ]
                                 }
                                 added_route_count += 1
@@ -99,17 +99,17 @@ class OutboundRouting(ConfBase):
                 remote_ip_prefix = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
                 self.num_yields += 1
                 yield {
-                    "name": "outbound_routing_#%d" % eni,
-                    "op": "create",
-                    "type": "SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY",
-                    "key": {
-                        "switch_id": "$SWITCH_ID",
-                        "eni_id": "$eni_#%d" % eni,
-                        "destination": "%s/10" % (remote_ip_prefix)
+                    'name': 'outbound_routing_#%d' % eni,
+                    'op': 'create',
+                    'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
+                    'key': {
+                        'switch_id': '$SWITCH_ID',
+                        'eni_id': '$eni_#%d' % eni,
+                        'destination': '%s/10' % (remote_ip_prefix)
                     },
-                    "attributes": [
-                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%d" % eni
+                    'attributes': [
+                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET',
+                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#%d' % eni
                     ]
                 }
 
