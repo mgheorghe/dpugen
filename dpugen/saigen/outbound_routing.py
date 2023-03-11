@@ -84,8 +84,9 @@ class OutboundRouting(ConfBase):
                                         "destination": "%s/%d" % (ip_prefix, mask)
                                     },
                                     "attributes": [
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET",
-                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%d" % eni
+                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION", "SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT",
+                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID", "$vnet_#%d" % eni,
+                                        "SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP", vtep_local
                                     ]
                                 }
                                 added_route_count += 1
