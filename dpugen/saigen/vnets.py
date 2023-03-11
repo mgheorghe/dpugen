@@ -28,7 +28,7 @@ class Vnets(ConfBase):
                     'type': 'SAI_OBJECT_TYPE_VNET',
                     'attributes': [
                         'SAI_VNET_ATTR_VNI',
-                        '%d' % eni + p.ENI_L2R_STEP,
+                        '%d' % (eni + p.ENI_L2R_STEP),
                     ]
                 }
 
