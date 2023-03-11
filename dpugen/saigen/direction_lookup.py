@@ -29,8 +29,7 @@ class DirectionLookup(ConfBase):
                     'vni': '%d' % (eni + p.ENI_L2R_STEP),
                 },
                 'attributes': [
-                    'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION',
-                    'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
+                    'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION', 'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'
                 ]
             }
 

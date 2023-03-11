@@ -27,8 +27,7 @@ class Vnets(ConfBase):
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_VNET',
                     'attributes': [
-                        'SAI_VNET_ATTR_VNI',
-                        '%d' % (eni + p.ENI_L2R_STEP),
+                        'SAI_VNET_ATTR_VNI', '%d' % (eni + p.ENI_L2R_STEP),
                     ]
                 }
 

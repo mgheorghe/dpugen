@@ -27,8 +27,7 @@ class AclGroups(ConfBase):
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
-                        'SAI_IP_ADDR_FAMILY_IPV4',
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 'SAI_IP_ADDR_FAMILY_IPV4',
                     ]
                 }
 
@@ -38,8 +37,7 @@ class AclGroups(ConfBase):
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
-                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY',
-                        'SAI_IP_ADDR_FAMILY_IPV4',
+                        'SAI_DASH_ACL_GROUP_ATTR_IP_ADDR_FAMILY', 'SAI_IP_ADDR_FAMILY_IPV4',
                     ]
                 }
 

@@ -27,8 +27,7 @@ class Vips(ConfBase):
                 'vip': '%s' % p.LOOPBACK
             },
             'attributes': [
-                'SAI_VIP_ENTRY_ATTR_ACTION',
-                'SAI_VIP_ENTRY_ACTION_ACCEPT',
+                'SAI_VIP_ENTRY_ATTR_ACTION', 'SAI_VIP_ENTRY_ACTION_ACCEPT',
             ]
         }
 

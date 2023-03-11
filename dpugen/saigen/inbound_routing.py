@@ -36,10 +36,8 @@ class InboundRouting(ConfBase):
                     "priority": 0
                 },
                 'attributes': [
-                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',
-                    'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
-                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',
-                    '$vnet_#%d' % eni
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',       'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',  '$vnet_#%d' % eni
                 ]
             }
 
