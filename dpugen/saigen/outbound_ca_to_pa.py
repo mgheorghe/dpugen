@@ -50,7 +50,7 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%d' % (eni, nsg_index, acl_index, i),
+                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%dA' % (eni, nsg_index, acl_index, i),
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
@@ -78,7 +78,7 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%d' % (eni, nsg_index, acl_index, i),
+                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%dD' % (eni, nsg_index, acl_index, i),
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
