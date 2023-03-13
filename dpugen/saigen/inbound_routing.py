@@ -24,7 +24,7 @@ class InboundRouting(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'inbound_routing_#%d' % eni,
+                'name': 'inbound_routing_#eni%d' % eni,
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
                 'key': {
@@ -37,7 +37,7 @@ class InboundRouting(ConfBase):
                 },
                 'attributes': [
                     'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',       'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
-                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',  '$vnet_#%d' % eni
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',  '$vnet_#eni%d' % eni
                 ]
             }
 

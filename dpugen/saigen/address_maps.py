@@ -27,7 +27,7 @@ class Mappings(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'eni_ether_address_map_#%d' % self.num_yields,
+                'name': 'eni_ether_address_map_#eni%d' % eni,
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_ENI_ETHER_ADDRESS_MAP_ENTRY',
                 'key': {

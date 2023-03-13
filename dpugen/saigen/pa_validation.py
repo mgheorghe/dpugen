@@ -22,20 +22,19 @@ class PaValidation(ConfBase):
             eni_ip = ipa(p.IP_L_START) + eni_index * int(ipa(p.IP_STEP_ENI))
 
             self.num_yields += 1
-            pa_validation_data = {
-                'name': 'pa_validation_#%d' % eni,
+            yield {
+                'name': 'pa_validation_#eni%d' % eni,
                 'op': 'create',
                 'type' : 'SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY',
                 'key' : {
                     'switch_id': '$SWITCH_ID',
                     'sip': str(eni_ip),
-                    'vnet_id': '$vnet_#%d' % eni
+                    'vnet_id': '$vnet_#eni%d' % eni
                 },
                 'attributes' : [
                     'SAI_PA_VALIDATION_ENTRY_ATTR_ACTION', 'SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT'
                 ]
             }
-            yield pa_validation_data
 
 
 if __name__ == '__main__':

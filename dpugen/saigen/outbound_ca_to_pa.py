@@ -50,12 +50,12 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#%d' % self.num_yields,
+                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%d' % (eni, nsg_index, acl_index, i),
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': '$vnet_#%d' % eni,
+                                    'dst_vnet_id': '$vnet_#eni%d' % eni,
                                     'dip': remote_expanded_ip
                                 },
                                 'attributes': [
@@ -78,12 +78,12 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#%d' % self.num_yields,
+                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%d' % (eni, nsg_index, acl_index, i),
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': '$vnet_#%d' % eni,
+                                    'dst_vnet_id': '$vnet_#eni%d' % eni,
                                     'dip': remote_expanded_ip
                                 },
                                 'attributes': [
@@ -107,12 +107,12 @@ class OutboundCaToPa(ConfBase):
 
                 self.num_yields += 1
                 yield {
-                    'name': 'outbound_ca_to_pa_#%d' % self.num_yields,
+                    'name': 'outbound_ca_to_pa_#eni%d' % (eni),
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                     'key': {
                         'switch_id': '$SWITCH_ID',
-                        'dst_vnet_id': '$vnet_#%d' % eni,
+                        'dst_vnet_id': '$vnet_#eni%d' % eni,
                         'dip': remote_expanded_ip
                     },
                     'attributes': [

@@ -18,12 +18,11 @@ class AclGroups(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            for stage in range(1, (p.ACL_NSG_COUNT+1)):
-                table_id = eni * 1000 + stage
+            for nsg_index in range(1, (p.ACL_NSG_COUNT+1)):
 
                 self.num_yields += 1
                 yield {
-                    'name': 'in_acl_group_#%d' % table_id,
+                    'name': 'in_acl_group_#eni%dnsg%d' % (eni, nsg_index),
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
@@ -33,7 +32,7 @@ class AclGroups(ConfBase):
 
                 self.num_yields += 1
                 yield {
-                    'name': 'out_acl_group_#%d' % table_id,
+                    'name': 'out_acl_group_#eni%dnsg%d' % (eni, nsg_index),
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
