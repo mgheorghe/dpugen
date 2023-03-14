@@ -25,7 +25,7 @@ class OutboundRouting(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             print('     route:eni:%d' % eni, file=sys.stderr)
 
-            vtep_local = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
+            vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
             IP_L = ipa(p.IP_L_START) + (eni_index - 1) * int(ipa(p.IP_STEP_ENI))
@@ -86,7 +86,7 @@ class OutboundRouting(ConfBase):
                                     'attributes': [
                                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT',
                                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#eni%d' % eni,
-                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP', vtep_local
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP', vtep_eni
                                     ]
                                 }
                                 added_route_count += 1

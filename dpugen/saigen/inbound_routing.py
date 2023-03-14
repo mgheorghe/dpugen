@@ -21,6 +21,8 @@ class InboundRouting(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             vtep_remote = ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index
+            vtep_eni = ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index
+            remote_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
 
             self.num_yields += 1
             yield {
@@ -29,10 +31,10 @@ class InboundRouting(ConfBase):
                 'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
-                    'eni_id': '%d' % eni,
-                    'vni': '%d' % eni,
-                    'sip': '%s' % vtep_remote,
-                    'sip_mask': '255.255.255.255',
+                    'eni_id': '$eni_#%d' % eni,
+                    'vni': '%d' % (eni + p.ENI_L2R_STEP),
+                    'sip': '%s' % remote_ip,
+                    'sip_mask': '255.192.0.0',
                     'priority': 0
                 },
                 'attributes': [
