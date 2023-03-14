@@ -19,7 +19,7 @@ class PaValidation(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            eni_ip = str(ipa(p.IP_L_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
+            vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
             self.num_yields += 1
             yield {
@@ -28,7 +28,7 @@ class PaValidation(ConfBase):
                 'type' : 'SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY',
                 'key' : {
                     'switch_id': '$SWITCH_ID',
-                    'sip': eni_ip,
+                    'sip': vtep_remote,
                     'vnet_id': '$vnet_#eni%d' % eni
                 },
                 'attributes' : [

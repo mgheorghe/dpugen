@@ -20,8 +20,6 @@ class InboundRouting(ConfBase):
         cp = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            vtep_remote = ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index
-            vtep_eni = ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index
             remote_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
 
             self.num_yields += 1
