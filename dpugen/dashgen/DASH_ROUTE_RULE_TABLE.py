@@ -18,29 +18,22 @@ class RouteRules(ConfBase):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
-        # optimizations:
-        IP_STEP_ENI = cp.IP_STEP_ENI
-        IP_R_START = cp.IP_R_START
-        IP_L_START = cp.IP_L_START
-        ENI_COUNT = p.ENI_COUNT
-        ENI_L2R_STEP = p.ENI_L2R_STEP
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            IP_L = IP_L_START + eni_index * IP_STEP_ENI
-            r_vpc = eni + ENI_L2R_STEP
-            IP_R = IP_R_START + eni_index * IP_STEP_ENI
+            r_vni_id = eni + p.ENI_L2R_STEP
+            vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             self.num_yields += 1
             yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" % (eni, eni): {
+                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32" % (eni, r_vni_id,vtep_remote ): {
                     "action_type": "decap",
                     "priority": "1",
-                    "protocol": "0",
+                    #"protocol": "0",
                     "pa_validation": "true",
-                    "vnet": "Vnet2"
+                    "vnet":  "vnet-%d" % r_vni_id
                 },
                 "OP": "SET"
             }
-
+'''
             self.num_yields += 1
             yield {
                 "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" % (eni, r_vpc): {
@@ -51,7 +44,7 @@ class RouteRules(ConfBase):
                 },
                 "OP": "SET"
             }
-
+'''
 
 if __name__ == "__main__":
     conf = RouteRules()
