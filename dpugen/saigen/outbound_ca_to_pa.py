@@ -35,7 +35,7 @@ class OutboundCaToPa(ConfBase):
                                 int(maca(p.MAC_R_START)) +
                                 eni_index * int(maca(p.ENI_MAC_STEP)) +
                                 (nsg_index - 1) * int(maca(p.ACL_NSG_MAC_STEP)) +
-                                (acl_index - 1) * int(maca(p.ACL_POLICY_MAC_STEP)) * 2
+                                (acl_index - 1) * int(maca(p.ACL_POLICY_MAC_STEP))
                             )
                         ).replace('-', ':')
 
