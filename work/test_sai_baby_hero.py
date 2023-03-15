@@ -122,8 +122,6 @@ class TestDpuGen:
 
     def test_udp_outbound(self, dataplane):
 
-        import io
-        mac_file = io.open('mircea-macs-ti.txt', 'wt', encoding='ascii')
         flows = []
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
@@ -191,17 +189,6 @@ class TestDpuGen:
                     over_ip.dst.increment.step = p.IP_STEP_ACL
                     over_ip.dst.increment.count = (p.ACL_RULES_NSG // 2)
 
-                    for acl_index in range (p.ACL_RULES_NSG // 2):
-                        remote_expanded_ip = str(ipa(remote_ip) + acl_index * int(ipa(p.IP_STEP_ACL)))
-                        remote_expanded_mac = str(
-                            maca(
-                                int(maca(remote_mac)) +
-                                acl_index * int(maca(p.ACL_POLICY_MAC_STEP))
-                            )
-                        ).replace('-', ':')
-
-                        mac_file.write('%s - %s \n' % (remote_expanded_ip, remote_expanded_mac))
-
                     over_udp.src_port.value = 10000
                     over_udp.dst_port.value = 20000
 
@@ -252,10 +239,6 @@ class TestDpuGen:
                     over_ip.dst.increment.start = remote_ip
                     over_ip.dst.increment.step = p.IP_STEP_ACL
                     over_ip.dst.increment.count = (p.ACL_RULES_NSG // 2)
-
-                    for acl_index in range (p.ACL_RULES_NSG // 2):
-                        remote_expanded_ip = str(ipa(remote_ip) + acl_index * int(ipa(p.IP_STEP_ACL)))
-                        mac_file.write('%s - %s \n' % (remote_expanded_ip, remote_mac))
 
                     over_udp.src_port.value = 10000
                     over_udp.dst_port.value = 20000
