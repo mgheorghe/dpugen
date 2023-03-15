@@ -22,6 +22,7 @@ class OutboundCaToPa(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
 
+            vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
             # 1 in 4 enis will have all its ips mapped
@@ -103,8 +104,7 @@ class OutboundCaToPa(ConfBase):
                         eni_index * int(maca(p.ENI_MAC_STEP))
                     )
                 ).replace('-', ':')
-                remote_expanded_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
-
+                
                 self.num_yields += 1
                 yield {
                     'name': 'outbound_ca_to_pa_#eni%d' % (eni),
@@ -113,7 +113,7 @@ class OutboundCaToPa(ConfBase):
                     'key': {
                         'switch_id': '$SWITCH_ID',
                         'dst_vnet_id': '$vnet_#eni%d' % eni,
-                        'dip': remote_expanded_ip
+                        'dip': vtep_eni
                     },
                     'attributes': [
                         'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
