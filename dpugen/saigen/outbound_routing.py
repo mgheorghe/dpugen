@@ -15,10 +15,10 @@ class OutboundRouting(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
-        self.num_yields = 0
         p = self.params
 
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))

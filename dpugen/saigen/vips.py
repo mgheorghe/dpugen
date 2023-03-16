@@ -11,10 +11,10 @@ class Vips(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
-        self.num_yields = 0
         p = self.params
 
         self.num_yields += 1

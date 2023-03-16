@@ -11,10 +11,10 @@ class AclGroups(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
-        self.num_yields = 0
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
