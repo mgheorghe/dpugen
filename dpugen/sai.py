@@ -27,8 +27,7 @@ class SaiConfig(ConfBase):
             saigen.inbound_routing.InboundRouting(self.params_dict),
             saigen.outbound_ca_to_pa.OutboundCaToPa(self.params_dict),
             saigen.outbound_routing.OutboundRouting(self.params_dict),
-            saigen.pa_validation.PaValidation(self.params_dict),
-            
+            saigen.pa_validation.PaValidation(self.params_dict)
         ]
 
     # def toDict(self):
@@ -44,6 +43,7 @@ class SaiConfig(ConfBase):
 
     def write2File(self, fformat, outfile):
         writeListFileIter(self.items(), fformat, outfile)
+
 
 if __name__ == '__main__':
     conf = SaiConfig()
