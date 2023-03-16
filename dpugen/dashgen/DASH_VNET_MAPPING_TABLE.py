@@ -20,23 +20,12 @@ class Mappings(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
-            vtep_local = cp.PAL + eni_index * cp.IP_STEP1
+            #vtep_local = cp.PAL + eni_index * cp.IP_STEP1
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
 
-            local_ip = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
-            local_mac = str(
-                macaddress.MAC(
-                    int(macaddress.MAC(p.MAC_L_START)) +
-                    eni_index * int(macaddress.MAC(p.ENI_MAC_STEP))
-                )
-            ).replace('-', ':')
 
-            self.num_yields += 1
-
-            r_mappings = []
-            r_mappings_append = r_mappings.append
             r_vni_id = eni + p.ENI_L2R_STEP
 
             if (eni % 4) == 1:
@@ -98,6 +87,7 @@ class Mappings(ConfBase):
                             debug_file.write(remote_expanded_mac + '\n')
             else:
                 # routed IPs
+                remote_expanded_ip = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
 
                 remote_expanded_mac = str(
                     macaddress.MAC(
