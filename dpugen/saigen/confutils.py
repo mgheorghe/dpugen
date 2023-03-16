@@ -64,7 +64,7 @@ def writeListFpIter(config, format, fp):
     if format == 'json':
         json.dump(config, fp, cls=IterEncoder, indent=2, separators=(',', ': '))
     else:
-        raise NotImplementedError('ERROR: unsupported format %s' % format)
+        raise NotImplementedError(f'ERROR: unsupported format {format}')
 # TODO - consider generic recursive approach
 
 
@@ -75,13 +75,13 @@ def writeDictFileIter(config, format, filename='<stdout>'):
         for key, list in config.items():
             if not first:
                 fp.write(',\n')
-            fp.write('  "%s":\n' % key)
+            fp.write(f'  "{key}":\n')
             json.dump(list, fp, cls=IterEncoder, indent=2, separators=(',', ': '))
             first = False
         fp.write('\n}\n')
 
     if format == 'json':
-        print('Writing the %s config to %s...' % (format, filename), file=sys.stderr)
+        print(f'Writing the {format} config to {filename}...', file=sys.stderr)
         if filename == '<stdout>':
             fp = sys.stdout
             _writeDictFileIter(config, fp)
@@ -89,7 +89,7 @@ def writeDictFileIter(config, format, filename='<stdout>'):
             with io.open(filename, 'wt') as fp:
                 _writeDictFileIter(config, fp)
     else:
-        raise NotImplementedError('ERROR: unsupported format %s' % format)
+        raise NotImplementedError(f'ERROR: unsupported format {format}')
 
 
 def commonArgParser():

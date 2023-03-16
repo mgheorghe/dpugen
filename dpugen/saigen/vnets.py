@@ -21,7 +21,7 @@ class Vnets(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'vnet_#eni%d' % eni,
+                'name': f'vnet_#eni{eni}',
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_VNET',
                 'attributes': [

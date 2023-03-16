@@ -8,6 +8,7 @@ from saigen.confutils import *
 
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 
+
 class PaValidation(ConfBase):
 
     def __init__(self, params={}):
@@ -23,15 +24,15 @@ class PaValidation(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'pa_validation_#eni%d' % eni,
+                'name': f'pa_validation_#eni{eni}',
                 'op': 'create',
-                'type' : 'SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY',
-                'key' : {
+                'type': 'SAI_OBJECT_TYPE_PA_VALIDATION_ENTRY',
+                'key': {
                     'switch_id': '$SWITCH_ID',
                     'sip': vtep_remote,
-                    'vnet_id': '$vnet_#eni%d' % eni
+                    'vnet_id': f'$vnet_#eni{eni}'
                 },
-                'attributes' : [
+                'attributes': [
                     'SAI_PA_VALIDATION_ENTRY_ATTR_ACTION', 'SAI_PA_VALIDATION_ENTRY_ACTION_PERMIT'
                 ]
             }

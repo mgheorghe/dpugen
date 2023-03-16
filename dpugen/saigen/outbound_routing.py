@@ -57,17 +57,17 @@ class OutboundRouting(ConfBase):
                                 # routes that have a mac mapping
                                 self.num_yields += 1
                                 yield {
-                                    'name': 'outbound_routing_#eni%dnsg%dacl%dip%dp%d' % (eni, nsg_index, acl_index, ip_index, prefix_index),
+                                    'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ip{ip_index}p{prefix_index}',
                                     'op': 'create',
                                     'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                     'key': {
                                         'switch_id': '$SWITCH_ID',
-                                        'eni_id': '$eni_#%d' % eni,
-                                        'destination': '%s/%d' % (ip_prefix, mask)
+                                        'eni_id': f'$eni_#{eni}',
+                                        'destination': f'{ip_prefix}/{mask}'
                                     },
                                     'attributes': [
                                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET',
-                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#eni%d' % eni
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', f'$vnet_#eni{eni}'
                                     ]
                                 }
                                 added_route_count += 1
@@ -75,17 +75,17 @@ class OutboundRouting(ConfBase):
                                 # routes that do not have a mac mapping
                                 self.num_yields += 1
                                 yield {
-                                    'name': 'outbound_routing_#eni%dnsg%dacl%dip%dp%d' % (eni, nsg_index, acl_index, ip_index, prefix_index),
+                                    'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ip{ip_index}p{prefix_index}',
                                     'op': 'create',
                                     'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                     'key': {
                                         'switch_id': '$SWITCH_ID',
-                                        'eni_id': '$eni_#%d' % eni,
-                                        'destination': '%s/%d' % (ip_prefix, mask)
+                                        'eni_id': f'$eni_#{eni}',
+                                        'destination': f'{ip_prefix}/{mask}'
                                     },
                                     'attributes': [
                                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT',
-                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#eni%d' % eni,
+                                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', f'$vnet_#eni{eni}',
                                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_OVERLAY_IP', vtep_eni
                                     ]
                                 }
@@ -99,17 +99,17 @@ class OutboundRouting(ConfBase):
                 remote_ip_prefix = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
                 self.num_yields += 1
                 yield {
-                    'name': 'outbound_routing_#eni%d' % eni,
+                    'name': f'outbound_routing_#eni{eni}',
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                     'key': {
                         'switch_id': '$SWITCH_ID',
-                        'eni_id': '$eni_#%d' % eni,
-                        'destination': '%s/10' % (remote_ip_prefix)
+                        'eni_id': f'$eni_#{eni}',
+                        'destination': f'{remote_ip_prefix}/10'
                     },
                     'attributes': [
                         'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET',
-                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', '$vnet_#eni%d' % eni
+                        'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_DST_VNET_ID', f'$vnet_#eni{eni}'
                     ]
                 }
 

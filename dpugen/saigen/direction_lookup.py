@@ -21,12 +21,12 @@ class DirectionLookup(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'direction_lookup_entry_#eni%d' % eni,
+                'name': f'direction_lookup_entry_#eni{eni}',
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_DIRECTION_LOOKUP_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
-                    'vni': '%d' % eni,
+                    'vni': f'{eni}',
                 },
                 'attributes': [
                     'SAI_DIRECTION_LOOKUP_ENTRY_ATTR_ACTION', 'SAI_DIRECTION_LOOKUP_ENTRY_ACTION_SET_OUTBOUND_DIRECTION'

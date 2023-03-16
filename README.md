@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/dpugen.svg)](https://badge.fury.io/py/dpugen)
+
 <Contents>
 
 - [dpugen](#dpugen)

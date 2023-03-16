@@ -27,7 +27,7 @@ class OutboundCaToPa(ConfBase):
 
             # 1 in 4 enis will have all its ips mapped
             if (eni % 4) == 1:
-                print('    mapped:eni:%d' % eni, file=sys.stderr)
+                print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                     for acl_index in range(1, (p.ACL_RULES_NSG//2+1)):
                         remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
@@ -51,12 +51,12 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%dA' % (eni, nsg_index, acl_index, i),
+                                'name': f'outbound_ca_to_pa_#eni{eni}nsg{nsg_index}acl{acl_index}i{i}A',
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': '$vnet_#eni%d' % eni,
+                                    'dst_vnet_id': f'$vnet_#eni{eni}',
                                     'dip': remote_expanded_ip
                                 },
                                 'attributes': [
@@ -79,12 +79,12 @@ class OutboundCaToPa(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                'name': 'outbound_ca_to_pa_#eni%dnsg%dacl%di%dD' % (eni, nsg_index, acl_index, i),
+                                'name': f'outbound_ca_to_pa_#eni{eni}nsg{nsg_index}acl{acl_index}i{i}D',
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': '$vnet_#eni%d' % eni,
+                                    'dst_vnet_id': f'$vnet_#eni{eni}',
                                     'dip': remote_expanded_ip
                                 },
                                 'attributes': [
@@ -96,7 +96,7 @@ class OutboundCaToPa(ConfBase):
 
             # 3 in 4 enis will have just mapping for gateway ip, for ip that are only routed and not mapped
             else:
-                print('    routed:eni:%d' % eni, file=sys.stderr)
+                print(f'    routed:eni:{eni}', file=sys.stderr)
 
                 remote_expanded_mac = str(
                     maca(
@@ -107,12 +107,12 @@ class OutboundCaToPa(ConfBase):
                 
                 self.num_yields += 1
                 yield {
-                    'name': 'outbound_ca_to_pa_#eni%d' % (eni),
+                    'name': f'outbound_ca_to_pa_#eni{eni}',
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
                     'key': {
                         'switch_id': '$SWITCH_ID',
-                        'dst_vnet_id': '$vnet_#eni%d' % eni,
+                        'dst_vnet_id': f'$vnet_#eni{eni}',
                         'dip': vtep_eni
                     },
                     'attributes': [

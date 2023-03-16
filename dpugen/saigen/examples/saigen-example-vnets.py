@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 #
 # Simple example demonstrating importing of dpugen and generating vnets only.
-import dpugen
+from pprint import pprint
+
 from saigen.confbase import *
 from saigen.confutils import *
 from saigen.vnets import *
-from pprint import pprint
+
 
 if __name__ == '__main__':
     # Override a few params.
@@ -19,9 +20,9 @@ if __name__ == '__main__':
 
     # Instantiate
     conf = Vnets(params)
-    print("Parameters used for generating:")
-    print("===============================")
+    print('Parameters used for generating:')
+    print('===============================')
     pprint(conf.params_dict)
-    print("\nGenerated configuration:")
-    print("========================")
-    pprint( [item for item in conf.items()])
+    print('\nGenerated configuration:')
+    print('========================')
+    pprint([item for item in conf.items()])

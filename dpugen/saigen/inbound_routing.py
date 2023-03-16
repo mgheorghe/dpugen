@@ -24,20 +24,20 @@ class InboundRouting(ConfBase):
 
             self.num_yields += 1
             yield {
-                'name': 'inbound_routing_#eni%d' % eni,
+                'name': f'inbound_routing_#eni{eni}',
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_INBOUND_ROUTING_ENTRY',
                 'key': {
                     'switch_id': '$SWITCH_ID',
-                    'eni_id': '$eni_#%d' % eni,
+                    'eni_id': f'$eni_#{eni}',
                     'vni': '%d' % (eni + p.ENI_L2R_STEP),
-                    'sip': '%s' % remote_ip,
+                    'sip': f'{remote_ip}',
                     'sip_mask': '255.192.0.0',
                     'priority': 0
                 },
                 'attributes': [
                     'SAI_INBOUND_ROUTING_ENTRY_ATTR_ACTION',       'SAI_INBOUND_ROUTING_ENTRY_ACTION_VXLAN_DECAP_PA_VALIDATE',
-                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',  '$vnet_#eni%d' % eni
+                    'SAI_INBOUND_ROUTING_ENTRY_ATTR_SRC_VNET_ID',  f'$vnet_#eni{eni}'
                 ]
             }
 

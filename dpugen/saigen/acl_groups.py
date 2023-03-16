@@ -22,7 +22,7 @@ class AclGroups(ConfBase):
 
                 self.num_yields += 1
                 yield {
-                    'name': 'in_acl_group_#eni%dnsg%d' % (eni, nsg_index),
+                    'name': f'in_acl_group_#eni{eni}nsg{nsg_index}',
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
@@ -32,7 +32,7 @@ class AclGroups(ConfBase):
 
                 self.num_yields += 1
                 yield {
-                    'name': 'out_acl_group_#eni%dnsg%d' % (eni, nsg_index),
+                    'name': f'out_acl_group_#eni{eni}nsg{nsg_index}',
                     'op': 'create',
                     'type': 'SAI_OBJECT_TYPE_DASH_ACL_GROUP',
                     'attributes': [
