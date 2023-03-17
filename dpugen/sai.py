@@ -4,12 +4,6 @@ import saigen
 from saigen.confbase import *
 from saigen.confutils import *
 
-print('generating config', file=sys.stderr)
-
-parser = commonArgParser()
-args = parser.parse_args()
-
-
 class SaiConfig(ConfBase):
 
     def __init__(self, params={}):
@@ -46,6 +40,11 @@ class SaiConfig(ConfBase):
 
 
 if __name__ == '__main__':
+
+    print('generating config', file=sys.stderr)
+    parser = commonArgParser()
+    args = parser.parse_args()
+
     conf = SaiConfig()
     common_parse_args(conf)
     conf.generate()
