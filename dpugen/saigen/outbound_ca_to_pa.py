@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""SAI generator for Outbound CA PA"""
 
 import os
 import sys

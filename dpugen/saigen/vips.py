@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""SAI generator for VIP"""
 
 import os
 import sys

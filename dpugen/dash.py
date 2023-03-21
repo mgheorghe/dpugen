@@ -1,8 +1,15 @@
 #!/usr/bin/python3
+"""Entry point to generate a DPU Hero test config in DASH format."""
+import sys
 
 import dashgen
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dashgen.confbase import ConfBase
+from dashgen.confutils import (
+    common_output,
+    common_parse_args,
+    commonArgParser,
+    writeListFileIter
+)
 
 print('generating config', file=sys.stderr)
 
@@ -43,6 +50,7 @@ class DashConfig(ConfBase):
 
     def write2File(self, fformat, outfile):
         writeListFileIter(self.items(), fformat, outfile)
+
 
 if __name__ == '__main__':
     conf = DashConfig()

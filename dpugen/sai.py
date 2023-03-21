@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Entry point to generate a DPU Hero test config in SAI format."""
 
 import saigen
 from saigen.confbase import *

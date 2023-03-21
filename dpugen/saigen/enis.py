@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""SAI generator for ENI"""
 
 import os
 import sys

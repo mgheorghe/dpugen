@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""SAI generator for Direction Lookup"""
 
 import os
 import sys

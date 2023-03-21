@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""SAI generator for Inbound Routing"""
 
 import os
 import sys
