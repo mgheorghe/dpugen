@@ -37,10 +37,10 @@ class IterEncoder(json.JSONEncoder):
         def __len__(self):
             raise NotImplementedError('Fakelist has no length')
 
-        def __getitem__(self, i):
+        def __getitem__(self, item):
             raise NotImplementedError('Fakelist has no getitem')
 
-        def __setitem__(self, i):
+        def __setitem__(self, item, value):
             raise NotImplementedError('Fakelist has no setitem')
 
         def __bool__(self):

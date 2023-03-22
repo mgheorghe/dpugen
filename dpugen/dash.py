@@ -43,7 +43,7 @@ class DashConfig(ConfBase):
             result.extend(c.items())
         return result
 
-    def write2File(self, fformat, outfile):
+    def write_to_file(self, fformat, outfile):
         write_list_file_iterator(self.items(), fformat, outfile)
 
 

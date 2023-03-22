@@ -10,9 +10,9 @@ class VpcMappingTypes(ConfBase):
 
     def __init__(self, params={}):
         super().__init__('vpc-mappings-routing-types', params)
+        self.num_yields = 0
 
     def items(self):
-        self.num_yields = 0
         print('  Generating %s...' % self.dictname, file=sys.stderr)
         p = self.params
         cp = self.cooked_params
