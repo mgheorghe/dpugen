@@ -5,8 +5,6 @@
 from pprint import pprint
 
 import dpugen
-from saigen.confbase import ConfBase
-from saigen.confutils import common_main
 
 # Constants for scale VNET outbound routing configuration
 NUMBER_OF_VIP = 4

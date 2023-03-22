@@ -3,7 +3,6 @@
 import io
 import os
 import sys
-from copy import deepcopy
 
 from dashgen.confbase import (
     ConfBase,
@@ -25,7 +24,7 @@ class Mappings(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
-            #vtep_local = cp.PAL + eni_index * cp.IP_STEP1
+            # vtep_local = cp.PAL + eni_index * cp.IP_STEP1
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
 
             r_vni_id = eni + p.ENI_L2R_STEP

@@ -2,7 +2,6 @@
 
 import os
 import sys
-from copy import deepcopy
 
 from dashgen.confbase import ConfBase
 from dashgen.confutils import common_main

@@ -3,7 +3,6 @@
 import math
 import os
 import sys
-from copy import deepcopy
 
 from dashgen.confbase import ConfBase
 from dashgen.confutils import common_main
@@ -19,14 +18,8 @@ class RouteTables(ConfBase):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
-        cc = 0
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-
-            ip_prefixes = []
-            ip_prefixes_append = ip_prefixes.append
-
-            IP_L = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
             added_route_count = 0
             for table_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):

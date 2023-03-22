@@ -28,18 +28,9 @@ class OutboundRouting(ConfBase):
             print('     route:eni:%d' % eni, file=sys.stderr)
 
             vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
-            vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
             IP_L = ipa(p.IP_L_START) + (eni_index - 1) * int(ipa(p.IP_STEP_ENI))
-
-            remote_gateway_mac = str(
-                maca(
-                    int(maca(p.MAC_R_START)) +
-                    eni_index * int(maca(p.ENI_MAC_STEP))
-                    #(nsg_index - 1) * int(macaddress.MAC(ACL_TABLE_MAC_STEP))
-                )
-            ).replace('-', ':')
-
+            
             added_route_count = 0
             for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):

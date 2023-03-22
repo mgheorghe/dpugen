@@ -32,16 +32,11 @@ class DashConfig(ConfBase):
             # dashgen.prefixtags.PrefixTags(self.params_dict),
         ]
 
-    # def toDict(self):
-    #     return {x.dictName(): x.items() for x in self.configs}
-
     def items(self):
         result = []
         for c in self.configs:
             result.extend(c.items())
         return result
-        #[c.items() for c in self.configs]
-        #[].extend(c.items() for c in self.configs)
 
     def write2File(self, fformat, outfile):
         write_list_file_iterator(self.items(), fformat, outfile)

@@ -5,8 +5,6 @@
 from pprint import pprint
 
 import dpugen
-from saigen.confbase import ConfBase
-from saigen.confutils import common_main
 
 if __name__ == '__main__':
     # Instantiate
