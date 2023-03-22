@@ -23,13 +23,17 @@ class TestSaigen:
             out_commands_exp = json.load(out_file)
 
         confgen = sai.SaiConfig()
-        confgen.mergeParams(in_commands)
+        confgen.merge_params(in_commands)
         confgen.generate()
         out_commands = list(confgen.items())
 
         print('OUT commands generated:')
         for item in out_commands:
             print(f"name: {item['name']}, type: {item['type']}")
+        
+        import io
+        with io.open(f'C:/github-keysight/dpugen/unittests/{config_file}-gen.json','wt',encoding='ascii') as f:
+            f.write(json.dumps(out_commands, indent=2))
 
         print('OUT commands expected:')
         for item in out_commands_exp:
