@@ -3,7 +3,7 @@
 # Simple example demonstrating importing of dpugen and generating vnets only.
 from pprint import pprint
 
-from saigen.vnets import *
+from saigen.vnets import Vnets
 
 if __name__ == '__main__':
     # Override a few params.

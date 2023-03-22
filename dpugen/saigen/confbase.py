@@ -34,7 +34,7 @@ class ConfBase(ABC):
         # https://stackoverflow.com/questions/1305532/how-to-convert-a-nested-python-dict-to-object
         self.cook_params()
         self.params = DefaultMunch.fromDict(self.params_dict)
-        #print ('%s: self.params=' , self.params)
+        # print ('%s: self.params=' , self.params)
         self.cooked_params = DefaultMunch.fromDict(self.cooked_params_dict)
         # print ("cooked_params = ", self.cooked_params)
 

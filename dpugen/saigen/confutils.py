@@ -93,9 +93,10 @@ def write_dict_file_iterator(config, format, filename='<stdout>'):
 
 
 def common_arg_parser():
-    parser = argparse.ArgumentParser(description='Generate DASH Configs',
-                                     formatter_class=argparse.RawTextHelpFormatter,
-                                     epilog=textwrap.dedent('''
+    parser = argparse.ArgumentParser(
+        description='Generate SAI Configs',
+        formatter_class=argparse.RawTextHelpFormatter,
+        epilog=textwrap.dedent('''
 Usage:
 =========
 ./generate.d.py                - generate output to stdout using uber-generator
@@ -117,11 +118,10 @@ Can use defaults; override from file; override again from cmdline (all 3 sources
 Examples:
 ./generate.d.py -d -p params_small.py -P '{'ENI_COUNT': 16}'  - use params_small.py but override ENI_COUNT; display params
 ./generate.d.py -p params_hero.py -o tmp.json                 - generate full 'hero test' scale config as json file
-saigen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of vpcmappingtypes, include meta with message            
+saigen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of vpcmappingtypes, include meta with message
 
-
-
-            '''))
+        ''')
+    )
 
     # parser.add_argument('-f', '--format', choices=['json', 'yaml'], default='json',
     parser.add_argument('-f', '--format', choices=['json'], default='json',
