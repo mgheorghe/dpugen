@@ -16,7 +16,6 @@ class Vnets(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             self.num_yields += 1

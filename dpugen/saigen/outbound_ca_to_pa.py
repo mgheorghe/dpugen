@@ -33,7 +33,7 @@ class OutboundCaToPa(ConfBase):
                 for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                     for acl_index in range(1, (p.ACL_RULES_NSG//2+1)):
                         remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + \
-                            (nsg_index -1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
+                            (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
                         remote_mac_a = str(
                             maca(
                                 int(maca(p.MAC_R_START)) +

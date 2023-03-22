@@ -15,8 +15,6 @@ class VpcMappingTypes(ConfBase):
     def items(self):
         self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
-        p = self.params
-        cp = self.cooked_params
 
         vpcmappingtypes = [
             "vpc",
