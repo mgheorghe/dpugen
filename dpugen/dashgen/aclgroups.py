@@ -39,7 +39,6 @@ class AclGroups(ConfBase):
                 rules = []
                 rappend = rules.append
                 for ip_index in range(1, (ACL_RULES_NSG+1), 2):
-                    rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
                     remote_ip_a = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (
                         table_index - 1) * IP_STEP_NSG + (ip_index - 1) * IP_STEP_ACL
 
@@ -55,7 +54,6 @@ class AclGroups(ConfBase):
                         "dst_addrs":  ip_list_a[:],
                     }
                     rappend(rule_a)
-                    rule_id_d = rule_id_a + 1
                     remote_ip_d = remote_ip_a + IP_STEP1
 
                     ip_list_d = [str(remote_ip_d + expanded_index * IP_STEPE) +
@@ -73,7 +71,6 @@ class AclGroups(ConfBase):
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
                 if ((table_index - 1) % 3) == 2:
-                    rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
                     all_ipsA = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (table_index % 6) * IP_STEP_NSG
                     all_ipsB = all_ipsA + 1 * IP_STEP_NSG
                     all_ipsC = all_ipsA + 2 * IP_STEP_NSG

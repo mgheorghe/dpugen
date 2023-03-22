@@ -7,8 +7,7 @@ import sys
 
 from saigen.confbase import (
     ConfBase,
-    ipa,
-    maca
+    ipa
 )
 from saigen.confutils import common_main
 
@@ -26,11 +25,7 @@ class OutboundRouting(ConfBase):
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             print('     route:eni:%d' % eni, file=sys.stderr)
-
             vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
-
-            IP_L = ipa(p.IP_L_START) + (eni_index - 1) * int(ipa(p.IP_STEP_ENI))
-            
             added_route_count = 0
             for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):
