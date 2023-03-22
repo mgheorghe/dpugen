@@ -7,6 +7,7 @@ from abc import (
 from copy import deepcopy
 from datetime import datetime
 
+import macaddress
 from munch import DefaultMunch
 
 from saigen.dflt_params import dflt_params
