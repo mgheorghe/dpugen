@@ -1,12 +1,15 @@
 import ipaddress
 import pprint
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod
+)
 from copy import deepcopy
 from datetime import datetime
 
-import macaddress
-from dashgen.dflt_params import dflt_params
 from munch import DefaultMunch
+
+from dashgen.dflt_params import dflt_params
 
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 maca = macaddress.MAC       # optimization so the . does not get executed multiple times

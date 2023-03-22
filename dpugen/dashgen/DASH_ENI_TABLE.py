@@ -3,7 +3,11 @@
 import os
 import sys
 
-from dashgen.confbase import ConfBase, ipa, maca
+from dashgen.confbase import (
+    ConfBase,
+    ipa,
+    maca
+)
 from dashgen.confutils import common_main
 
 

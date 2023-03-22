@@ -2,16 +2,16 @@
 # copy config.sai-baby-hero.json and this python script in https://github.com/sonic-net/DASH/tree/main/test/test-cases/functional/saic
 # run it
 
-import macaddress
 import ipaddress
-from munch import DefaultMunch
-
 import json
+import sys
+import time
 from pathlib import Path
 from pprint import pprint
-import time
+
+import macaddress
 import pytest
-import sys
+from munch import DefaultMunch
 
 sys.path.append("../utils")
 import snappi_utils as su

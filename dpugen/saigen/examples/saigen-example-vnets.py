@@ -7,7 +7,6 @@ from saigen.confbase import ConfBase
 from saigen.confutils import common_main
 from saigen.vnets import *
 
-
 if __name__ == '__main__':
     # Override a few params.
     # See saigen.dflt_params.py for complete list

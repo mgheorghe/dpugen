@@ -4,7 +4,10 @@
 import os
 import sys
 
-from saigen.confbase import ConfBase, ipa
+from saigen.confbase import (
+    ConfBase,
+    ipa
+)
 from saigen.confutils import common_main
 
 

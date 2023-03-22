@@ -5,7 +5,11 @@ import math
 import os
 import sys
 
-from saigen.confbase import ConfBase, ipa, maca
+from saigen.confbase import (
+    ConfBase,
+    ipa,
+    maca
+)
 from saigen.confutils import common_main
 
 

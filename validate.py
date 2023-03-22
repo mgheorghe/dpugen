@@ -1,7 +1,9 @@
-import os
 import json
+import os
+
 import yaml
 from yangson import DataModel
+
 os.chdir(r"/home/mircea/cgyang/models")
 
 

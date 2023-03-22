@@ -5,9 +5,9 @@ import sys
 import dashgen
 from dashgen.confbase import ConfBase
 from dashgen.confutils import (
+    common_arg_parser,
     common_output,
     common_parse_args,
-    common_arg_parser,
     write_list_file_iterator
 )
 

@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 
+import sys
+from copy import deepcopy
+
 from saigen.confbase import ConfBase
 from saigen.confutils import common_main
-from copy import deepcopy
-import sys
+
+
 class AclGroups(ConfBase):
 
     def __init__(self, params={}):
