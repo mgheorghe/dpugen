@@ -20,6 +20,7 @@ jobs:
           use-mypy: false
           use-isort: true
           extra-isort-options: "--line-length 160 --wrap-length 80 --multi-line 3 --project dpugen --project dashgen --project saigen --force-grid-wrap 2"
+
   python-flake8:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +35,63 @@ jobs:
           use-mypy: false
           use-isort: false
           extra-flake8-options: "--max-line-length 160"
+
+  python-black:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "dpugen"
+          use-pylint: false
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: true
+          use-mypy: false
+          use-isort: false
+          extra-black-options: ""
+
+  python-pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "dpugen"
+          use-pylint: true
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: false
+          use-mypy: false
+          use-isort: false
+          extra-pylint-options: ""
+
+  python-pycodestyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "dpugen"
+          use-pylint: false
+          use-pycodestyle: true
+          use-flake8: false
+          use-black: false
+          use-mypy: false
+          use-isort: false
+          extra-pycodestyle-options: ""
+
+  python-mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "dpugen"
+          use-pylint: false
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: false
+          use-mypy: true
+          use-isort: false
+          extra-mypy-options: ""
