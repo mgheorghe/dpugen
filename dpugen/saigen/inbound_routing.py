@@ -4,10 +4,9 @@
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase, ipa
+from saigen.confutils import common_main
 
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 
 class InboundRouting(ConfBase):
 

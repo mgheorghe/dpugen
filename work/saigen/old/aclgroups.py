@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import common_main
 from copy import deepcopy
 import sys
 class AclGroups(ConfBase):

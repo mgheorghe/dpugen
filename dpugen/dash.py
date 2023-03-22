@@ -7,14 +7,9 @@ from dashgen.confbase import ConfBase
 from dashgen.confutils import (
     common_output,
     common_parse_args,
-    commonArgParser,
-    writeListFileIter
+    common_arg_parser,
+    write_list_file_iterator
 )
-
-print('generating config', file=sys.stderr)
-
-parser = commonArgParser()
-args = parser.parse_args()
 
 
 class DashConfig(ConfBase):
@@ -49,10 +44,15 @@ class DashConfig(ConfBase):
         #[].extend(c.items() for c in self.configs)
 
     def write2File(self, fformat, outfile):
-        writeListFileIter(self.items(), fformat, outfile)
+        write_list_file_iterator(self.items(), fformat, outfile)
 
 
 if __name__ == '__main__':
+
+    print('generating config', file=sys.stderr)
+    parser = common_arg_parser()
+    args = parser.parse_args()
+
     conf = DashConfig()
     common_parse_args(conf)
     conf.generate()

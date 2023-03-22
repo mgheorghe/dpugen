@@ -6,8 +6,7 @@ from datetime import datetime
 
 import macaddress
 from munch import DefaultMunch
-
-from saigen.dflt_params import *
+from saigen.dflt_params import dflt_params
 
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 maca = macaddress.MAC       # optimization so the . does not get executed multiple times
@@ -19,23 +18,23 @@ class ConfBase(ABC):
         self.dflt_params = deepcopy(defaults if defaults is not None else dflt_params)
         self.cooked_params = {}
         params = params or {}
-        self.mergeParams(params)
+        self.merge_params(params)
         self.num_yields = 0
 
-    def mergeParams(self, params):
+    def merge_params(self, params):
         # Merge provided params into/onto defaults
         self.params_dict = deepcopy(self.dflt_params)
         self.params_dict.update(params)
 
         # make scalar attributes for speed & brevity (compared to dict)
         # https://stackoverflow.com/questions/1305532/how-to-convert-a-nested-python-dict-to-object
-        self.cookParams()
+        self.cook_params()
         self.params = DefaultMunch.fromDict(self.params_dict)
         #print ('%s: self.params=' , self.params)
         self.cooked_params = DefaultMunch.fromDict(self.cooked_params_dict)
         # print ("cooked_params = ", self.cooked_params)
 
-    def cookParams(self):
+    def cook_params(self):
         self.cooked_params_dict = {}
         for ip in [
             'IP_STEP1',
@@ -63,26 +62,23 @@ class ConfBase(ABC):
         pass
 
     # expensive - runs generator
-    def itemCount(self):
+    def item_count(self):
         return len(self.items())
 
-    def itemsGenerated(self):
+    def items_generated(self):
         ''' Last count of # yields, reset each time at beginning'''
         return self.num_yields
 
-    # def toDict(self):
-    #     return {self.dictname: list(self.items())}
-
-    def getParams(self):
+    def get_params(self):
         return self.params_dict
 
-    def getMeta(self, message=''):
+    def get_meta(self, message=''):
         '''Generate metadata. For reference, could also add e.g. data to help drive tests'''
         return {
             'meta': {
                 'tstamp': datetime.now().strftime('%m/%d/%Y, %H:%M:%S'),
                 'msg': message,
-                'params': self.getParams()
+                'params': self.get_params()
             }
         }
 

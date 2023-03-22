@@ -52,47 +52,47 @@ class IterEncoder(json.JSONEncoder):
         return super().default(o)
 
 
-def writeListFileIter(config, format, filename='<stdout>'):
+def write_list_file_iterator(config, format, filename='<stdout>'):
     if filename == '<stdout>':
-        writeListFpIter(config, format, sys.stdout)
+        write_list_file_pointer_iterator(config, format, sys.stdout)
     else:
-        with io.open(filename, 'wt') as fp:
-            writeListFpIter(config, format, fp)
+        with io.open(filename, 'wt') as file_pointer:
+            write_list_file_pointer_iterator(config, format, file_pointer)
 
 
-def writeListFpIter(config, format, fp):
+def write_list_file_pointer_iterator(config, format, file_pointer):
     if format == 'json':
-        json.dump(config, fp, cls=IterEncoder, indent=2, separators=(',', ': '))
+        json.dump(config, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
     else:
-        raise NotImplementedError('ERROR: unsupported format %s' % format)
+        raise NotImplementedError(f'ERROR: unsupported format {format}')
 # TODO - consider generic recursive approach
 
 
-def writeDictFileIter(config, format, filename='<stdout>'):
-    def _writeDictFileIter(config, fp):
-        fp.write('{\n')
+def write_dict_file_iterator(config, format, filename='<stdout>'):
+    def _write_dict_file_iterator(config, file_pointer):
+        file_pointer.write('{\n')
         first = True
         for key, list in config.items():
             if not first:
-                fp.write(',\n')
-            fp.write('  "%s":\n' % key)
-            json.dump(list, fp, cls=IterEncoder, indent=2, separators=(',', ': '))
+                file_pointer.write(',\n')
+            file_pointer.write(f'  "{key}":\n')
+            json.dump(list, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
             first = False
-        fp.write('\n}\n')
+        file_pointer.write('\n}\n')
 
     if format == 'json':
-        print('Writing the %s config to %s...' % (format, filename), file=sys.stderr)
+        print(f'Writing the {format} config to {filename}...', file=sys.stderr)
         if filename == '<stdout>':
-            fp = sys.stdout
-            _writeDictFileIter(config, fp)
+            file_pointer = sys.stdout
+            _write_dict_file_iterator(config, file_pointer)
         else:
-            with io.open(filename, 'wt') as fp:
-                _writeDictFileIter(config, fp)
+            with io.open(filename, 'wt') as file_pointer:
+                _write_dict_file_iterator(config, file_pointer)
     else:
-        raise NotImplementedError('ERROR: unsupported format %s' % format)
+        raise NotImplementedError(f'ERROR: unsupported format {format}')
 
 
-def commonArgParser():
+def common_arg_parser():
     parser = argparse.ArgumentParser(description='Generate DASH Configs',
                                      formatter_class=argparse.RawTextHelpFormatter,
                                      epilog=textwrap.dedent('''
@@ -146,28 +146,28 @@ dashgen/vpcmappingtypes.py -m -M 'Kewl Config!'               - generate dict of
                         help='use parameter dict from file, partial is OK; overrides defaults')
 
     parser.add_argument(
-        '-o', '--output', default='dash-mir1.json', metavar='OFILE',
+        '-o', '--output', default='<stdout>', metavar='OFILE',
         help='Output file (default: standard output)')
 
     return parser
 
 
 def common_parse_args(self):
-    parser = commonArgParser()
+    parser = common_arg_parser()
     self.args = parser.parse_args()
 
     # Prams from file override defaults; params from cmd-line override all
     params = {}
     if self.args.param_file:
-        with io.open(self.args.param_file, 'r') as fp:
-            params = eval(fp.read())
+        with io.open(self.args.param_file, 'r') as file_pointer:
+            params = eval(file_pointer.read())
     if self.args.set_params:
         params.update(eval(self.args.set_params))
-    self.mergeParams(params)
+    self.merge_params(params)
 
     if self.args.dump_params:
         print(self.params_dict)
-        exit()
+        sys.exit()
 
 
 def common_output(self):
@@ -176,13 +176,13 @@ def common_output(self):
     # if self.args.content == 'dict':
     #     d = self.toDict()
     #     if (self.args.meta):
-    #         d.update(self.getMeta(self.args.msg))
+    #         d.update(self.get_meta(self.args.msg))
     #     # streaming dict output:
-    #     writeDictFileIter(d, self.args.format, self.args.output)
+    #     write_dict_file_iterator(d, self.args.format, self.args.output)
 
     # elif self.args.content == 'list':
     #     # streaming list output:
-    writeListFileIter(self.items(), self.args.format, self.args.output)
+    write_list_file_iterator(self.items(), self.args.format, self.args.output)
     # else:
     #     raise Exception('Unknown content specifier: '%s'' % self.args.content)
 

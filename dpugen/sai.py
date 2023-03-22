@@ -1,9 +1,17 @@
 #!/usr/bin/python3
 """Entry point to generate a DPU Hero test config in SAI format."""
 
+import sys
+
 import saigen
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import (
+    common_arg_parser,
+    common_output,
+    common_parse_args,
+    write_list_file_iterator
+)
+
 
 class SaiConfig(ConfBase):
 
@@ -37,13 +45,13 @@ class SaiConfig(ConfBase):
         #[].extend(c.items() for c in self.configs)
 
     def write2File(self, fformat, outfile):
-        writeListFileIter(self.items(), fformat, outfile)
+        write_list_file_iterator(self.items(), fformat, outfile)
 
 
 if __name__ == '__main__':
 
     print('generating config', file=sys.stderr)
-    parser = commonArgParser()
+    parser = common_arg_parser()
     args = parser.parse_args()
 
     conf = SaiConfig()

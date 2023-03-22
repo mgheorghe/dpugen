@@ -4,11 +4,8 @@
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
-
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
-maca = macaddress.MAC       # optimization so the . does not get executed multiple times
+from saigen.confbase import ConfBase, ipa, maca
+from saigen.confutils import common_main
 
 
 class OutboundCaToPa(ConfBase):
@@ -105,7 +102,7 @@ class OutboundCaToPa(ConfBase):
                         eni_index * int(maca(p.ENI_MAC_STEP))
                     )
                 ).replace('-', ':')
-                
+
                 self.num_yields += 1
                 yield {
                     'name': f'outbound_ca_to_pa_#eni{eni}',

@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 
+import os
 import sys
 from copy import deepcopy
-import os
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dashgen.confbase import ConfBase
+from dashgen.confutils import common_main
 
 
 class Vpcs(ConfBase):

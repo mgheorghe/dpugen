@@ -4,8 +4,8 @@
 # configuration using specified scaling parameters.
 from pprint import pprint
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import common_main
 
 import dpugen
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     conf = dpugen.sai.SaiConfig(TEST_VNET_OUTBOUND_CONFIG_SCALE)
     # Alternate way:
     # conf = dpugen.sai.SaiConfig()
-    # conf.mergeParams(TEST_VNET_OUTBOUND_CONFIG_SCALE)
+    # conf.merge_params(TEST_VNET_OUTBOUND_CONFIG_SCALE)
     conf.generate()
     print('Parameters used for generating:')
     print('===============================')

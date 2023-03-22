@@ -3,8 +3,8 @@
 import sys
 from copy import deepcopy
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import common_main
 
 
 class RoutingAppliances(ConfBase):

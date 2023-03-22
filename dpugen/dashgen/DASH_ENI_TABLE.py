@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-import sys
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dashgen.confbase import ConfBase, ipa, maca
+from dashgen.confutils import common_main
 
 
 class Enis(ConfBase):
@@ -19,8 +19,8 @@ class Enis(ConfBase):
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            local_mac = str(macaddress.MAC(int(cp.MAC_L_START)+eni_index*int(macaddress.MAC(p.ENI_MAC_STEP)))).replace('-', ':')
-            vm_underlay_dip = str(ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1)))
+            local_mac = str(maca(int(cp.MAC_L_START)+eni_index*int(maca(p.ENI_MAC_STEP)))).replace('-', ':')
+            vm_underlay_dip = str(ipa(p.PAL) + eni_index * int(ipa(p.IP_STEP1)))
 
             acl_nsgs_in = []
             acl_nsgs_out = []

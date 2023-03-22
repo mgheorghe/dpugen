@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-import sys
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dashgen.confbase import ConfBase
+from dashgen.confutils import common_main
 
 
 class Appliance(ConfBase):

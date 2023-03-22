@@ -2,8 +2,8 @@
 
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import common_main
 
 
 class PrefixTags(ConfBase):

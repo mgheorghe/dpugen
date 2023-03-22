@@ -3,8 +3,8 @@
 # Simple example demonstrating importing of dpugen and generating vnets only.
 from pprint import pprint
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase
+from saigen.confutils import common_main
 from saigen.vnets import *
 
 

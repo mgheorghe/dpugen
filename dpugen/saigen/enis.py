@@ -4,8 +4,8 @@
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase, ipa
+from saigen.confutils import common_main
 
 
 class Enis(ConfBase):
@@ -19,7 +19,7 @@ class Enis(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            vm_underlay_dip = str(ipaddress.ip_address(p.PAL) + eni_index * int(ipaddress.ip_address(p.IP_STEP1)))
+            vm_underlay_dip = str(ipa(p.PAL) + eni_index * int(ipa(p.IP_STEP1)))
 
             eni_data = {
                 'name': f'eni_#{eni}',

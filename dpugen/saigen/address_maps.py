@@ -4,8 +4,8 @@
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from saigen.confbase import ConfBase, maca
+from saigen.confutils import common_main
 
 
 class Mappings(ConfBase):
@@ -21,8 +21,8 @@ class Mappings(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
 
             eni_mac = str(
-                macaddress.MAC(
-                    int(macaddress.MAC(p.MAC_L_START)) + eni_index * int(macaddress.MAC(p.ENI_MAC_STEP))
+                maca(
+                    int(maca(p.MAC_L_START)) + eni_index * int(maca(p.ENI_MAC_STEP))
                 )
             ).replace('-', ':')
 
