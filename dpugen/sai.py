@@ -3,7 +3,19 @@
 
 import sys
 
-import saigen
+import saigen.acl_groups
+import saigen.address_maps
+import saigen.confbase
+import saigen.confutils
+import saigen.dflt_params
+import saigen.direction_lookup
+import saigen.enis
+import saigen.inbound_routing
+import saigen.outbound_ca_to_pa
+import saigen.outbound_routing
+import saigen.pa_validation
+import saigen.vips
+import saigen.vnets
 from saigen.confbase import ConfBase
 from saigen.confutils import (
     common_arg_parser,

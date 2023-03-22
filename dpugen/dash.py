@@ -2,7 +2,12 @@
 """Entry point to generate a DPU Hero test config in DASH format."""
 import sys
 
-import dashgen
+import dashgen.DASH_APPLIANCE_TABLE
+import dashgen.DASH_ENI_TABLE
+import dashgen.DASH_ROUTE_RULE_TABLE
+import dashgen.DASH_ROUTE_TABLE
+import dashgen.DASH_VNET_MAPPING_TABLE
+import dashgen.DASH_VNET_TABLE
 from dashgen.confbase import ConfBase
 from dashgen.confutils import (
     common_arg_parser,
