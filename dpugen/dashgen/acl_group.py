@@ -4,9 +4,8 @@ import os
 import sys
 from copy import deepcopy
 
-from confbase import ConfBase
-
-from dashgen.confutils import common_main
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class AclGroups(ConfBase):

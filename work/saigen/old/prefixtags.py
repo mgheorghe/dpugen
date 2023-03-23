@@ -3,8 +3,7 @@
 import sys
 
 from confbase import ConfBase
-
-from saigen.confutils import common_main
+from confutils import common_main
 
 
 class PrefixTags(ConfBase):

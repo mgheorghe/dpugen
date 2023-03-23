@@ -4,9 +4,8 @@ import math
 import os
 import sys
 
-from confbase import ConfBase
-
-from dashgen.confutils import common_main
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class RouteTables(ConfBase):

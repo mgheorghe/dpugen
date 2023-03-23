@@ -4,9 +4,8 @@
 import os
 import sys
 
-from confbase import ConfBase
-
-from saigen.confutils import common_main
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class Vips(ConfBase):

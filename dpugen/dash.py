@@ -2,12 +2,12 @@
 """Entry point to generate a DPU Hero test config in DASH format."""
 import sys
 
-import dashgen.dash_appliance_table
-import dashgen.dash_eni_table
-import dashgen.dash_route_rule_table
-import dashgen.dash_route_table
-import dashgen.dash_vnet_mapping_table
-import dashgen.dash_vnet_table
+import dpugen.dashgen.dash_appliance_table
+import dpugen.dashgen.dash_eni_table
+import dpugen.dashgen.dash_route_rule_table
+import dpugen.dashgen.dash_route_table
+import dpugen.dashgen.dash_vnet_mapping_table
+import dpugen.dashgen.dash_vnet_table
 
 from .confbase import ConfBase
 from .confutils import (
@@ -26,15 +26,15 @@ class DashConfig(ConfBase):
     def generate(self):
         # Pass top-level params to sub-generators.
         self.configs = [
-            dashgen.dash_appliance_table.Appliance(self.params_dict),
-            dashgen.dash_vnet_table.Vnets(self.params_dict),
-            dashgen.dash_eni_table.Enis(self.params_dict),
+            dpugen.dashgen.dash_appliance_table.Appliance(self.params_dict),
+            dpugen.dashgen.dash_vnet_table.Vnets(self.params_dict),
+            dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
             # dashgen.acl_group.AclGroups(self.params_dict),
             # dashgen.vpc.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
-            dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
-            dashgen.dash_route_table.RouteTables(self.params_dict),
-            dashgen.dash_route_rule_table.RouteRules(self.params_dict),
+            dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            dpugen.dashgen.dash_route_table.RouteTables(self.params_dict),
+            dpugen.dashgen.dash_route_rule_table.RouteRules(self.params_dict),
             # dashgen.prefix_tag.PrefixTags(self.params_dict),
         ]
 

@@ -3,16 +3,16 @@
 
 import sys
 
-import saigen.acl_group
-import saigen.address_maps
-import saigen.direction_lookup
-import saigen.enis
-import saigen.inbound_routing
-import saigen.outbound_ca_to_pa
-import saigen.outbound_routing
-import saigen.pa_validation
-import saigen.vips
-import saigen.vnets
+import dpugen.saigen.acl_group
+import dpugen.saigen.address_maps
+import dpugen.saigen.direction_lookup
+import dpugen.saigen.enis
+import dpugen.saigen.inbound_routing
+import dpugen.saigen.outbound_ca_to_pa
+import dpugen.saigen.outbound_routing
+import dpugen.saigen.pa_validation
+import dpugen.saigen.vips
+import dpugen.saigen.vnets
 
 from .confbase import ConfBase
 from .confutils import (
@@ -31,16 +31,16 @@ class SaiConfig(ConfBase):
     def generate(self):
         # Pass top-level params to sub-generators.
         self.configs = [
-            saigen.vips.Vips(self.params_dict),
-            saigen.direction_lookup.DirectionLookup(self.params_dict),
-            saigen.vnets.Vnets(self.params_dict),
-            saigen.acl_group.AclGroups(self.params_dict),
-            saigen.enis.Enis(self.params_dict),
-            saigen.address_maps.Mappings(self.params_dict),
-            saigen.inbound_routing.InboundRouting(self.params_dict),
-            saigen.outbound_ca_to_pa.OutboundCaToPa(self.params_dict),
-            saigen.outbound_routing.OutboundRouting(self.params_dict),
-            saigen.pa_validation.PaValidation(self.params_dict)
+            dpugen.saigen.vips.Vips(self.params_dict),
+            dpugen.saigen.direction_lookup.DirectionLookup(self.params_dict),
+            dpugen.saigen.vnets.Vnets(self.params_dict),
+            dpugen.saigen.acl_group.AclGroups(self.params_dict),
+            dpugen.saigen.enis.Enis(self.params_dict),
+            dpugen.saigen.address_maps.Mappings(self.params_dict),
+            dpugen.saigen.inbound_routing.InboundRouting(self.params_dict),
+            dpugen.saigen.outbound_ca_to_pa.OutboundCaToPa(self.params_dict),
+            dpugen.saigen.outbound_routing.OutboundRouting(self.params_dict),
+            dpugen.saigen.pa_validation.PaValidation(self.params_dict)
         ]
 
     def items(self):

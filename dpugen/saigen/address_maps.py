@@ -4,12 +4,11 @@
 import os
 import sys
 
-from confbase import (
+from dpugen.confbase import (
     ConfBase,
     maca
 )
-
-from saigen.confutils import common_main
+from dpugen.confutils import common_main
 
 
 class Mappings(ConfBase):
