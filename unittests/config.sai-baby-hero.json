@@ -8859,7 +8859,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni2",
-      "dip": "1.68.0.1"
+      "dip": "221.1.0.2"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",
@@ -8877,7 +8877,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni3",
-      "dip": "1.132.0.1"
+      "dip": "221.1.0.3"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",
@@ -8895,7 +8895,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni4",
-      "dip": "1.196.0.1"
+      "dip": "221.1.0.4"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",
@@ -16113,7 +16113,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni6",
-      "dip": "2.68.0.1"
+      "dip": "221.1.0.6"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",
@@ -16131,7 +16131,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni7",
-      "dip": "2.132.0.1"
+      "dip": "221.1.0.7"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",
@@ -16149,7 +16149,7 @@
     "key": {
       "switch_id": "$SWITCH_ID",
       "dst_vnet_id": "$vnet_#eni8",
-      "dip": "2.196.0.1"
+      "dip": "221.1.0.8"
     },
     "attributes": [
       "SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP",

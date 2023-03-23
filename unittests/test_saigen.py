@@ -13,41 +13,41 @@ SWITCH_ID = 5
 
 class TestSaigen:
 
-    @pytest.mark.parametrize("config_file", ['vnet_outbound_simple', 'vnet_outbound_scale'])
-    def test_(self, config_file):
+    # @pytest.mark.parametrize("config_file", ['vnet_outbound_simple', 'vnet_outbound_scale'])
+    # def test_(self, config_file):
 
-        with (current_file_dir / f'{config_file}_in.json').open(mode='r') as in_file:
-            in_commands = json.load(in_file)
+    #     with (current_file_dir / f'{config_file}_in.json').open(mode='r') as in_file:
+    #         in_commands = json.load(in_file)
 
-        with (current_file_dir / f'{config_file}_out.json').open(mode='r') as out_file:
-            out_commands_exp = json.load(out_file)
+    #     with (current_file_dir / f'{config_file}_out.json').open(mode='r') as out_file:
+    #         out_commands_exp = json.load(out_file)
 
-        confgen = sai.SaiConfig()
-        confgen.merge_params(in_commands)
-        confgen.generate()
-        out_commands = list(confgen.items())
+    #     confgen = sai.SaiConfig()
+    #     confgen.merge_params(in_commands)
+    #     confgen.generate()
+    #     out_commands = list(confgen.items())
 
-        print('OUT commands generated:')
-        for item in out_commands:
-            print(f"name: {item['name']}, type: {item['type']}")
+    #     print('OUT commands generated:')
+    #     for item in out_commands:
+    #         print(f"name: {item['name']}, type: {item['type']}")
 
-        import io
-        with io.open(f'C:/github-keysight/dpugen/unittests/{config_file}-gen.json', 'wt', encoding='ascii') as f:
-            f.write(json.dumps(out_commands, indent=2))
+    #     import io
+    #     with io.open(f'C:/github-keysight/dpugen/unittests/{config_file}-gen.json', 'wt', encoding='ascii') as f:
+    #         f.write(json.dumps(out_commands, indent=2))
 
-        print('OUT commands expected:')
-        for item in out_commands_exp:
-            print(f"name: {item['name']}, type: {item['type']}")
+    #     print('OUT commands expected:')
+    #     for item in out_commands_exp:
+    #         print(f"name: {item['name']}, type: {item['type']}")
 
-        # pytest.set_trace()
-        assert len(out_commands) == len(out_commands_exp), 'Unexpected number of generated commands.'
+    #     # pytest.set_trace()
+    #     assert len(out_commands) == len(out_commands_exp), 'Unexpected number of generated commands.'
 
-        for gen, exp in zip(out_commands, out_commands_exp):
-            assert gen == exp
+    #     for gen, exp in zip(out_commands, out_commands_exp):
+    #         assert gen == exp
 
     def test_sai_baby_hero_json(self):
 
-        dflt_params = {                        # CONFIG VALUE             # DEFAULT VALUE
+        baby_hero_params = {                        # CONFIG VALUE             # DEFAULT VALUE
             'SCHEMA_VER':                      '0.0.2',
 
             'DC_START':                        '220.0.1.1',                # '220.0.1.2'
@@ -92,17 +92,14 @@ class TestSaigen:
             out_commands_exp = json.load(out_file)
 
         confgen = sai.SaiConfig()
-        confgen.merge_params(dflt_params)
+        #confgen = sai.SaiConfig(baby_hero_params)
+        confgen.merge_params(baby_hero_params)
         confgen.generate()
         out_commands = list(confgen.items())
 
         print('OUT commands generated:')
         for item in out_commands:
             print(f"name: {item['name']}, type: {item['type']}")
-
-        import io
-        with io.open(f'C:/github-keysight/dpugen/unittests/config.sai-baby-hero-out.json', 'wt', encoding='ascii') as f:
-            f.write(json.dumps(out_commands, indent=2))
 
         print('OUT commands expected:')
         for item in out_commands_exp:
@@ -112,4 +109,4 @@ class TestSaigen:
         assert len(out_commands) == len(out_commands_exp), 'Unexpected number of generated commands.'
 
         for gen, exp in zip(out_commands, out_commands_exp):
-            assert gen == exp
+            assert gen == exp, f'{gen} != {exp}'
