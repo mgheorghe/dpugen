@@ -3,9 +3,9 @@
 
 import sys
 
-from confbase import ConfBase
+from .confbase import ConfBase
 
-import saigen.acl_groups
+import saigen.acl_group
 import saigen.address_maps
 import saigen.direction_lookup
 import saigen.enis
@@ -34,7 +34,7 @@ class SaiConfig(ConfBase):
             saigen.vips.Vips(self.params_dict),
             saigen.direction_lookup.DirectionLookup(self.params_dict),
             saigen.vnets.Vnets(self.params_dict),
-            saigen.acl_groups.AclGroups(self.params_dict),
+            saigen.acl_group.AclGroups(self.params_dict),
             saigen.enis.Enis(self.params_dict),
             saigen.address_maps.Mappings(self.params_dict),
             saigen.inbound_routing.InboundRouting(self.params_dict),

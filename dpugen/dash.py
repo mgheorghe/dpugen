@@ -4,12 +4,12 @@ import sys
 
 from confbase import ConfBase
 
-import dashgen.DASH_APPLIANCE_TABLE
-import dashgen.DASH_ENI_TABLE
-import dashgen.DASH_ROUTE_RULE_TABLE
-import dashgen.DASH_ROUTE_TABLE
-import dashgen.DASH_VNET_MAPPING_TABLE
-import dashgen.DASH_VNET_TABLE
+import dashgen.dash_appliance_table
+import dashgen.dash_eni_table
+import dashgen.dash_route_rule_table
+import dashgen.dash_route_table
+import dashgen.dash_vnet_mapping_table
+import dashgen.dash_vnet_table
 from dashgen.confutils import (
     common_arg_parser,
     common_output,
@@ -26,16 +26,16 @@ class DashConfig(ConfBase):
     def generate(self):
         # Pass top-level params to sub-generators.
         self.configs = [
-            dashgen.DASH_APPLIANCE_TABLE.Appliance(self.params_dict),
-            dashgen.DASH_VNET_TABLE.Vnets(self.params_dict),
-            dashgen.DASH_ENI_TABLE.Enis(self.params_dict),
-            # dashgen.aclgroups.AclGroups(self.params_dict),
-            # dashgen.vpcs.Vpcs(self.params_dict),
+            dashgen.dash_appliance_table.Appliance(self.params_dict),
+            dashgen.dash_vnet_table.Vnets(self.params_dict),
+            dashgen.dash_eni_table.Enis(self.params_dict),
+            # dashgen.acl_group.AclGroups(self.params_dict),
+            # dashgen.vpc.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
-            dashgen.DASH_VNET_MAPPING_TABLE.Mappings(self.params_dict),
-            dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
-            dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
-            # dashgen.prefixtags.PrefixTags(self.params_dict),
+            dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            dashgen.dash_route_table.RouteTables(self.params_dict),
+            dashgen.dash_route_rule_table.RouteRules(self.params_dict),
+            # dashgen.prefix_tag.PrefixTags(self.params_dict),
         ]
 
     def items(self):
