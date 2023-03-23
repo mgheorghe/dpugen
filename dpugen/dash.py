@@ -8,7 +8,7 @@ import dashgen.DASH_ROUTE_RULE_TABLE
 import dashgen.DASH_ROUTE_TABLE
 import dashgen.DASH_VNET_MAPPING_TABLE
 import dashgen.DASH_VNET_TABLE
-from dashgen.confbase import ConfBase
+from confbase import ConfBase
 from dashgen.confutils import (
     common_arg_parser,
     common_output,

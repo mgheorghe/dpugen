@@ -3,7 +3,7 @@
 import os
 import sys
 
-from dashgen.confbase import ConfBase
+from confbase import ConfBase
 from dashgen.confutils import common_main
 
 

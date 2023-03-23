@@ -4,7 +4,7 @@ import io
 import os
 import sys
 
-from dashgen.confbase import (
+from confbase import (
     ConfBase,
     maca
 )

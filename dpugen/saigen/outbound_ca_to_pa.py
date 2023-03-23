@@ -4,7 +4,7 @@
 import os
 import sys
 
-from saigen.confbase import (
+from confbase import (
     ConfBase,
     ipa,
     maca

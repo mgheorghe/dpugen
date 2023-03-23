@@ -2,7 +2,7 @@
 
 import sys
 
-from saigen.confbase import ConfBase
+from confbase import ConfBase
 from saigen.confutils import common_main
 
 
