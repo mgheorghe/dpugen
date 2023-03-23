@@ -8,8 +8,9 @@ from copy import deepcopy
 from datetime import datetime
 
 import macaddress
-from dflt_params import dflt_params
 from munch import DefaultMunch
+
+from .dflt_params import dflt_params
 
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 maca = macaddress.MAC       # optimization so the . does not get executed multiple times
