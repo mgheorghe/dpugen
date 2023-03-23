@@ -5,6 +5,7 @@ import os
 import sys
 
 from confbase import ConfBase
+
 from saigen.confutils import common_main
 
 

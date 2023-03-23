@@ -8,6 +8,7 @@ from confbase import (
     ipa,
     maca
 )
+
 from dashgen.confutils import common_main
 
 

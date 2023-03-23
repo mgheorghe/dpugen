@@ -8,6 +8,7 @@ from confbase import (
     ConfBase,
     maca
 )
+
 from saigen.confutils import common_main
 
 

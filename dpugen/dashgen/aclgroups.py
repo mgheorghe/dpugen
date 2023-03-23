@@ -5,6 +5,7 @@ import sys
 from copy import deepcopy
 
 from confbase import ConfBase
+
 from dashgen.confutils import common_main
 
 

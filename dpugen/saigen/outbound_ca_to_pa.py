@@ -9,6 +9,7 @@ from confbase import (
     ipa,
     maca
 )
+
 from saigen.confutils import common_main
 
 

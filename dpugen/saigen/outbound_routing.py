@@ -9,6 +9,7 @@ from confbase import (
     ConfBase,
     ipa
 )
+
 from saigen.confutils import common_main
 
 

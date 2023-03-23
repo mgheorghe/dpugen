@@ -8,6 +8,7 @@ from confbase import (
     ConfBase,
     maca
 )
+
 from dashgen.confutils import common_main
 
 

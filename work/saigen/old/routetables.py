@@ -5,6 +5,7 @@ import sys
 from copy import deepcopy
 
 from confbase import ConfBase
+
 from saigen.confutils import common_main
 
 

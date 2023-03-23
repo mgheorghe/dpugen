@@ -3,6 +3,8 @@
 
 import sys
 
+from confbase import ConfBase
+
 import saigen.acl_groups
 import saigen.address_maps
 import saigen.direction_lookup
@@ -13,7 +15,6 @@ import saigen.outbound_routing
 import saigen.pa_validation
 import saigen.vips
 import saigen.vnets
-from confbase import ConfBase
 from saigen.confutils import (
     common_arg_parser,
     common_output,
