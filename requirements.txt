@@ -1,7 +1,3 @@
-pyang
-pyangbind
-yangson
 munch
 macaddress
 ipaddress
-pytest
