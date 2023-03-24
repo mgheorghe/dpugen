@@ -64,7 +64,7 @@ jobs:
           use-black: false
           use-mypy: false
           use-isort: false
-          extra-pylint-options: "--max-line-length=160 --disable=invalid-name,missing-class-docstring,dangerous-default-value,duplicate-code,missing-function-docstring,missing-module-docstring,no-member,import-error,no-name-in-module,unused-variable,too-many-locals,redefined-builtin,attribute-defined-outside-init,fixme,too-many-nested-blocks,eval-used,super-init-not-called,pointless-string-statement"
+          extra-pylint-options: "--max-line-length=160 --disable=invalid-name,missing-class-docstring,dangerous-default-value,duplicate-code,missing-function-docstring,missing-module-docstring,no-member,import-error,no-name-in-module,unused-variable,too-many-locals,redefined-builtin,attribute-defined-outside-init,fixme,too-many-nested-blocks,eval-used,super-init-not-called"
 
   # python-pycodestyle:
   #   runs-on: ubuntu-latest
