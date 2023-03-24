@@ -1,13 +1,21 @@
 #!/usr/bin/python3
+"""Entry point to generate a DPU Hero test config in DASH format."""
+import sys
 
-import dashgen
-from dashgen.confbase import *
-from dashgen.confutils import *
+import dpugen.dashgen.dash_appliance_table
+import dpugen.dashgen.dash_eni_table
+import dpugen.dashgen.dash_route_rule_table
+import dpugen.dashgen.dash_route_table
+import dpugen.dashgen.dash_vnet_mapping_table
+import dpugen.dashgen.dash_vnet_table
 
-print('generating config', file=sys.stderr)
-
-parser = commonArgParser()
-args = parser.parse_args()
+from .confbase import ConfBase
+from .confutils import (
+    common_arg_parser,
+    common_output,
+    common_parse_args,
+    write_list_file_iterator
+)
 
 
 class DashConfig(ConfBase):
@@ -18,33 +26,34 @@ class DashConfig(ConfBase):
     def generate(self):
         # Pass top-level params to sub-generators.
         self.configs = [
-            dashgen.DASH_APPLIANCE_TABLE.Appliance(self.params_dict),
-            dashgen.DASH_VNET_TABLE.Vnets(self.params_dict),
-            dashgen.DASH_ENI_TABLE.Enis(self.params_dict),
-            # dashgen.aclgroups.AclGroups(self.params_dict),
-            # dashgen.vpcs.Vpcs(self.params_dict),
+            dpugen.dashgen.dash_appliance_table.Appliance(self.params_dict),
+            dpugen.dashgen.dash_vnet_table.Vnets(self.params_dict),
+            dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
+            # dashgen.acl_group.AclGroups(self.params_dict),
+            # dashgen.vpc.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
-            dashgen.DASH_VNET_MAPPING_TABLE.Mappings(self.params_dict),
-            dashgen.DASH_ROUTE_TABLE.RouteTables(self.params_dict),
-            dashgen.DASH_ROUTE_RULE_TABLE.RouteRules(self.params_dict),
-            # dashgen.prefixtags.PrefixTags(self.params_dict),
+            dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            dpugen.dashgen.dash_route_table.RouteTables(self.params_dict),
+            dpugen.dashgen.dash_route_rule_table.RouteRules(self.params_dict),
+            # dashgen.prefix_tag.PrefixTags(self.params_dict),
         ]
-
-    # def toDict(self):
-    #     return {x.dictName(): x.items() for x in self.configs}
 
     def items(self):
         result = []
         for c in self.configs:
             result.extend(c.items())
         return result
-        #[c.items() for c in self.configs]
-        #[].extend(c.items() for c in self.configs)
 
-    def write2File(self, fformat, outfile):
-        writeListFileIter(self.items(), fformat, outfile)
+    def write_to_file(self, fformat, outfile):
+        write_list_file_iterator(self.items(), fformat, outfile)
+
 
 if __name__ == '__main__':
+
+    print('generating config', file=sys.stderr)
+    parser = common_arg_parser()
+    args = parser.parse_args()
+
     conf = DashConfig()
     common_parse_args(conf)
     conf.generate()

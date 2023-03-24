@@ -1,20 +1,19 @@
 #!/usr/bin/python3
 
-import sys
-from copy import deepcopy
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class RouteRules(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
-        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
@@ -24,15 +23,17 @@ class RouteRules(ConfBase):
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             self.num_yields += 1
             yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32" % (eni, r_vni_id,vtep_remote ): {
+                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32" % (eni, r_vni_id, vtep_remote): {
                     "action_type": "decap",
                     "priority": "1",
-                    #"protocol": "0",
+                    # "protocol": "0",
                     "pa_validation": "true",
                     "vnet":  "vnet-%d" % r_vni_id
                 },
                 "OP": "SET"
             }
+
+
 '''
             self.num_yields += 1
             yield {

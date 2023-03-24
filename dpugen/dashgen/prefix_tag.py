@@ -1,19 +1,19 @@
 #!/usr/bin/python3
 
-import sys
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class PrefixTags(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
-        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params

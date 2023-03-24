@@ -1,32 +1,25 @@
 #!/usr/bin/python3
 
 import math
-import sys
-from copy import deepcopy
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class RouteTables(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
-        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
         cp = self.cooked_params
-        cc=0
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-            
-            ip_prefixes = []
-            ip_prefixes_append = ip_prefixes.append
-
-            IP_L = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
             added_route_count = 0
             for table_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):
@@ -67,12 +60,9 @@ class RouteTables(ConfBase):
                             ip_prefix = ip_prefix + cp.IP_STEP1 * nr_of_ips
                             ip_map_count += int(math.pow(2, (32 - mask)))
 
+                    # TODO1: transition between mapped and routed ips
 
-
-
-                    # TODO1: transition between mapped and routed ips  
-
-            #TODO: write condition check here to add a default route if no route was added so curent ENI'
+            # TODO: write condition check here to add a default route if no route was added so curent ENI'
             if added_route_count == 0:
                 remote_ip_prefix = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
                 self.numYields += 1
@@ -114,10 +104,7 @@ class RouteTables(ConfBase):
             #         ]
             #     }
             # )
-        
-        
-                            
-        
+
 
 if __name__ == "__main__":
     conf = RouteTables()

@@ -1,14 +1,15 @@
 #!/usr/bin/python3
+"""SAI generator for Outbound Routing"""
 
 import math
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
-
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
-maca = macaddress.MAC       # optimization so the . does not get executed multiple times
+from dpugen.confbase import (
+    ConfBase,
+    ipa
+)
+from dpugen.confutils import common_main
 
 
 class OutboundRouting(ConfBase):
@@ -24,29 +25,18 @@ class OutboundRouting(ConfBase):
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             print('     route:eni:%d' % eni, file=sys.stderr)
-
             vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
-            vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
-
-            IP_L = ipa(p.IP_L_START) + (eni_index - 1) * int(ipa(p.IP_STEP_ENI))
-
-            remote_gateway_mac = str(
-                maca(
-                    int(maca(p.MAC_R_START)) +
-                    eni_index * int(maca(p.ENI_MAC_STEP))
-                    #(nsg_index - 1) * int(macaddress.MAC(ACL_TABLE_MAC_STEP))
-                )
-            ).replace('-', ':')
-
             added_route_count = 0
             for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):
                     ip_map_count = 0
-                    remote_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL)))
+                    remote_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (nsg_index - 1)
+                                    * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL)))
                     no_of_route_groups = p.IP_PER_ACL_RULE * 2 // p.IP_ROUTE_DIVIDER_PER_ACL_RULE
                     # for ip_index in range(0, no_of_route_groups + 1):
                     for ip_index in range(0, no_of_route_groups):
-                        ip_prefix = str(ipa(remote_ip) - 1 + ip_index * p.IP_ROUTE_DIVIDER_PER_ACL_RULE * int(ipa(p.IP_STEP1)))
+                        ip_prefix = str(ipa(remote_ip) - 1 + ip_index *
+                                        p.IP_ROUTE_DIVIDER_PER_ACL_RULE * int(ipa(p.IP_STEP1)))
                         for prefix_index in range(nr_of_routes_prefixes, 0, -1):
                             nr_of_ips = 1 << (prefix_index-1)
                             mask = 32 - prefix_index + 1

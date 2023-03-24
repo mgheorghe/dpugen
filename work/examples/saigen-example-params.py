@@ -4,9 +4,6 @@
 # configuration using specified scaling parameters.
 from pprint import pprint
 
-from saigen.confbase import *
-from saigen.confutils import *
-
 import dpugen
 
 # Constants for scale VNET outbound routing configuration
@@ -25,9 +22,17 @@ NUMBER_OF_OUT_ACL_GROUP = 0
 # Pay attention to the 'count', 'start', 'step' keywords.
 # See README.md for details.
 TEST_VNET_OUTBOUND_CONFIG_SCALE = {
-    'DASH_VIP':                 {'vpe': {'count': NUMBER_OF_VIP, 'SWITCH_ID': '$SWITCH_ID', 'IPV4': 	{'count': NUMBER_OF_VIP, 'start': '221.0.0.2', 'step': '0.1.0.0'}}},
-    'DASH_DIRECTION_LOOKUP':    {'dle': {'count': NUMBER_OF_DLE, 'SWITCH_ID': '$SWITCH_ID', 'VNI': 	{'count': NUMBER_OF_DLE, 'start': 5000, 'step': 1000}, 'ACTION': 'SET_OUTBOUND_DIRECTION'}},
-    'DASH_ACL_GROUP':           {'in_acl_group_id': {'count': NUMBER_OF_IN_ACL_GROUP, 'ADDR_FAMILY': 'IPv4'}, 'out_acl_group_id': {'count': NUMBER_OF_OUT_ACL_GROUP, 'ADDR_FAMILY': 'IPv4'}},
+    'DASH_VIP': {
+        'vpe': {'count': NUMBER_OF_VIP, 'SWITCH_ID': '$SWITCH_ID', 'IPV4': {'count': NUMBER_OF_VIP, 'start': '221.0.0.2', 'step': '0.1.0.0'}}
+    },
+    'DASH_DIRECTION_LOOKUP': {
+        'dle': {'count': NUMBER_OF_DLE, 'SWITCH_ID': '$SWITCH_ID', 'VNI': {
+            'count': NUMBER_OF_DLE, 'start': 5000, 'step': 1000}, 'ACTION': 'SET_OUTBOUND_DIRECTION'
+        }
+    },
+    'DASH_ACL_GROUP':           {'in_acl_group_id': {'count': NUMBER_OF_IN_ACL_GROUP, 'ADDR_FAMILY': 'IPv4'},
+                                 'out_acl_group_id': {'count': NUMBER_OF_OUT_ACL_GROUP, 'ADDR_FAMILY': 'IPv4'}
+                                 },
     'DASH_VNET':                {'vnet': {'VNI': {'count': NUMBER_OF_VNET, 'start': 1000, 'step': 1000}}},
     'DASH_ENI':            {
         'name': 		{'substitution': {'base': 'eni#{0}', 'params': {0: {'start': 11, 'step': 1, 'count': NUMBER_OF_ENI, }, }, 'count': NUMBER_OF_ENI, }},
@@ -72,7 +77,7 @@ if __name__ == '__main__':
     conf = dpugen.sai.SaiConfig(TEST_VNET_OUTBOUND_CONFIG_SCALE)
     # Alternate way:
     # conf = dpugen.sai.SaiConfig()
-    # conf.mergeParams(TEST_VNET_OUTBOUND_CONFIG_SCALE)
+    # conf.merge_params(TEST_VNET_OUTBOUND_CONFIG_SCALE)
     conf.generate()
     print('Parameters used for generating:')
     print('===============================')

@@ -4,9 +4,6 @@
 # configuration using default scaling parameters.
 from pprint import pprint
 
-from saigen.confbase import *
-from saigen.confutils import *
-
 import dpugen
 
 if __name__ == '__main__':

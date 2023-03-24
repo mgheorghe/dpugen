@@ -9,23 +9,23 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
 
     'ENI_START':                        1,                         # 1
-    'ENI_COUNT':                        16,                        # 64
+    'ENI_COUNT':                        64,                        # 64
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',       # '00:00:00:18:00:00'
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000
 
-    'VNET_PER_ENI':                     1,                         # 16
+    'VNET_PER_ENI':                     1,                         # 16 TODO: partialy implemented
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',
 
-    'IP_L_START':                       '1.1.0.1',
-    'IP_R_START':                       '1.4.0.1',
+    'IP_L_START':                       '1.1.0.1',                 # local, eni
+    'IP_R_START':                       '1.4.0.1',                 # remote, the world
 
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    1000,                      # 1000
     'IP_PER_ACL_RULE':                  128,                       # 128
-    'IP_MAPPED_PER_ACL_RULE':           128,                       # 128 (must be equal with IP_PER_ACL_RULE)
+    'IP_MAPPED_PER_ACL_RULE':           128,                       # 128 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
     'IP_ROUTE_DIVIDER_PER_ACL_RULE':    16,                        # 16 (must be 2^N)
 
     'ACL_NSG_MAC_STEP':                 '00:00:00:02:00:00',

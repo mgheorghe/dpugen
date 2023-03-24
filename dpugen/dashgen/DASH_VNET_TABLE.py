@@ -1,22 +1,21 @@
 #!/usr/bin/python3
 
-import sys
 import os
+import sys
 
-from dashgen.confbase import *
-from dashgen.confutils import *
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class Vnets(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
+        self.num_yields = 0
 
     def items(self):
-        self.num_yields = 0
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             self.num_yields += 1

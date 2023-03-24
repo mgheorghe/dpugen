@@ -1,31 +1,34 @@
 #!/usr/bin/python3
 
-from dashgen.confbase import *
-from dashgen.confutils import *
-from copy import deepcopy
-import sys
 import os
+import sys
+from copy import deepcopy
+
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
+
+
 class AclGroups(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
-    
-    def items(self):
         self.num_yields = 0
+
+    def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
-        p=self.params
-        cp=self.cooked_params
-        IP_STEP1=cp.IP_STEP1
-        IP_STEP_ACL=cp.IP_STEP_ACL
-        IP_STEP_NSG=cp.IP_STEP_NSG
-        IP_STEP_ENI=cp.IP_STEP_ENI
-        IP_STEPE=cp.IP_STEPE
-        IP_R_START=cp.IP_R_START
-        IP_L_START=cp.IP_L_START
-        ACL_NSG_COUNT=p.ACL_NSG_COUNT
-        ACL_RULES_NSG=p.ACL_RULES_NSG
-        IP_PER_ACL_RULE=p.IP_PER_ACL_RULE
-        
+        p = self.params
+        cp = self.cooked_params
+        IP_STEP1 = cp.IP_STEP1
+        IP_STEP_ACL = cp.IP_STEP_ACL
+        IP_STEP_NSG = cp.IP_STEP_NSG
+        IP_STEP_ENI = cp.IP_STEP_ENI
+        IP_STEPE = cp.IP_STEPE
+        IP_R_START = cp.IP_R_START
+        IP_L_START = cp.IP_L_START
+        ACL_NSG_COUNT = p.ACL_NSG_COUNT
+        ACL_RULES_NSG = p.ACL_RULES_NSG
+        IP_PER_ACL_RULE = p.IP_PER_ACL_RULE
+
         for eni_index in range(1, p.ENI_COUNT + 1):
             local_ip = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             l_ip_ac = deepcopy(str(local_ip)+"/32")
@@ -36,11 +39,11 @@ class AclGroups(ConfBase):
                 rules = []
                 rappend = rules.append
                 for ip_index in range(1, (ACL_RULES_NSG+1), 2):
-                    rule_id_a = table_id * 10 * ACL_RULES_NSG + ip_index
                     remote_ip_a = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (
                         table_index - 1) * IP_STEP_NSG + (ip_index - 1) * IP_STEP_ACL
 
-                    ip_list_a = [str(remote_ip_a + expanded_index * IP_STEPE)+"/32" for expanded_index in range(0, IP_PER_ACL_RULE)]
+                    ip_list_a = [str(remote_ip_a + expanded_index * IP_STEPE) +
+                                 "/32" for expanded_index in range(0, IP_PER_ACL_RULE)]
                     ip_list_a.append(l_ip_ac)
 
                     rule_a = {
@@ -51,10 +54,10 @@ class AclGroups(ConfBase):
                         "dst_addrs":  ip_list_a[:],
                     }
                     rappend(rule_a)
-                    rule_id_d = rule_id_a + 1
                     remote_ip_d = remote_ip_a + IP_STEP1
 
-                    ip_list_d = [str(remote_ip_d + expanded_index * IP_STEPE)+"/32" for expanded_index in range(0, IP_PER_ACL_RULE)]
+                    ip_list_d = [str(remote_ip_d + expanded_index * IP_STEPE) +
+                                 "/32" for expanded_index in range(0, IP_PER_ACL_RULE)]
                     ip_list_d.append(l_ip_ac)
 
                     rule_d = {
@@ -68,7 +71,6 @@ class AclGroups(ConfBase):
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
                 if ((table_index - 1) % 3) == 2:
-                    rule_id_a = table_id * 10 *ACL_RULES_NSG + ip_index
                     all_ipsA = IP_R_START + (eni_index - 1) * IP_STEP_ENI + (table_index % 6) * IP_STEP_NSG
                     all_ipsB = all_ipsA + 1 * IP_STEP_NSG
                     all_ipsC = all_ipsA + 2 * IP_STEP_NSG
@@ -101,6 +103,7 @@ class AclGroups(ConfBase):
                 self.num_yields += 1
                 yield acl_group
 
+
 if __name__ == "__main__":
-    conf=AclGroups()
+    conf = AclGroups()
     common_main(conf)

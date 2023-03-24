@@ -1,12 +1,15 @@
 #!/usr/bin/python3
+"""SAI generator for Inbound Routing"""
 
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from dpugen.confbase import (
+    ConfBase,
+    ipa
+)
+from dpugen.confutils import common_main
 
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 
 class InboundRouting(ConfBase):
 

@@ -1,13 +1,15 @@
 #!/usr/bin/python3
+"""SAI generator for Outbound CA PA"""
 
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
-
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
-maca = macaddress.MAC       # optimization so the . does not get executed multiple times
+from dpugen.confbase import (
+    ConfBase,
+    ipa,
+    maca
+)
+from dpugen.confutils import common_main
 
 
 class OutboundCaToPa(ConfBase):
@@ -30,7 +32,8 @@ class OutboundCaToPa(ConfBase):
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                     for acl_index in range(1, (p.ACL_RULES_NSG//2+1)):
-                        remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
+                        remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + \
+                            (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
                         remote_mac_a = str(
                             maca(
                                 int(maca(p.MAC_R_START)) +
@@ -104,7 +107,7 @@ class OutboundCaToPa(ConfBase):
                         eni_index * int(maca(p.ENI_MAC_STEP))
                     )
                 ).replace('-', ':')
-                
+
                 self.num_yields += 1
                 yield {
                     'name': f'outbound_ca_to_pa_#eni{eni}',

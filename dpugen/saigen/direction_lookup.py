@@ -1,10 +1,11 @@
 #!/usr/bin/python3
+"""SAI generator for Direction Lookup"""
 
 import os
 import sys
 
-from saigen.confbase import *
-from saigen.confutils import *
+from dpugen.confbase import ConfBase
+from dpugen.confutils import common_main
 
 
 class DirectionLookup(ConfBase):

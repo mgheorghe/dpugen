@@ -1,0 +1,32 @@
+name: tester
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies A
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+      - name: Install dependencies B
+        run: |
+          python -m pip install pytest pytest-cov
+      - name: Install dependencies C
+        run: |
+          python -m pip install .
+      - name: Test with pytest
+        run: |
+          python -m pytest ./unittests
