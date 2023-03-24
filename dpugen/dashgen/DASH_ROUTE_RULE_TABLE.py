@@ -34,19 +34,6 @@ class RouteRules(ConfBase):
             }
 
 
-'''
-            self.num_yields += 1
-            yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:10.0.2.0/24" % (eni, r_vpc): {
-                    "action_type": "decap",
-                    "priority": "1",
-                    "protocol": "0",
-                    "pa_validation": "false"
-                },
-                "OP": "SET"
-            }
-'''
-
 if __name__ == "__main__":
     conf = RouteRules()
     common_main(conf)
