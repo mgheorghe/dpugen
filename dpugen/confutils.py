@@ -14,6 +14,37 @@ import textwrap
 # https://pypi.org/project/json-stream/
 # https://pythonspeed.com/articles/json-memory-streaming/
 
+def dumps_json(data, indent=2, depth=1):
+    assert depth > 0
+    space = ' '*indent
+    s = json.dumps(data, indent=indent)
+    lines = s.splitlines()
+    N = len(lines)
+    # determine which lines to be shortened
+    is_over_depth_line = lambda i: i in range(N) and lines[i].startswith(space*(depth+1))
+    is_open_bracket_line = lambda i: not is_over_depth_line(i) and is_over_depth_line(i+1)
+    is_close_bracket_line = lambda i: not is_over_depth_line(i) and is_over_depth_line(i-1)
+    # 
+    def shorten_line(line_index):
+        if not is_open_bracket_line(line_index):
+            return lines[line_index]
+        # shorten over-depth lines
+        start = line_index
+        end = start
+        while not is_close_bracket_line(end):
+            end += 1
+        has_trailing_comma = lines[end][-1] == ','
+        _lines = [lines[start][-1], *lines[start+1:end], lines[end].replace(',', '')]
+        d = json.dumps(json.loads(' '.join(_lines)))
+        return lines[line_index][:-1] + d + (',' if has_trailing_comma else '')
+    #
+    s = '\n'.join([
+        shorten_line(i)
+        for i in range(N) if not is_over_depth_line(i) and not is_close_bracket_line(i)
+    ])
+    #
+    return s
+
 
 class IterEncoder(json.JSONEncoder):
     '''
@@ -63,6 +94,9 @@ def write_list_file_iterator(config, format, filename='<stdout>'):
 def write_list_file_pointer_iterator(config, format, file_pointer):
     if format == 'json':
         json.dump(config, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
+    elif format == "vjson":
+        ss = dumps_json(config)
+        print(ss)
     else:
         raise NotImplementedError(f'ERROR: unsupported format {format}')
 # TODO - consider generic recursive approach
@@ -124,7 +158,7 @@ ___gen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of
     )
 
     # parser.add_argument('-f', '--format', choices=['json', 'yaml'], default='json',
-    parser.add_argument('-f', '--format', choices=['json'], default='json',
+    parser.add_argument('-f', '--format', choices=['json', 'vjson'], default='json',
                         help='Config output format.')
 
     # parser.add_argument('-c', '--content', choices=['dict', 'list'], default='list',

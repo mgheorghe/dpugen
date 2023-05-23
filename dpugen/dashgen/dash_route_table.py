@@ -65,7 +65,7 @@ class RouteTables(ConfBase):
             # TODO: write condition check here to add a default route if no route was added so curent ENI'
             if added_route_count == 0:
                 remote_ip_prefix = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
-                self.numYields += 1
+                self.num_yields += 1
                 yield {
                     "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, remote_ip_prefix, 10): {
                         "action_type": "vnet",
