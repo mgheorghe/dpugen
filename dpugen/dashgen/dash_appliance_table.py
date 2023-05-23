@@ -36,6 +36,7 @@ class Appliance(ConfBase):
             'OP': 'SET'
         }
 
+
 if __name__ == '__main__':
     conf = Appliance()
     common_main(conf)

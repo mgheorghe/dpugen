@@ -34,17 +34,18 @@ def dumps_json(data, indent=2, depth=1):
         while not is_close_bracket_line(end):
             end += 1
         has_trailing_comma = lines[end][-1] == ','
-        _lines = [lines[start][-1], *lines[start+1:end], lines[end].replace(',','')]
+        _lines = [lines[start][-1], *lines[start+1:end], lines[end].replace(',', '')]
         d = json.dumps(json.loads(' '.join(_lines)))
         return lines[line_index][:-1] + d + (',' if has_trailing_comma else '')
-    # 
+    #
     s = '\n'.join([
         shorten_line(i)
         for i in range(N) if not is_over_depth_line(i) and not is_close_bracket_line(i)
     ])
     #
     return s
-        
+
+
 class IterEncoder(json.JSONEncoder):
     '''
     JSON Encoder that encodes iterators as well.
@@ -95,7 +96,7 @@ def write_list_file_pointer_iterator(config, format, file_pointer):
         json.dump(config, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
     elif format == "vjson":
         ss = dumps_json(config)
-        print (ss)
+        print(ss)
     else:
         raise NotImplementedError(f'ERROR: unsupported format {format}')
 # TODO - consider generic recursive approach
@@ -157,7 +158,7 @@ ___gen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of
     )
 
     # parser.add_argument('-f', '--format', choices=['json', 'yaml'], default='json',
-    parser.add_argument('-f', '--format', choices=['json','vjson'], default='json',
+    parser.add_argument('-f', '--format', choices=['json', 'vjson'], default='json',
                         help='Config output format.')
 
     # parser.add_argument('-c', '--content', choices=['dict', 'list'], default='list',

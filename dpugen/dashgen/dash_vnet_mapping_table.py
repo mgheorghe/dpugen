@@ -26,7 +26,7 @@ class Mappings(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
             # vtep_local = cp.PAL + eni_index * cp.IP_STEP1
-            #vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
+            # vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
             r_vni_id = eni + p.ENI_L2R_STEP
@@ -36,7 +36,8 @@ class Mappings(ConfBase):
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                     for acl_index in range(1, (p.ACL_RULES_NSG//2+1)):
-                        remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
+                        remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + \
+                            (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
                         remote_mac_a = str(
                             maca(
                                 int(maca(p.MAC_R_START)) +

@@ -30,10 +30,10 @@ class Enis(ConfBase):
                 stage = (nsg_index - 1) % p.ACL_NSG_COUNT + 1
                 if nsg_index < p.ACL_NSG_COUNT+1:
                     self.num_yields += 1
-                    yield {"DASH_ACL_IN_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'},"OP": "SET"}
+                    yield {"DASH_ACL_IN_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'}, "OP": "SET"}
                 else:
                     self.num_yields += 1
-                    yield {"DASH_ACL_OUT_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'},"OP": "SET"}
+                    yield {"DASH_ACL_OUT_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'}, "OP": "SET"}
 
             self.num_yields += 1
             yield {
