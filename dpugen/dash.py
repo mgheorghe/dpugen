@@ -8,6 +8,7 @@ import dpugen.dashgen.dash_route_rule_table
 import dpugen.dashgen.dash_route_table
 import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_vnet_table
+import dpugen.dashgen.acl_group
 
 from .confbase import ConfBase
 from .confutils import (
@@ -29,7 +30,7 @@ class DashConfig(ConfBase):
             dpugen.dashgen.dash_appliance_table.Appliance(self.params_dict),
             dpugen.dashgen.dash_vnet_table.Vnets(self.params_dict),
             dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
-            # dashgen.acl_group.AclGroups(self.params_dict),
+            dpugen.dashgen.acl_group.AclGroups(self.params_dict),
             # dashgen.vpc.Vpcs(self.params_dict),
             # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
             dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),

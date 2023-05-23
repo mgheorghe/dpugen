@@ -16,7 +16,7 @@ class Appliance(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-
+        '''
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             self.num_yields += 1
             yield {
@@ -26,7 +26,15 @@ class Appliance(ConfBase):
                 },
                 'OP': 'SET'
             }
-
+        '''
+        self.num_yields += 1
+        yield {
+            'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
+                "sip": "221.0.0.1",
+                "vm_vni": f'{p.ENI_START}'
+            },
+            'OP': 'SET'
+        }
 
 if __name__ == '__main__':
     conf = Appliance()
