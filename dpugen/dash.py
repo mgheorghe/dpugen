@@ -2,13 +2,13 @@
 """Entry point to generate a DPU Hero test config in DASH format."""
 import sys
 
+import dpugen.dashgen.acl_group
 import dpugen.dashgen.dash_appliance_table
 import dpugen.dashgen.dash_eni_table
 import dpugen.dashgen.dash_route_rule_table
 import dpugen.dashgen.dash_route_table
 import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_vnet_table
-import dpugen.dashgen.acl_group
 
 from .confbase import ConfBase
 from .confutils import (
