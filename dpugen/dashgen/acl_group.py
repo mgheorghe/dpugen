@@ -34,7 +34,7 @@ class AclGroups(ConfBase):
                         'OP': 'SET'
                       }
                 # 
-                priority_start = 1000
+                priority_start = 1
                 for ip_index in range(1, (p.ACL_RULES_NSG+1), 2):
                     remote_ip_a = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP_ENI + (
                         table_index - 1) * cp.IP_STEP_NSG + (ip_index - 1) * cp.IP_STEP_ACL
@@ -49,8 +49,10 @@ class AclGroups(ConfBase):
                             "priority": priority_start+ip_index,
                             "action": "allow",
                             "terminating": "false",
-                            "src_addrs": ",".join(ip_list_a[:]),
-                            "dst_addrs":  ",".join(ip_list_a[:])
+                            "src_addr": ",".join(ip_list_a[:]),
+                            "dst_addr":  ",".join(ip_list_a[:]),
+                            "dst_port": "0-0",
+                            "src_port": "0-0"
                             },
                             'OP': 'SET'
                           }
@@ -66,8 +68,10 @@ class AclGroups(ConfBase):
                             "priority": priority_start+ip_index+1,
                             "action": "deny",
                             "terminating": "true",
-                            "src_addrs": ",".join(ip_list_d[:]),
-                            "dst_addrs":  ",".join(ip_list_d[:])
+                            "src_addr": ",".join(ip_list_d[:]),
+                            "dst_addr":  ",".join(ip_list_d[:]),
+                            "dst_port": "0-0",
+                            "src_port": "0-0"
                             },
                             'OP': 'SET'
                           }
@@ -80,9 +84,9 @@ class AclGroups(ConfBase):
 
                     ip_list_all = [
                         l_ip_ac,
-                        str(all_ipsA)+"/14",
-                        str(all_ipsB)+"/14",
-                        str(all_ipsC)+"/14",
+                        str(all_ipsA)+"/32",
+                        str(all_ipsB)+"/32",
+                        str(all_ipsC)+"/32",
                     ]
 
                     self.num_yields += 1
@@ -91,8 +95,10 @@ class AclGroups(ConfBase):
                             "priority": priority_start+ip_index+2,
                             "action": "allow",
                             "terminating": "true",
-                            "src_addrs": ",".join(ip_list_all[:]),
-                            "dst_addrs":  ",".join(ip_list_all[:])
+                            "src_addr": ",".join(ip_list_all[:]),
+                            "dst_addr":  ",".join(ip_list_all[:]),
+                            "dst_port": "0-0",
+                            "src_port": "0-0"
                             },
                             'OP': 'SET'
                           }
