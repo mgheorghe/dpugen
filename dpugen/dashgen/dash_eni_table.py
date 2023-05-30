@@ -26,12 +26,14 @@ class Enis(ConfBase):
             local_mac = str(maca(int(cp.MAC_L_START)+eni_index*int(maca(p.ENI_MAC_STEP)))).replace('-', ':')
             vm_underlay_dip = str(ipa(p.PAL) + eni_index * int(ipa(p.IP_STEP1)))
             for nsg_index in range(1, (p.ACL_NSG_COUNT*2+1)):
-                nsg_id = eni_index * 1000 + nsg_index
+                
                 stage = (nsg_index - 1) % p.ACL_NSG_COUNT + 1
                 if nsg_index < p.ACL_NSG_COUNT+1:
+                    nsg_id = eni_index * 1000 + nsg_index
                     self.num_yields += 1
                     yield {"DASH_ACL_IN_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'}, "OP": "SET"}
                 else:
+                    nsg_id = eni_index * 1500 + nsg_index
                     self.num_yields += 1
                     yield {"DASH_ACL_OUT_TABLE:eni-%d:%d" % (eni, stage): {'acl_group_id': f'{nsg_id}'}, "OP": "SET"}
 

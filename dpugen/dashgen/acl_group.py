@@ -19,83 +19,179 @@ class AclGroups(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index in range(1, p.ENI_COUNT + 1):
-            local_ip = cp.IP_L_START + (eni_index - 1) * cp.IP_STEP_ENI
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+            local_ip = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
             l_ip_ac = deepcopy(str(local_ip)+"/32")
 
-            for table_index in range(1, (p.ACL_NSG_COUNT*2+1)):
-                table_id = eni_index * 1000 + table_index
-                self.num_yields += 1
+            last_ip_index = 0
+            for stage_in_index in range(p.ACL_TABLE_COUNT):
+                table_id = eni * 1000 + stage_in_index
 
+                self.num_yields += 1
                 yield {
-                        'DASH_ACL_GROUP_TABLE:%d' % table_id: {
+                    'DASH_ACL_GROUP_TABLE:%d' % table_id: {
                         "ip_version": "ipv4",
+                    },
+                    'OP': 'SET'
+                }
+
+                for ip_index in range(0, p.ACL_RULES_NSG, 2):
+                    # print("        %d" % ip_index)
+                    rule_id_a = table_id * 10 * p.ACL_RULES_NSG + ip_index
+                    remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + stage_in_index * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
+
+                    ip_list_a = [{"ipAddr": str(remote_ip_a + expanded_index * 2 * cp.IP_STEP1), "prefixLen": 32}
+                                 for expanded_index in range(0, p.IP_PER_ACL_RULE)]
+                    # ip_list_a.append(l_ip_ac)
+
+                    # allow
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
+                            "priority": ip_index,
+                            "action": "allow",
+                            "terminating": "true",
+                            "src_addr": ",".join(ip_list_a[:]),
+                            "dst_addr": l_ip_ac
                         },
                         'OP': 'SET'
-                      }
-                # 
-                priority_start = 1000
-                for ip_index in range(1, (p.ACL_RULES_NSG+1), 2):
-                    remote_ip_a = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP_ENI + (
-                        table_index - 1) * cp.IP_STEP_NSG + (ip_index - 1) * cp.IP_STEP_ACL
+                    }
 
-                    ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE) +
-                                 "/32" for expanded_index in range(0, p.IP_PER_ACL_RULE)]
-                    ip_list_a.append(l_ip_ac)
-
-                    self.num_yields += 1
-                    yield {
-                            'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, priority_start+ip_index): {
-                            "priority": priority_start+ip_index,
-                            "action": "allow",
-                            "terminating": "false",
-                            "src_addrs": ",".join(ip_list_a[:]),
-                            "dst_addrs":  ",".join(ip_list_a[:])
-                            },
-                            'OP': 'SET'
-                          }
-
+                    rule_id_d = rule_id_a + 1
                     remote_ip_d = remote_ip_a + cp.IP_STEP1
-                    ip_list_d = [str(remote_ip_d + expanded_index * cp.IP_STEPE) +
-                                 "/32" for expanded_index in range(0, p.IP_PER_ACL_RULE)]
-                    ip_list_d.append(l_ip_ac)
 
+                    ip_list_d = [{"ipAddr": str(remote_ip_d + expanded_index * 2 * cp.IP_STEP1), "prefixLen": 32}
+                                 for expanded_index in range(0, (p.IP_PER_ACL_RULE - 1))]
+                    # ip_list_d.append(l_ip_ac)
+
+                    # denny
                     self.num_yields += 1
                     yield {
-                            'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id,priority_start+ip_index+1): {
-                            "priority": priority_start+ip_index+1,
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+1): {
+                            "priority": ip_index+1,
                             "action": "deny",
                             "terminating": "true",
-                            "src_addrs": ",".join(ip_list_d[:]),
-                            "dst_addrs":  ",".join(ip_list_d[:])
-                            },
-                            'OP': 'SET'
-                          }
+                            "src_addr": ",".join(ip_list_d[:]),
+                            "dst_addr": l_ip_ac
+                        },
+                        'OP': 'SET'
+                    }
+                    ip_index_global = ip_index
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
-                if ((table_index - 1) % 3) == 2:
-                    all_ipsA = cp.IP_R_START + (eni_index - 1) * cp.IP_STEP_ENI + (table_index % 6) * cp.IP_STEP_NSG
-                    all_ipsB = all_ipsA + 1 * cp.IP_STEP_NSG
-                    all_ipsC = all_ipsA + 2 * cp.IP_STEP_NSG
-
+                if ((stage_in_index - 1) % p.ACL_TABLE_COUNT) == 4:
+                    rule_id_a = table_id * 10 * p.ACL_RULES_NSG + last_ip_index
+                    all_ips_stage1 = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + stage_in_index * 4 * cp.IP_STEP_NSG
+                    all_ips_stage2 = all_ips_stage1 + 1 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage3 = all_ips_stage1 + 2 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage4 = all_ips_stage1 + 3 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage5 = all_ips_stage1 + 4 * 4 * cp.IP_STEP_NSG
                     ip_list_all = [
-                        l_ip_ac,
-                        str(all_ipsA)+"/14",
-                        str(all_ipsB)+"/14",
-                        str(all_ipsC)+"/14",
+                        str(all_ips_stage1)+"/14",
+                        str(all_ips_stage2)+"/14",
+                        str(all_ips_stage3)+"/14",
+                        str(all_ips_stage4)+"/14",
+                        str(all_ips_stage5)+"/14",
                     ]
 
+                    # allow
                     self.num_yields += 1
                     yield {
-                            'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, priority_start+ip_index+2): {
-                            "priority": priority_start+ip_index+2,
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+2): {
+                            "priority": ip_index+2,
                             "action": "allow",
                             "terminating": "true",
-                            "src_addrs": ",".join(ip_list_all[:]),
-                            "dst_addrs":  ",".join(ip_list_all[:])
-                            },
-                            'OP': 'SET'
-                          }
+                            "src_addr": ",".join(ip_list_all[:]),
+                            "dst_addr": l_ip_ac
+                        },
+                        'OP': 'SET'
+                    }
+
+            for stage_out_index in range(p.ACL_TABLE_COUNT):
+                table_id = eni * 1500 + stage_out_index
+
+                self.num_yields += 1
+                yield {
+                    'DASH_ACL_GROUP_TABLE:%d' % table_id: {
+                        "ip_version": "ipv4",
+                    },
+                    'OP': 'SET'
+                }
+
+                rules = []
+                acl_append = rules.append
+                for ip_index in range(0, p.ACL_RULES_NSG, 2):
+                    # print("        %d" % ip_index)
+                    rule_id_a = table_id * 10 * p.ACL_RULES_NSG + ip_index
+                    remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + \
+                        (p.ACL_TABLE_COUNT + stage_in_index) * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
+
+                    ip_list_a = [{"ipAddr": str(remote_ip_a + expanded_index * 2 * cp.IP_STEP1), "prefixLen": 32}
+                                 for expanded_index in range(0, p.IP_PER_ACL_RULE)]
+                    # ip_list_a.append(l_ip_ac)
+
+                    # allow
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
+                            "priority": ip_index,
+                            "action": "allow",
+                            "terminating": "true",
+                            "src_addr": l_ip_ac,
+                            "dst_addr": ",".join(ip_list_a[:])
+                        },
+                        'OP': 'SET'
+                    }
+
+                    rule_id_d = rule_id_a + 1
+                    remote_ip_d = remote_ip_a + cp.IP_STEP1
+
+                    ip_list_d = [{"ipAddr": str(remote_ip_d + expanded_index * 2 * cp.IP_STEP1), "prefixLen": 32}
+                                 for expanded_index in range(0, p.IP_PER_ACL_RULE)]
+                    # ip_list_d.append(l_ip_ac)
+
+                    # denny
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+1): {
+                            "priority": ip_index+1,
+                            "action": "deny",
+                            "terminating": "true",
+                            "src_addr": l_ip_ac,
+                            "dst_addr": ",".join(ip_list_d[:])
+                        },
+                        'OP': 'SET'
+                    }
+
+                # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
+                if ((stage_out_index - 1) % p.ACL_TABLE_COUNT) == 4:
+                    rule_id_a = table_id * 10 * p.ACL_RULES_NSG + last_ip_index
+                    all_ips_stage1 = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
+                    all_ips_stage2 = all_ips_stage1 + 1 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage3 = all_ips_stage1 + 2 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage4 = all_ips_stage1 + 3 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage5 = all_ips_stage1 + 4 * 4 * cp.IP_STEP_NSG
+                    ip_list_all = [
+                        str(all_ips_stage1)+"/14",
+                        str(all_ips_stage2)+"/14",
+                        str(all_ips_stage3)+"/14",
+                        str(all_ips_stage4)+"/14",
+                        str(all_ips_stage5)+"/14",
+                    ]
+
+                    # allow
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+2): {
+                            "priority": ip_index+2,
+                            "action": "allow",
+                            "terminating": "true",
+                            "src_addr": l_ip_ac,
+                            "dst_addr": ",".join(ip_list_all[:])
+                        },
+                        'OP': 'SET'
+                    }
+
 
 if __name__ == "__main__":
     conf = AclGroups()
