@@ -56,7 +56,7 @@ class AclGroups(ConfBase):
                     }
 
                     rule_id_d = rule_id_a + 1
-                    remote_ip_d = remote_ip_a + cp.IP_STEP1
+                    remote_ip_d = remote_ip_a - cp.IP_STEP1
 
                     ip_list_d = [str(remote_ip_d + expanded_index * cp.IP_STEPE) + "/32" for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
@@ -138,7 +138,7 @@ class AclGroups(ConfBase):
                     }
 
                     rule_id_d = rule_id_a + 1
-                    remote_ip_d = remote_ip_a + cp.IP_STEP1
+                    remote_ip_d = remote_ip_a - cp.IP_STEP1
 
                     ip_list_d = [str(remote_ip_d + expanded_index * cp.IP_STEPE) + "/32" for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
