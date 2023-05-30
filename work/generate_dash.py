@@ -18,7 +18,7 @@ baby_hero_params = {                        # CONFIG VALUE             # DEFAULT
     'ENI_COUNT':                        8,                         # 64
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',       # '00:00:00:18:00:00'
     'ENI_STEP':                         1,                         # 1
-    'ENI_L2R_STEP':                     1000,                      # 1000
+    'ENI_L2R_STEP':                     1,                      # 1000
 
     'VNET_PER_ENI':                     1,                         # 16 TODO: partialy implemented
 

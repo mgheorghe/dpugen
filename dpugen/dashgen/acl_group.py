@@ -104,7 +104,7 @@ class AclGroups(ConfBase):
                     }
 
             for stage_out_index in range(p.ACL_NSG_COUNT):
-                table_id = eni * 1500 + stage_out_index
+                table_id = eni * 1000 + 500 + stage_out_index
 
                 self.num_yields += 1
                 yield {
