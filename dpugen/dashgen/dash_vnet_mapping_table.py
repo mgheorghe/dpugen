@@ -24,7 +24,7 @@ class Mappings(ConfBase):
         cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
+            #debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
             # vtep_local = cp.PAL + eni_index * cp.IP_STEP1
             # vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
@@ -47,7 +47,7 @@ class Mappings(ConfBase):
                             )
                         ).replace('-', ':')
 
-                        debug_file.write('############ ALLOW\n')
+                        #debug_file.write('############ ALLOW\n')
                         # mapping for deny ip
                         # if you want to test that packets are being dropped because of the acl rule keep it
                         # if you want to test that packets are being dropped because no mapping you can comment this area
@@ -69,9 +69,9 @@ class Mappings(ConfBase):
                                 },
                                 "OP": "SET"
                             }
-                            debug_file.write(remote_expanded_mac + '\n')
+                            #debug_file.write(remote_expanded_mac + '\n')
 
-                        debug_file.write('############ DENNY\n')
+                        #debug_file.write('############ DENNY\n')
                         for i in range(p.IP_MAPPED_PER_ACL_RULE):
                             remote_expanded_ip = str(remote_ip_a + i * 2 -1)
                             remote_expanded_mac = str(
@@ -90,7 +90,7 @@ class Mappings(ConfBase):
                                 },
                                 "OP": "SET"
                             }
-                            debug_file.write(remote_expanded_mac + '\n')
+                            #debug_file.write(remote_expanded_mac + '\n')
 
             # 3 in 4 enis will have just mapping for gateway ip, for ip that are only routed and not mapped
             else:
@@ -114,8 +114,8 @@ class Mappings(ConfBase):
                     },
                     "OP": "SET"
                 }
-                debug_file.write(remote_expanded_mac + '\n')
-            debug_file.close()
+                #debug_file.write(remote_expanded_mac + '\n')
+            #debug_file.close()
 
 
 if __name__ == '__main__':
