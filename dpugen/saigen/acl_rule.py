@@ -155,16 +155,6 @@ class AclRules(ConfBase):
                     # denny
                     self.num_yields += 1
                     yield {
-                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+1): {
-                            "priority": ip_index+1,
-                            "action": "deny",
-                            "terminating": "true",
-                            "src_addr": l_ip_ac,
-                            "dst_addr": ",".join(ip_list_d[:])
-                        },
-                        'OP': 'SET'
-                    }
-                    yield {
                         'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index+1),
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
