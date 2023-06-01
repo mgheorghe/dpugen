@@ -4,6 +4,7 @@
 import sys
 
 import dpugen.saigen.acl_group
+import dpugen.saigen.acl_rule
 import dpugen.saigen.address_maps
 import dpugen.saigen.direction_lookup
 import dpugen.saigen.enis
@@ -35,6 +36,7 @@ class SaiConfig(ConfBase):
             dpugen.saigen.direction_lookup.DirectionLookup(self.params_dict),
             dpugen.saigen.vnets.Vnets(self.params_dict),
             dpugen.saigen.acl_group.AclGroups(self.params_dict),
+            dpugen.saigen.acl_rule.AclRules(self.params_dict),
             dpugen.saigen.enis.Enis(self.params_dict),
             dpugen.saigen.address_maps.Mappings(self.params_dict),
             dpugen.saigen.inbound_routing.InboundRouting(self.params_dict),
