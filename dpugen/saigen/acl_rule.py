@@ -130,23 +130,13 @@ class AclRules(ConfBase):
                     # allow
                     self.num_yields += 1
                     yield {
-                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
-                            "priority": ip_index,
-                            "action": "allow",
-                            "terminating": "true",
-                            "src_addr": l_ip_ac,
-                            "dst_addr": ",".join(ip_list_a[:])
-                        },
-                        'OP': 'SET'
-                    }
-                    yield {
                         'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index),
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$out_acl_group_#eni{eni}nsg{nsg_index}',
                             'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          '%d' % ip_index,
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT'
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               l_ip_ac,
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               ','.join(ip_list_a[:]),
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
@@ -209,23 +199,13 @@ class AclRules(ConfBase):
                     # allow
                     self.num_yields += 1
                     yield {
-                        'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index+2): {
-                            "priority": ip_index+2,
-                            "action": "allow",
-                            "terminating": "true",
-                            "src_addr": l_ip_ac,
-                            "dst_addr": ",".join(ip_list_all[:])
-                        },
-                        'OP': 'SET'
-                    }
-                    yield {
                         'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index+2),
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$out_acl_group_#eni{eni}nsg{nsg_index}',
                             'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          '%d' % ip_index+2,
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT'
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               l_ip_ac,
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               ','.join(ip_list_all[:]),
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
