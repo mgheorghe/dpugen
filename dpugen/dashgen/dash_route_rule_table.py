@@ -25,7 +25,7 @@ class RouteRules(ConfBase):
             yield {
                 "DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32" % (eni, r_vni_id, vtep_remote): {
                     "action_type": "decap",
-                    "priority": "1",
+                    "priority": "0",
                     # "protocol": "0",
                     "pa_validation": "true",
                     "vnet":  "vnet-%d" % r_vni_id
