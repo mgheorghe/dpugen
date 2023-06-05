@@ -104,7 +104,7 @@ class AclRules(ConfBase):
                     # print("        %d" % ip_index)
                     rule_id_a = table_id * 10 * p.ACL_RULES_NSG + ip_index
                     remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + \
-                        (p.ACL_NSG_COUNT + stage_in_index) * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
+                        (p.ACL_NSG_COUNT + stage_out_index) * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
 
                     ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE) + "/32" for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
