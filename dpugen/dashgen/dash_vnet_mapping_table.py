@@ -25,7 +25,7 @@ class Mappings(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             #debug_file = io.open('macs_for_eni_%d.txt' % eni, "wt")
-            # vtep_local = cp.PAL + eni_index * cp.IP_STEP1
+            vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
             # vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
 
@@ -96,7 +96,6 @@ class Mappings(ConfBase):
             else:
                 # routed IPs
                 print(f'    routed:eni:{eni}', file=sys.stderr)
-                remote_expanded_ip = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
 
                 remote_expanded_mac = str(
                     maca(
@@ -106,7 +105,7 @@ class Mappings(ConfBase):
                 ).replace('-', ':')
                 self.num_yields += 1
                 yield {
-                    "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, remote_expanded_ip): {
+                    "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, vtep_eni): {
                         "routing_type": "vnet_encap",
                         "underlay_ip": str(vtep_remote),
                         "mac_address": remote_expanded_mac,
