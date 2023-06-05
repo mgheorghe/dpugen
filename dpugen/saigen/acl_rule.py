@@ -45,7 +45,7 @@ class AclRules(ConfBase):
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
                             'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          '%d' % ip_index,
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT'
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_a[:]),
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
@@ -69,7 +69,7 @@ class AclRules(ConfBase):
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
                             'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+1}',
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_DENY'
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_DENY',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_d[:]),
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
@@ -103,8 +103,8 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+2}'
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT'
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+2}',
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_all[:]),
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
@@ -161,7 +161,7 @@ class AclRules(ConfBase):
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$out_acl_group_#eni{eni}nsg{nsg_index}',
                             'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+1}',
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_DENY'
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_DENY',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               l_ip_ac,
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               ','.join(ip_list_d[:]),
                             #'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
