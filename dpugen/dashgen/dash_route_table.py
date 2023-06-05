@@ -21,6 +21,7 @@ class RouteTables(ConfBase):
         nr_of_routes_prefixes = int(math.log(p.IP_ROUTE_DIVIDER_PER_ACL_RULE, 2))
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             added_route_count = 0
+            vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
             for table_index in range(1, (p.ACL_NSG_COUNT*2+1)):
                 for acl_index in range(1, (p.ACL_RULES_NSG+1)):
                     ip_map_count = 0
@@ -51,7 +52,8 @@ class RouteTables(ConfBase):
                                 yield {
                                     "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, ip_prefix, mask): {
                                         "action_type": "vnet",
-                                        "vnet": "vnet-%d" % (eni + p.ENI_L2R_STEP)
+                                        "vnet": "vnet-%d" % (eni + p.ENI_L2R_STEP),
+                                        "overlay_ip": vtep_eni
                                     },
                                     "OP": "SET"
                                 }
