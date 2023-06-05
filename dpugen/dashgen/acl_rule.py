@@ -67,7 +67,7 @@ class AclRules(ConfBase):
                     ip_index_global = ip_index
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
-                if ((stage_in_index - 1) % p.ACL_NSG_COUNT) == 4:
+                if (stage_in_index % p.ACL_NSG_COUNT) == 4:
                     rule_id_a = table_id * 10 * p.ACL_RULES_NSG + last_ip_index
                     all_ips_stage1 = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + stage_in_index * 4 * cp.IP_STEP_NSG
                     all_ips_stage2 = all_ips_stage1 + 1 * 4 * cp.IP_STEP_NSG
@@ -140,7 +140,7 @@ class AclRules(ConfBase):
                     }
 
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
-                if ((stage_out_index - 1) % p.ACL_NSG_COUNT) == 4:
+                if (stage_out_index % p.ACL_NSG_COUNT) == 4:
                     rule_id_a = table_id * 10 * p.ACL_RULES_NSG + last_ip_index
                     all_ips_stage1 = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
                     all_ips_stage2 = all_ips_stage1 + 1 * 4 * cp.IP_STEP_NSG
