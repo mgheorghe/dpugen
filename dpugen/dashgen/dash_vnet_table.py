@@ -18,24 +18,24 @@ class Vnets(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+            r_vni_id = p.ENI_L2R_STEP + eni            
             self.num_yields += 1
-
             yield {
                 'DASH_VNET_TABLE:vnet-%d' % eni: {
-                    'vni': eni,
-                },
-                'OP': 'SET'
-            }
-
-            self.num_yields += 1
-            r_vni_id = p.ENI_L2R_STEP + eni
-
-            yield {
-                'DASH_VNET_TABLE:vnet-%d' % r_vni_id: {
                     'vni': r_vni_id,
                 },
                 'OP': 'SET'
             }
+
+ #           self.num_yields += 1
+#            r_vni_id = p.ENI_L2R_STEP + eni
+#
+ #           yield {
+ #               'DASH_VNET_TABLE:vnet-%d' % r_vni_id: {
+  #                  'vni': r_vni_id,
+ #               },
+  #              'OP': 'SET'
+  #          }
 
 
 if __name__ == '__main__':
