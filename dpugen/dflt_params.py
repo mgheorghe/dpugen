@@ -26,7 +26,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'ACL_RULES_NSG':                    1000,                      # 1000
     'IP_PER_ACL_RULE':                  128,                       # 128
     'IP_MAPPED_PER_ACL_RULE':           128,                       # 128 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
-    'IP_ROUTE_DIVIDER_PER_ACL_RULE':    16,                        # 16 (must be 2^N)
+    'IP_ROUTE_DIVIDER_PER_ACL_RULE':    64,                        # 64 (must be 2^N)
 
     'ACL_NSG_MAC_STEP':                 '00:00:00:02:00:00',
     'ACL_POLICY_MAC_STEP':              '00:00:00:00:01:00',
