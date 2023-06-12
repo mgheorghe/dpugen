@@ -18,7 +18,7 @@ class RouteRules(ConfBase):
         p = self.params
         cp = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
             r_vni_id = eni + p.ENI_L2R_STEP
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             self.num_yields += 1
