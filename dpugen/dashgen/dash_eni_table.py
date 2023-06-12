@@ -39,7 +39,7 @@ class Enis(ConfBase):
 
             self.num_yields += 1
             yield {
-                'DASH_ENI_NSG:eni-%d' % eni: {
+                'DASH_ENI_TABLE:eni-%d' % eni: {
                     'eni_id': 'eni-%d' % eni,
                     'mac_address': local_mac,
                     'underlay_ip': vm_underlay_dip,
