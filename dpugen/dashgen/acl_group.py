@@ -18,9 +18,8 @@ class AclGroups(ConfBase):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
-
-            for stage_in_index in range(p.ACL_NSG_COUNT):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound stage
                 table_id = eni * 1000 + stage_in_index
 
                 self.num_yields += 1
@@ -31,7 +30,7 @@ class AclGroups(ConfBase):
                     'OP': 'SET'
                 }
 
-            for stage_out_index in range(p.ACL_NSG_COUNT):
+            for stage_out_index in range(p.ACL_NSG_COUNT):  # Per outbound stage
                 table_id = eni * 1000 + 500 + stage_out_index
 
                 self.num_yields += 1
