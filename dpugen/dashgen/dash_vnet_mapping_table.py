@@ -3,7 +3,11 @@
 import os
 import sys
 
-from dpugen.confbase import ConfBase, ipa, maca
+from dpugen.confbase import (
+    ConfBase,
+    ipa,
+    maca
+)
 from dpugen.confutils import common_main
 
 
@@ -27,9 +31,11 @@ class Mappings(ConfBase):
                 # mapped IPs
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(p.ACL_NSG_COUNT):  # Per outbound stage
-                    for acl_index in range(p.ACL_RULES_NSG // 2):  # Per half of the rules
+                    # Per half of the rules
+                    for acl_index in range(p.ACL_RULES_NSG // 2):
                         remote_ip_a = ipa(p.IP_R_START) + (eni_index * int(ipa(p.IP_STEP_ENI))) + \
-                                      (nsg_index * int(ipa(p.IP_STEP_NSG))) + (acl_index * int(ipa(p.IP_STEP_ACL)))
+                            (nsg_index * int(ipa(p.IP_STEP_NSG))) + \
+                            (acl_index * int(ipa(p.IP_STEP_ACL)))
                         remote_mac_a = str(
                             maca(
                                 int(maca(p.MAC_R_START)) +
