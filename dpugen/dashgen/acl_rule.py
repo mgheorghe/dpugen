@@ -68,11 +68,11 @@ class AclRules(ConfBase):
                     all_ips_stage4 = all_ips_stage1 + 3 * 4 * cp.IP_STEP_NSG
                     all_ips_stage5 = all_ips_stage1 + 4 * 4 * cp.IP_STEP_NSG
                     ip_list_all = [
-                        str(all_ips_stage1)+'/14',
-                        str(all_ips_stage2)+'/14',
-                        str(all_ips_stage3)+'/14',
-                        str(all_ips_stage4)+'/14',
-                        str(all_ips_stage5)+'/14',
+                        str(all_ips_stage1) + '/14',
+                        str(all_ips_stage2) + '/14',
+                        str(all_ips_stage3) + '/14',
+                        str(all_ips_stage4) + '/14',
+                        str(all_ips_stage5) + '/14',
                     ]
 
                     # Allow

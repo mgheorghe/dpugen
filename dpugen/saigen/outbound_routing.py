@@ -38,7 +38,7 @@ class OutboundRouting(ConfBase):
                         ip_prefix = str(ipa(remote_ip) - 1 + ip_index *
                                         p.IP_ROUTE_DIVIDER_PER_ACL_RULE * int(ipa(p.IP_STEP1)))
                         for prefix_index in range(nr_of_routes_prefixes, 0, -1):
-                            nr_of_ips = 1 << (prefix_index-1)
+                            nr_of_ips = 1 << (prefix_index - 1)
                             mask = 32 - prefix_index + 1
                             if mask == 32:
                                 ip_prefix = str(ipa(ip_prefix) + 1)
