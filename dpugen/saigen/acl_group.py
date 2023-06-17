@@ -19,7 +19,7 @@ class AclGroups(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            for nsg_index in range(1, (p.ACL_NSG_COUNT+1)):
+            for nsg_index in range(1, (p.ACL_NSG_COUNT + 1)):
 
                 self.num_yields += 1
                 yield {

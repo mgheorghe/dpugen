@@ -21,7 +21,7 @@ class AclRules(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
             local_ip = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
-            l_ip_ac = deepcopy(str(local_ip)+'/32')
+            l_ip_ac = deepcopy(str(local_ip) + '/32')
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound group
                 table_id = eni * 1000 + stage_in_index
                 for ip_index in range(0, p.ACL_RULES_NSG, 2):  # Per even ACL rule
