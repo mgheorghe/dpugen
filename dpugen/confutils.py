@@ -22,9 +22,9 @@ def dumps_json(data, indent=2, depth=1):
     lines = s.splitlines()
     N = len(lines)
     # determine which lines to be shortened
-    is_over_depth_line = lambda i: i in range(N) and lines[i].startswith(space*(depth+1))
-    is_open_bracket_line = lambda i: not is_over_depth_line(i) and is_over_depth_line(i+1)
-    is_close_bracket_line = lambda i: not is_over_depth_line(i) and is_over_depth_line(i-1)
+    def is_over_depth_line(i): return i in range(N) and lines[i].startswith(space*(depth+1))
+    def is_open_bracket_line(i): return not is_over_depth_line(i) and is_over_depth_line(i+1)
+    def is_close_bracket_line(i): return not is_over_depth_line(i) and is_over_depth_line(i-1)
 
     def shorten_line(line_index):
         if not is_open_bracket_line(line_index):
