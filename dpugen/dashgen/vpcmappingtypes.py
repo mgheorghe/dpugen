@@ -17,9 +17,9 @@ class VpcMappingTypes(ConfBase):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
 
         vpcmappingtypes = [
-            "vpc",
-            "privatelink",
-            "privatelinknsg"
+            'vpc',
+            'privatelink',
+            'privatelinknsg'
         ]
 
         # return generator from list for consistency with other subgenerators
@@ -29,6 +29,6 @@ class VpcMappingTypes(ConfBase):
             yield x
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = VpcMappingTypes()
     common_main(conf)

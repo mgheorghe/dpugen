@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
 
-import pytest
-
 from dpugen import sai
 
 current_file_dir = Path(__file__).parent
@@ -92,7 +90,7 @@ class TestSaigen:
             out_commands_exp = json.load(out_file)
 
         confgen = sai.SaiConfig()
-        #confgen = sai.SaiConfig(baby_hero_params)
+        # confgen = sai.SaiConfig(baby_hero_params)
         confgen.merge_params(baby_hero_params)
         confgen.generate()
         out_commands = list(confgen.items())

@@ -1,14 +1,9 @@
 #!/usr/bin/python3
 
-import io
 import os
 import sys
 
-from dpugen.confbase import (
-    ConfBase,
-    ipa,
-    maca
-)
+from dpugen.confbase import ConfBase, ipa, maca
 from dpugen.confutils import common_main
 
 
@@ -21,7 +16,6 @@ class Mappings(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
@@ -56,13 +50,13 @@ class Mappings(ConfBase):
 
                             self.num_yields += 1
                             yield {
-                                "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, remote_expanded_ip): {
-                                    "routing_type": "vnet_encap",
-                                    "underlay_ip": str(vtep_remote),
-                                    "mac_address": remote_expanded_mac,
-                                    "use_dst_vni": "true"
+                                'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, remote_expanded_ip): {
+                                    'routing_type': 'vnet_encap',
+                                    'underlay_ip': str(vtep_remote),
+                                    'mac_address': remote_expanded_mac,
+                                    'use_dst_vni': 'true'
                                 },
-                                "OP": "SET"
+                                'OP': 'SET'
                             }
 
             # 3 in 4 enis will have just mapping for gateway ip, for ip that are only routed and not mapped
@@ -78,13 +72,13 @@ class Mappings(ConfBase):
                 ).replace('-', ':')
                 self.num_yields += 1
                 yield {
-                    "DASH_VNET_MAPPING_TABLE:vnet-%d:%s" % (r_vni_id, vtep_eni): {
-                        "routing_type": "vnet_encap",
-                        "underlay_ip": str(vtep_remote),
-                        "mac_address": remote_expanded_mac,
-                        "use_dst_vni": "true"
+                    'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, vtep_eni): {
+                        'routing_type': 'vnet_encap',
+                        'underlay_ip': str(vtep_remote),
+                        'mac_address': remote_expanded_mac,
+                        'use_dst_vni': 'true'
                     },
-                    "OP": "SET"
+                    'OP': 'SET'
                 }
 
 

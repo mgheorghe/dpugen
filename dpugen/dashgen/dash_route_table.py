@@ -40,23 +40,23 @@ class RouteTables(ConfBase):
                             if (eni % 4) == 1:
                                 self.num_yields += 1
                                 yield {
-                                    "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, ip_prefix, mask): {
-                                        "action_type": "vnet",
-                                        "vnet": "vnet-%d" % (eni + p.ENI_L2R_STEP)
+                                    'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip_prefix, mask): {
+                                        'action_type': 'vnet',
+                                        'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                                     },
-                                    "OP": "SET"
+                                    'OP': 'SET'
                                 }
 
                             else:
                                 # routes that do not have a mac mapping
                                 self.num_yields += 1
                                 yield {
-                                    "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, ip_prefix, mask): {
-                                        "action_type": "vnet_direct",
-                                        "vnet": "vnet-%d" % (eni + p.ENI_L2R_STEP),
-                                        "overlay_ip": vtep_eni
+                                    'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip_prefix, mask): {
+                                        'action_type': 'vnet_direct',
+                                        'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
+                                        'overlay_ip': vtep_eni
                                     },
-                                    "OP": "SET"
+                                    'OP': 'SET'
                                 }
 
                             added_route_count += 1
@@ -69,14 +69,14 @@ class RouteTables(ConfBase):
                 remote_ip_prefix = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
                 self.num_yields += 1
                 yield {
-                    "DASH_ROUTE_TABLE:eni-%d:%s/%d" % (eni, remote_ip_prefix, 10): {
-                        "action_type": "vnet",
-                        "vnet": "vnet-%d" % (eni + p.ENI_L2R_STEP)
+                    'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                        'action_type': 'vnet',
+                        'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                     },
-                    "OP": "SET"
+                    'OP': 'SET'
                 }
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = RouteTables()
     common_main(conf)

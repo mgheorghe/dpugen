@@ -1,6 +1,6 @@
 import sys
-sys.path.append(r'C:\github-keysight\dpugen')
 
+sys.path.append(r'C:\github-keysight\dpugen')
 
 from dpugen import dash
 

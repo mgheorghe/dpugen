@@ -35,5 +35,5 @@ generating config
 | File                                                               | Description            |
 |--------------------------------------------------------------------|------------------------|
 | [saigen-example-defaults.py](saigen-example-defaults.py)           | Generate SAI records for complex VNET config including all objects, using *default* parameters; minimal example |
-| [saigen-example-params.py](saigen-example-params.py)               | Generate SAI records for complex VNET config including all objects, using *custom* scaling parameters                 | 
-| [saigen-example-vnets.py](saigen-example-vnets.py)                 | Generate SAI records for vnet objects only using custom scaling parameters                 | 
+| [saigen-example-params.py](saigen-example-params.py)               | Generate SAI records for complex VNET config including all objects, using *custom* scaling parameters                 |
+| [saigen-example-vnets.py](saigen-example-vnets.py)                 | Generate SAI records for vnet objects only using custom scaling parameters                 |

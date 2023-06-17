@@ -5,7 +5,6 @@
 import ipaddress
 import json
 import sys
-import time
 from pathlib import Path
 from pprint import pprint
 
@@ -13,8 +12,7 @@ import macaddress
 import pytest
 from munch import DefaultMunch
 
-sys.path.append("../utils")
-import snappi_utils as su
+sys.path.append('../utils')
 
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 maca = macaddress.MAC       # optimization so the . does not get executed multiple times
@@ -31,14 +29,14 @@ Test vnet to vnet communication with ACL on outbound direction:
 
 Topology Used :
 
-       --------          -------          -------- 
+       --------          -------          --------
       |        |        |       |        |        |
       |        |        |       |        |        |
       |  TGEN  |--------|  DUT  |--------|  TGEN  |
       |        |        |       |        |        |
       |        |        |       |        |        |
-       --------          -------          -------- 
-       
+       --------          -------          --------
+
 """
 
 ###############################################################
@@ -97,8 +95,8 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
 
 p = DefaultMunch.fromDict(dflt_params)
 
-UNDERLAY_SRC_MAC = "80:09:02:01:00:01"
-UNDERLAY_DST_MAC = "00:00:00:00:00:00"
+UNDERLAY_SRC_MAC = '80:09:02:01:00:01'
+UNDERLAY_DST_MAC = '00:00:00:00:00:00'
 
 
 ###############################################################
@@ -107,7 +105,7 @@ UNDERLAY_DST_MAC = "00:00:00:00:00:00"
 
 class TestDpuGen:
 
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope='class')
     def setup_config(self):
         current_file_dir = Path(__file__).parent
         with (current_file_dir / 'config.sai-baby-hero.json').open(mode='r') as config_file:
@@ -116,9 +114,9 @@ class TestDpuGen:
 
     def test_setup(self, dpu, setup_config):
         results = [*dpu.process_commands(setup_config)]
-        print("\n======= SAI setup commands RETURN values =======")
+        print('\n======= SAI setup commands RETURN values =======')
         pprint(results)
-        assert all(results), "Setup error"
+        assert all(results), 'Setup error'
 
     def test_udp_outbound(self, dataplane):
 
@@ -148,7 +146,7 @@ class TestDpuGen:
                     ).replace('-', ':')
 
                     # Flow1 settings
-                    flow = dataplane.configuration.flows.flow(name="OUT-ENI%d-NSG%d" % (eni, nsg_index))[-1]
+                    flow = dataplane.configuration.flows.flow(name='OUT-ENI%d-NSG%d' % (eni, nsg_index))[-1]
                     flow.tx_rx.port.tx_name = dataplane.configuration.ports[0].name
                     flow.tx_rx.port.rx_name = dataplane.configuration.ports[1].name
                     flow.size.fixed = PACKET_LENGTH
@@ -202,7 +200,7 @@ class TestDpuGen:
                     ).replace('-', ':')
 
                     # Flow1 settings
-                    flow = dataplane.configuration.flows.flow(name="OUT-ENI%d-NSG%d" % (eni, nsg_index))[-1]
+                    flow = dataplane.configuration.flows.flow(name='OUT-ENI%d-NSG%d' % (eni, nsg_index))[-1]
                     flow.tx_rx.port.tx_name = dataplane.configuration.ports[0].name
                     flow.tx_rx.port.rx_name = dataplane.configuration.ports[1].name
                     flow.size.fixed = PACKET_LENGTH
@@ -290,7 +288,7 @@ class TestDpuGen:
                     ).replace('-', ':')
 
                     # Flow1 settings
-                    flow = dataplane.configuration.flows.flow(name="IN-ENI%d-NSG%d" % (eni, nsg_index))[-1]
+                    flow = dataplane.configuration.flows.flow(name='IN-ENI%d-NSG%d' % (eni, nsg_index))[-1]
                     flow.tx_rx.port.tx_name = dataplane.configuration.ports[1].name
                     flow.tx_rx.port.rx_name = dataplane.configuration.ports[0].name
                     flow.size.fixed = PACKET_LENGTH
@@ -343,7 +341,7 @@ class TestDpuGen:
                     ).replace('-', ':')
 
                     # Flow1 settings
-                    flow = dataplane.configuration.flows.flow(name="OUT-ENI%d-NSG%d" % (eni, nsg_index))[-1]
+                    flow = dataplane.configuration.flows.flow(name='OUT-ENI%d-NSG%d' % (eni, nsg_index))[-1]
                     flow.tx_rx.port.tx_name = dataplane.configuration.ports[1].name
                     flow.tx_rx.port.rx_name = dataplane.configuration.ports[0].name
                     flow.size.fixed = PACKET_LENGTH
@@ -411,8 +409,8 @@ class TestDpuGen:
         for command in cleanup_commands:
             results.append(dpu.command_processor.process_command(command))
         print(results)
-        print("\n======= SAI teardown commands RETURN values =======")
-        assert all([x == 0 for x in results]), "Teardown Error"
+        print('\n======= SAI teardown commands RETURN values =======')
+        assert all([x == 0 for x in results]), 'Teardown Error'
 
 
 def metrics_ok(api):
@@ -421,7 +419,7 @@ def metrics_ok(api):
 
     req = api.metrics_request()
     req.port.port_names = [p.name for p in cfg.ports]
-    #import pdb;pdb.set_trace()
+    # import pdb;pdb.set_trace()
     # include only sent and received packet counts
     req.port.column_names = [req.port.FRAMES_TX, req.port.FRAMES_RX]
     # fetch port metrics

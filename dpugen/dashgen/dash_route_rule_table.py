@@ -23,17 +23,17 @@ class RouteRules(ConfBase):
             vtep_remote = cp.PAR + eni_index * cp.IP_STEP1
             self.num_yields += 1
             yield {
-                "DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32" % (eni, r_vni_id, vtep_remote): {
-                    "action_type": "decap",
-                    "priority": "0",
+                'DASH_ROUTE_RULE_TABLE:eni-%d:%d:%s/32' % (eni, r_vni_id, vtep_remote): {
+                    'action_type': 'decap',
+                    'priority': '0',
                     # "protocol": "0",
-                    "pa_validation": "true",
-                    "vnet":  "vnet-%d" % r_vni_id
+                    'pa_validation': 'true',
+                    'vnet':  'vnet-%d' % r_vni_id
                 },
-                "OP": "SET"
+                'OP': 'SET'
             }
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = RouteRules()
     common_main(conf)

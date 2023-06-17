@@ -12,7 +12,7 @@ TESTDATA = {
         }
     },
 
-    ### UNDERLAY SECTION from SONiC schema ###
+    # UNDERLAY SECTION from SONiC schema ###
 
     # 'Ethernet8|10.0.0.4/31': {}, https://github.com/sonic-net/SONiC/blob/master/doc/config_db.json
     'INTERFACE_SCALE': {
@@ -90,7 +90,7 @@ TESTDATA = {
     ],
 
 
-    ### OVERLAY SECTION from SONiC-DASH schema https://github.com/Azure/DASH/blob/main/documentation/general/design/dash-sonic-hld.md ###
+    # OVERLAY SECTION from SONiC-DASH schema https://github.com/Azure/DASH/blob/main/documentation/general/design/dash-sonic-hld.md ###
 
     # DASH_VNET:{{vnet_name}}
     'DASH_VNET': {

@@ -17,17 +17,17 @@
 ## Use Cases
 The initial version supports the [DASH](https://github.com/Azure/DASH) project. Specifically, `dpugen` generates entries used to configure a DASH-capable device for networking services. See [DASH](https://github.com/Azure/DASH) documentation for more details.
 
-The initial use-case focuses specifically on the DASH [SAI](https://github.com/opencomputeproject/SAI) or Switch-Abstraction Interface. SAI has been extended from traditional L2/L3 datacenter swtches and routers, to now support L4 stateful processing, offloaded by DPUs. 
+The initial use-case focuses specifically on the DASH [SAI](https://github.com/opencomputeproject/SAI) or Switch-Abstraction Interface. SAI has been extended from traditional L2/L3 datacenter swtches and routers, to now support L4 stateful processing, offloaded by DPUs.
 ## Installation
 The easiest way to install is via Pip:
 ```
 pip3 install dpugen
 ```
 ## Command-line vs. Module
-`dpugen` can be used either as a standalone executable or a Python module imported into another program. 
+`dpugen` can be used either as a standalone executable or a Python module imported into another program.
 ### Command-line mode
 
-In *command-line mode*, the program can generate text or files containing JSON "records." These records comprise the configuration of the device under test (DUT). The JSON would typically be stored in a file or observed/captured on "standard out," then used by some other tool such as a test runner: the file is read, then converted into comands to configure the DUT. 
+In *command-line mode*, the program can generate text or files containing JSON "records." These records comprise the configuration of the device under test (DUT). The JSON would typically be stored in a file or observed/captured on "standard out," then used by some other tool such as a test runner: the file is read, then converted into comands to configure the DUT.
 
 When loaded from a file using a package such as Python [json](https://docs.python.org/3/library/json.html), the resulting data structure is a list of dictionary items, each one comprising a configuration item. This item might be one table entry, or a list of bulk-table entries.
 

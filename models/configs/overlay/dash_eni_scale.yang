@@ -12,7 +12,7 @@ submodule DASH_ENI_SCALE {
     ### OVERLAY SECTION from SONiC-DASH schema https://github.com/Azure/DASH/blob/main/documentation/general/design/dash-sonic-hld.md ###
 
 
-    # DASH_ENI:{{eni}} 
+    # DASH_ENI:{{eni}}
     "DASH_ENI": {
         "name": {
             "increment": {

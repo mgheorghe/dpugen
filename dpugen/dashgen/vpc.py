@@ -29,29 +29,29 @@ class Vpcs(ConfBase):
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP_ENI
             self.num_yields += 1
             yield {
-                "VPC:%d" % eni_index: {
-                    "vpc-id": "vpc-%d" % eni_index,
-                    "vni-key": eni_index,
-                    "encap": "vxlan",
-                    "address_spaces": [
-                        "%s/32" % IP_L
+                'VPC:%d' % eni_index: {
+                    'vpc-id': 'vpc-%d' % eni_index,
+                    'vni-key': eni_index,
+                    'encap': 'vxlan',
+                    'address_spaces': [
+                        '%s/32' % IP_L
                     ]
                 },
             }
 
             self.num_yields += 1
             yield {
-                "VPC:%d" % r_vpc: {
-                    "vpc-id": "vpc-%d" % r_vpc,
-                    "vni-key": r_vpc,
-                    "encap": "vxlan",
-                    "address_spaces": [
-                        "%s/9" % IP_R
+                'VPC:%d' % r_vpc: {
+                    'vpc-id': 'vpc-%d' % r_vpc,
+                    'vni-key': r_vpc,
+                    'encap': 'vxlan',
+                    'address_spaces': [
+                        '%s/9' % IP_R
                     ]
                 },
             }
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = Vpcs()
     common_main(conf)

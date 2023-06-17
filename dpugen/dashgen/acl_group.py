@@ -2,7 +2,6 @@
 
 import os
 import sys
-from copy import deepcopy
 
 from dpugen.confbase import ConfBase
 from dpugen.confutils import common_main
@@ -25,7 +24,7 @@ class AclGroups(ConfBase):
                 self.num_yields += 1
                 yield {
                     'DASH_ACL_GROUP_TABLE:%d' % table_id: {
-                        "ip_version": "ipv4",
+                        'ip_version': 'ipv4',
                     },
                     'OP': 'SET'
                 }
@@ -36,12 +35,12 @@ class AclGroups(ConfBase):
                 self.num_yields += 1
                 yield {
                     'DASH_ACL_GROUP_TABLE:%d' % table_id: {
-                        "ip_version": "ipv4",
+                        'ip_version': 'ipv4',
                     },
                     'OP': 'SET'
                 }
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     conf = AclGroups()
     common_main(conf)
