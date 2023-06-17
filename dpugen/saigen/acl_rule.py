@@ -21,7 +21,7 @@ class AclRules(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT)):
             local_ip = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
-            l_ip_ac = deepcopy(str(local_ip)+'/32')
+            l_ip_ac = deepcopy(str(local_ip) + '/32')
 
             for stage_in_index in range(p.ACL_NSG_COUNT):
                 nsg_index = stage_in_index + 1
@@ -97,7 +97,7 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+2}',
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index + 2}',
                             'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
                             'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_all[:]),
                             'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,

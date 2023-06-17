@@ -17,14 +17,14 @@ import textwrap
 
 def dumps_json(data, indent=2, depth=1):
     assert depth > 0
-    space = ' '*indent
+    space = ' ' * indent
     s = json.dumps(data, indent=indent)
     lines = s.splitlines()
     N = len(lines)
 
     # determine which lines to be shortened
     def is_over_depth_line(i):
-        return i in range(N) and lines[i].startswith(space*(depth + 1))
+        return i in range(N) and lines[i].startswith(space * (depth + 1))
 
     def is_open_bracket_line(i):
         return not is_over_depth_line(i) and is_over_depth_line(i + 1)
@@ -41,7 +41,7 @@ def dumps_json(data, indent=2, depth=1):
         while not is_close_bracket_line(end):
             end += 1
         has_trailing_comma = lines[end][-1] == ','
-        _lines = [lines[start][-1], *lines[start+1:end], lines[end].replace(',', '')]
+        _lines = [lines[start][-1], *lines[start + 1:end], lines[end].replace(',', '')]
         d = json.dumps(json.loads(' '.join(_lines)))
         return lines[line_index][:-1] + d + (',' if has_trailing_comma else '')
     #
