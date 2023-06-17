@@ -59,7 +59,7 @@ class AclRules(ConfBase):
                     # denny
                     self.num_yields += 1
                     yield {
-                        'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index+1),
+                        'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index + 1),
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
@@ -92,7 +92,7 @@ class AclRules(ConfBase):
                     # allow
                     self.num_yields += 1
                     yield {
-                        'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index+2),
+                        'name': 'dash_acl_%d_rule_%d' % (table_id, ip_index + 2),
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
