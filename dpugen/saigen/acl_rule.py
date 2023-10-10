@@ -31,8 +31,8 @@ class AclRules(ConfBase):
                     # print("        %d" % ip_index)
                     remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + stage_in_index * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
 
-                    ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE) +
-                                 '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
+                    ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE)
+                                 + '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
                     # allow
                     self.num_yields += 1
@@ -42,13 +42,13 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          '%d' % ip_index,
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
-                            'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_a[:]),
-                            'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
-                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT',          'sai_u16_range_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT',          'sai_u16_range_list_t',
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY','%d' % ip_index,
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION','SAI_DASH_ACL_RULE_ACTION_PERMIT',
+                            'SAI_DASH_ACL_RULE_ATTR_SIP',','.join(ip_list_a[:]),
+                            'SAI_DASH_ACL_RULE_ATTR_DIP',l_ip_ac,
+                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL','sai_u8_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT','sai_u16_range_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT','sai_u16_range_list_t',
                         ]
                     }
 
@@ -64,13 +64,13 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index+1}',
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_DENY',
-                            'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_d[:]),
-                            'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
-                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT',          'sai_u16_range_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT',          'sai_u16_range_list_t',
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY', f'{ip_index+1}',
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION', 'SAI_DASH_ACL_RULE_ACTION_DENY',
+                            'SAI_DASH_ACL_RULE_ATTR_SIP', ','.join(ip_list_d[:]),
+                            'SAI_DASH_ACL_RULE_ATTR_DIP', l_ip_ac,
+                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL', 'sai_u8_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT', 'sai_u16_range_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT', 'sai_u16_range_list_t',
                         ]
                     }
 
@@ -97,13 +97,13 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY',          f'{ip_index + 2}',
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION',            'SAI_DASH_ACL_RULE_ACTION_PERMIT',
-                            'SAI_DASH_ACL_RULE_ATTR_SIP',               ','.join(ip_list_all[:]),
-                            'SAI_DASH_ACL_RULE_ATTR_DIP',               l_ip_ac,
-                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL',          'sai_u8_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT',          'sai_u16_range_list_t',
-                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT',          'sai_u16_range_list_t',
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY', f'{ip_index + 2}',
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION', 'SAI_DASH_ACL_RULE_ACTION_PERMIT',
+                            'SAI_DASH_ACL_RULE_ATTR_SIP', ','.join(ip_list_all[:]),
+                            'SAI_DASH_ACL_RULE_ATTR_DIP', l_ip_ac,
+                            # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL', 'sai_u8_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT', 'sai_u16_range_list_t',
+                            # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT', 'sai_u16_range_list_t',
                         ]
                     }
 
@@ -115,8 +115,8 @@ class AclRules(ConfBase):
                     remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + \
                         (p.ACL_NSG_COUNT + stage_in_index) * cp.IP_STEP_NSG + ip_index * cp.IP_STEP_ACL
 
-                    ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE) +
-                                 '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
+                    ip_list_a = [str(remote_ip_a + expanded_index * cp.IP_STEPE)
+                                 + '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
                     # allow
                     self.num_yields += 1

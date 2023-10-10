@@ -38,10 +38,10 @@ class Mappings(ConfBase):
                             (acl_index * int(ipa(p.IP_STEP_ACL)))
                         remote_mac_a = str(
                             maca(
-                                int(maca(p.MAC_R_START)) +
-                                eni_index * int(maca(p.ENI_MAC_STEP)) +
-                                nsg_index * int(maca(p.ACL_NSG_MAC_STEP)) +
-                                acl_index * int(maca(p.ACL_POLICY_MAC_STEP))
+                                int(maca(p.MAC_R_START))
+                                + eni_index * int(maca(p.ENI_MAC_STEP))
+                                + nsg_index * int(maca(p.ACL_NSG_MAC_STEP))
+                                + acl_index * int(maca(p.ACL_POLICY_MAC_STEP))
                             )
                         ).replace('-', ':')
 
