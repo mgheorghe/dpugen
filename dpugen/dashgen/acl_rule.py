@@ -35,11 +35,11 @@ class AclRules(ConfBase):
                         all_ips_stage4 = all_ips_stage1 + 3 * cp.IP_STEP_NSG
                         all_ips_stage5 = all_ips_stage1 + 4 * cp.IP_STEP_NSG
                         ip_list_all = [
-                            str(all_ips_stage1)+'/15',
-                            str(all_ips_stage2)+'/15',
-                            str(all_ips_stage3)+'/15',
-                            str(all_ips_stage4)+'/15',
-                            str(all_ips_stage5)+'/15',
+                            str(all_ips_stage1) + '/15',
+                            str(all_ips_stage2) + '/15',
+                            str(all_ips_stage3) + '/15',
+                            str(all_ips_stage4) + '/15',
+                            str(all_ips_stage5) + '/15',
                         ]
 
                     # Allow
@@ -85,14 +85,12 @@ class AclRules(ConfBase):
                         all_ips_stage4 = all_ips_stage1 + 3 * cp.IP_STEP_NSG
                         all_ips_stage5 = all_ips_stage1 + 4 * cp.IP_STEP_NSG
                         ip_list_all = [
-                            str(all_ips_stage1)+'/15',
-                            str(all_ips_stage2)+'/15',
-                            str(all_ips_stage3)+'/15',
-                            str(all_ips_stage4)+'/15',
-                            str(all_ips_stage5)+'/15',
+                            str(all_ips_stage1) + '/15',
+                            str(all_ips_stage2) + '/15',
+                            str(all_ips_stage3) + '/15',
+                            str(all_ips_stage4) + '/15',
+                            str(all_ips_stage5) + '/15',
                         ]
-
-
                     # allow
                     self.num_yields += 1
                     yield {

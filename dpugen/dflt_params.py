@@ -9,7 +9,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
 
     'ENI_START':                        1,                         # 1
-    'ENI_COUNT':                        32,                        # 64
+    'ENI_COUNT':                        32,                        # 32
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',       # '00:00:00:18:00:00'
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000

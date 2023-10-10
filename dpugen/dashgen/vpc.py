@@ -23,7 +23,7 @@ class Vpcs(ConfBase):
         ENI_L2R_STEP = p.ENI_L2R_STEP
         ENI_COUNT = p.ENI_COUNT
 
-        for eni_index in range(1, ENI_COUNT+1):
+        for eni_index in range(1, ENI_COUNT + 1):
             IP_L = IP_L_START + (eni_index - 1) * IP_STEP_ENI
             r_vpc = eni_index + ENI_L2R_STEP
             IP_R = IP_R_START + (eni_index - 1) * IP_STEP_ENI
