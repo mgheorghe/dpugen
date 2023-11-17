@@ -12,8 +12,13 @@ from munch import DefaultMunch
 
 from dpugen.dflt_params import dflt_params
 
+
+import macaddress
+class MAC(macaddress.MAC):
+    formats = ('xx:xx:xx:xx:xx:xx',) + macaddress.MAC.formats
+
 ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
-maca = macaddress.MAC       # optimization so the . does not get executed multiple times
+maca = MAC       # optimization so the . does not get executed multiple times
 
 
 class ConfBase(ABC):
