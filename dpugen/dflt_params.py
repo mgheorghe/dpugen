@@ -1,5 +1,5 @@
 dflt_params = {                        # CONFIG VALUE             # DEFAULT VALUE
-    'SCHEMA_VER':                      '0.0.2',
+    'SCHEMA_VER':                      '0.0.3',
 
     'DC_START':                        '220.0.1.1',                # '220.0.1.2'
     'DC_STEP':                         '0.0.1.0',                  # '0.0.1.0'
@@ -8,8 +8,10 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'PAL':                             '221.1.0.1',                # '221.1.0.1'
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
 
+    'DPUS':                             8,                         # 1
+
     'ENI_START':                        1,                         # 1
-    'ENI_COUNT':                        32,                        # 32
+    'ENI_COUNT':                        256,                       # 32
     'ENI_MAC_STEP':                     '00:00:00:18:00:00',       # '00:00:00:18:00:00'
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000
@@ -24,9 +26,8 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
 
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    1000,                      # 1000
-    'IP_PER_ACL_RULE':                  128,                       # 128
-    'IP_MAPPED_PER_ACL_RULE':           128,                       # 128 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
-    'IP_ROUTE_DIVIDER_PER_ACL_RULE':    64,                        # 64 (must be 2^N)
+    'IP_PER_ACL_RULE':                  100,                       # 128
+    'IP_MAPPED_PER_ACL_RULE':           100,                       # 128 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
 
     'ACL_NSG_MAC_STEP':                 '00:00:00:02:00:00',
     'ACL_POLICY_MAC_STEP':              '00:00:00:00:01:00',
@@ -37,4 +38,5 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'IP_STEP_ACL':                      '0.0.1.0',
     'IP_STEPE':                         '0.0.0.2',
 
+    'TOTAL_OUTBOUND_ROUTES':            25600000                  # ENI_COUNT * 100K
 }

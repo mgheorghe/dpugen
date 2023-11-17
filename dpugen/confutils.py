@@ -90,10 +90,15 @@ class IterEncoder(json.JSONEncoder):
         return super().default(o)
 
 
-def write_list_file_iterator(config, format, filename='<stdout>'):
+def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
     if filename == '<stdout>':
         write_list_file_pointer_iterator(config, format, sys.stdout)
     else:
+        # if we have multiple asics we split conigs in diferent files for diferent asics
+        if dpu_id is not None:
+            tmp = filename.split('.')
+            tmp.insert(-1, 'dpu_%d' % dpu_id)
+            filename = '.'.join(tmp)
         with io.open(filename, 'wt') as file_pointer:
             write_list_file_pointer_iterator(config, format, file_pointer)
 
@@ -211,7 +216,7 @@ def common_parse_args(self):
         sys.exit()
 
 
-def common_output(self):
+def common_output(self, dpu_id=None):
     # import pdb
     # pdb.set_trace()
     # if self.args.content == 'dict':
@@ -223,7 +228,7 @@ def common_output(self):
 
     # elif self.args.content == 'list':
     #     # streaming list output:
-    write_list_file_iterator(self.items(), self.args.format, self.args.output)
+    write_list_file_iterator(self.items(), self.args.format, self.args.output, dpu_id)
     # else:
     #     raise Exception('Unknown content specifier: '%s'' % self.args.content)
 
