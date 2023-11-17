@@ -19,7 +19,9 @@ class AclRules(ConfBase):
         p = self.params
         cp = self.cooked_params
 
+        prefixes_count=0
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
+            print('\tacl-%d' % eni, file=sys.stderr)
             local_ip = cp.IP_L_START + eni_index * cp.IP_STEP_ENI
             l_ip_ac = deepcopy(str(local_ip) + '/32')
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound group
@@ -44,12 +46,14 @@ class AclRules(ConfBase):
 
                     # Allow
                     self.num_yields += 1
+                    prefixes = ip_list_a[:] + ip_list_all[:]
+                    prefixes_count+=len(prefixes)
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
                             'priority': ip_index,
                             'action': 'allow',
                             'terminating': 'true',
-                            'src_addr': ','.join(ip_list_a[:] + ip_list_all[:]),
+                            'src_addr': ','.join(prefixes),
                             'dst_addr': l_ip_ac
                         },
                         'OP': 'SET'
@@ -60,12 +64,15 @@ class AclRules(ConfBase):
 
                     # Deny
                     self.num_yields += 1
+                    prefixes = ip_list_d[:]
+                    prefixes_count+=len(prefixes)
+                    
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index + 1): {
                             'priority': ip_index + 1,
                             'action': 'deny',
                             'terminating': 'true',
-                            'src_addr': ','.join(ip_list_d[:]),
+                            'src_addr': ','.join(prefixes),
                             'dst_addr': l_ip_ac
                         },
                         'OP': 'SET'
@@ -93,13 +100,15 @@ class AclRules(ConfBase):
                         ]
                     # allow
                     self.num_yields += 1
+                    prefixes = ip_list_a[:] + ip_list_all[:]
+                    prefixes_count+=len(prefixes)
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
                             'priority': ip_index,
                             'action': 'allow',
                             'terminating': 'true',
                             'src_addr': l_ip_ac,
-                            'dst_addr': ','.join(ip_list_a[:] + ip_list_all[:])
+                            'dst_addr': ','.join(prefixes)
                         },
                         'OP': 'SET'
                     }
@@ -109,13 +118,16 @@ class AclRules(ConfBase):
 
                     # Deny
                     self.num_yields += 1
+                    prefixes = ip_list_d[:]
+                    prefixes_count+=len(prefixes)
+                    
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index + 1): {
                             'priority': ip_index + 1,
                             'action': 'deny',
                             'terminating': 'true',
                             'src_addr': l_ip_ac,
-                            'dst_addr': ','.join(ip_list_d[:])
+                            'dst_addr': ','.join(prefixes)
                         },
                         'OP': 'SET'
                     }
