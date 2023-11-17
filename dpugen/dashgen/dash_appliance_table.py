@@ -28,7 +28,7 @@ class Appliance(ConfBase):
         self.num_yields += 1
         yield {
             'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
-                'sip': '221.0.0.1',
+                'sip': f'{p.LOOPBACK}',
                 'vm_vni': f'{p.ENI_START}'
             },
             'OP': 'SET'
