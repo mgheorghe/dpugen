@@ -24,36 +24,31 @@ class Mappings(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
             vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
             vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
+
             r_vni_id = eni + p.ENI_L2R_STEP
 
             # 1 in 4 enis will have all its ips mapped
             if (eni % 4) == 1:
                 # mapped IPs
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
-                for nsg_index in range(p.ACL_NSG_COUNT):  # Per outbound stage
+                for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
                     # Per half of the rules
                     for acl_index in range(p.ACL_RULES_NSG // 2):
                         remote_ip_a = ipa(p.IP_R_START) + (eni_index * int(ipa(p.IP_STEP_ENI))) + \
                             (nsg_index * int(ipa(p.IP_STEP_NSG))) + \
                             (acl_index * int(ipa(p.IP_STEP_ACL)))
-                        remote_mac_a = str(
-                            maca(
-                                int(maca(p.MAC_R_START))
-                                + eni_index * int(maca(p.ENI_MAC_STEP))
-                                + nsg_index * int(maca(p.ACL_NSG_MAC_STEP))
-                                + acl_index * int(maca(p.ACL_POLICY_MAC_STEP))
+                        remote_mac_a = int(maca(
+                                int(maca(p.MAC_R_START)) +
+                                eni_index * int(maca(p.ENI_MAC_STEP)) +
+                                nsg_index * int(maca(p.ACL_NSG_MAC_STEP)) +
+                                acl_index * int(maca(p.ACL_POLICY_MAC_STEP))
                             )
-                        ).replace('-', ':')
+                        )
 
                         # Allow
                         for i in range(p.IP_MAPPED_PER_ACL_RULE):  # Per rule prefix
                             remote_expanded_ip = str(remote_ip_a + i * 2)
-                            remote_expanded_mac = str(
-                                maca(
-                                    int(maca(remote_mac_a)) + i * 2
-                                )
-                            ).replace('-', ':')
-
+                            remote_expanded_mac = str(maca(remote_mac_a + i * 2))
                             self.num_yields += 1
                             yield {
                                 'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, remote_expanded_ip): {
