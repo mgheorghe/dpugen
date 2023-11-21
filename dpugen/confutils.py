@@ -105,6 +105,7 @@ def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
             write_list_file_pointer_iterator(config, format, file_pointer)
 
 
+# TODO - consider generic recursive approach
 def write_list_file_pointer_iterator(config, format, file_pointer):
     if format == 'json':
         file_pointer.write(orjson.dumps(config, option=orjson.OPT_INDENT_2))
@@ -113,7 +114,7 @@ def write_list_file_pointer_iterator(config, format, file_pointer):
         print(ss)
     else:
         raise NotImplementedError(f'ERROR: unsupported format {format}')
-# TODO - consider generic recursive approach
+
 
 def common_arg_parser():
     parser = argparse.ArgumentParser(

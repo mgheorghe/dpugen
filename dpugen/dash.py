@@ -20,8 +20,7 @@ from .confbase import (
 from .confutils import (
     common_arg_parser,
     common_output,
-    common_parse_args,
-    write_list_file_iterator
+    common_parse_args
 )
 
 
@@ -47,8 +46,8 @@ class DashConfig(ConfBase):
         result = []
         for c in self.configs:
             result.extend(c.items())
-            #for i in c.items(): pass
         return result
+
 
 if __name__ == '__main__':
 
@@ -80,10 +79,10 @@ if __name__ == '__main__':
         pprint.pprint(dpu_conf)
 
         common_parse_args(dpu_conf)
-      
+
         dpu_conf.merge_params(dpu_params)
         dpu_conf.generate()
-      
+
         common_output(dpu_conf, dpu_id)
-    
+
     print('done', file=sys.stderr)

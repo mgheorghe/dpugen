@@ -27,7 +27,7 @@ class RouteTables(ConfBase):
             return mask_ip
         else:
             return mask_count
-        
+
     def create_routes(self, ip, count):
         routes = []
         mask = self.get_max_mask(ip, count)
@@ -47,11 +47,11 @@ class RouteTables(ConfBase):
         if route['mask'] == 31:
             routes.append({'ip': route['ip'] + 1, 'mask': 32})
         elif route['mask'] < 31:
-            routes.append(            {'ip': route['ip']    , 'mask': route['mask']+1})
+            routes.append({'ip': route['ip'], 'mask': route['mask'] + 1})
             routes.extend(self.split_route({'ip': route['ip'] + int(math.pow(2, 32 - route['mask'] - 1)), 'mask': route['mask'] + 1}))
         else:
             routes.append(route)
-    
+
         return routes
 
     def make_more_routes(self, routes, count):
@@ -70,7 +70,6 @@ class RouteTables(ConfBase):
         routes = sorted(routes, key=itemgetter('mask'), reverse=False)
 
         for route in routes:
-            #text_route = '%s/%d' % (str(ipa(route['ip'])), route['mask'])
             if more >= (32 - route['mask'] - 1):
                 tmp_r = self.split_route(route)
                 more_routes.extend(tmp_r)
@@ -101,7 +100,6 @@ class RouteTables(ConfBase):
                 for acl_index in range(0, p.ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
 
                     IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
-                    #IP_RANGE_END = IP_RANGE_START + 2 * IP_PER_ACL_RULE - 1
 
                     routes = self.create_routes(IP_RANGE_START, p.IP_PER_ACL_RULE * 2)
                     routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
@@ -130,7 +128,7 @@ class RouteTables(ConfBase):
                                 'OP': 'SET'
                             }
                     added_route_count += len(routes)
-                            
+
             # TODO: write condition check here to add a default route if no route was added to current ENI'
             if added_route_count == 0:
                 remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
@@ -142,6 +140,7 @@ class RouteTables(ConfBase):
                     },
                     'OP': 'SET'
                 }
+
 
 if __name__ == '__main__':
     conf = RouteTables()

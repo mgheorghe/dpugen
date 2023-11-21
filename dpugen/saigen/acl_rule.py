@@ -42,10 +42,10 @@ class AclRules(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_DASH_ACL_RULE',
                         'attributes': [
                             'SAI_DASH_ACL_RULE_ATTR_DASH_ACL_GROUP_ID', f'$in_acl_group_#eni{eni}nsg{nsg_index}',
-                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY','%d' % ip_index,
-                            'SAI_DASH_ACL_RULE_ATTR_ACTION','SAI_DASH_ACL_RULE_ACTION_PERMIT',
-                            'SAI_DASH_ACL_RULE_ATTR_SIP',','.join(ip_list_a[:]),
-                            'SAI_DASH_ACL_RULE_ATTR_DIP',l_ip_ac,
+                            'SAI_DASH_ACL_RULE_ATTR_PRIORITY', '%d' % ip_index,
+                            'SAI_DASH_ACL_RULE_ATTR_ACTION', 'SAI_DASH_ACL_RULE_ACTION_PERMIT',
+                            'SAI_DASH_ACL_RULE_ATTR_SIP', ','.join(ip_list_a[:]),
+                            'SAI_DASH_ACL_RULE_ATTR_DIP', l_ip_ac,
                             # 'SAI_DASH_ACL_RULE_ATTR_PROTOCOL','sai_u8_list_t',
                             # 'SAI_DASH_ACL_RULE_ATTR_SRC_PORT','sai_u16_range_list_t',
                             # 'SAI_DASH_ACL_RULE_ATTR_DST_PORT','sai_u16_range_list_t',
@@ -110,8 +110,6 @@ class AclRules(ConfBase):
             for stage_out_index in range(p.ACL_NSG_COUNT):
                 table_id = eni * 1000 + 500 + stage_out_index
 
-                rules = []
-                acl_append = rules.append
                 for ip_index in range(0, p.ACL_RULES_NSG, 2):
                     # print("        %d" % ip_index)
                     remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + \

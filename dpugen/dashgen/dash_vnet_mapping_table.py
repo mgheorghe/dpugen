@@ -28,7 +28,7 @@ class Mappings(ConfBase):
             vtep_eni = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + ip_int.IP_STEP1 * eni_index))
 
             r_vni_id = eni + p.ENI_L2R_STEP
-            remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI 
+            remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
             # 1 in 4 enis will have all its ips mapped
             if (eni % 4) == 1:
                 # mapped IPs

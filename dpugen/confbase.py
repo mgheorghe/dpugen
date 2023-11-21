@@ -23,8 +23,8 @@ struct_pack = struct.pack
 class MAC(macaddress.MAC):
     formats = ('xx:xx:xx:xx:xx:xx',) + macaddress.MAC.formats
 
-maca = MAC       # optimization so the . does not get executed multiple times
 
+maca = MAC       # optimization so the . does not get executed multiple times
 
 
 class ConfBase(ABC):

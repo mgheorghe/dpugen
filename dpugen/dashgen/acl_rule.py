@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import socket
-import struct
 import os
 import sys
 from copy import deepcopy
@@ -138,6 +136,7 @@ class AclRules(ConfBase):
                         },
                         'OP': 'SET'
                     }
+
 
 if __name__ == '__main__':
     conf = AclRules()
