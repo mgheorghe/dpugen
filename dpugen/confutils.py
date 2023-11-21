@@ -5,6 +5,7 @@ import itertools
 import json
 import sys
 import textwrap
+
 import orjson
 
 # From https://stackoverflow.com/questions/12670395/json-encoding-very-long-iterators

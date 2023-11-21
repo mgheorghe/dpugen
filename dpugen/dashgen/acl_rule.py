@@ -4,11 +4,7 @@ import os
 import sys
 from copy import deepcopy
 
-from dpugen.confbase import (
-    ConfBase,
-    socket_inet_ntoa,
-    struct_pack
-)
+from dpugen.confbase import ConfBase, socket_inet_ntoa, struct_pack
 from dpugen.confutils import common_main
 
 

@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Entry point to generate a DPU Hero test config in DASH format."""
 import copy
-import sys
 import ipaddress
+import sys
 
 import dpugen.dashgen.acl_group
 import dpugen.dashgen.acl_rule
@@ -13,15 +13,8 @@ import dpugen.dashgen.dash_route_table
 import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_vnet_table
 
-from .confbase import (
-    ConfBase,
-    maca
-)
-from .confutils import (
-    common_arg_parser,
-    common_output,
-    common_parse_args
-)
+from .confbase import ConfBase, maca
+from .confutils import common_arg_parser, common_output, common_parse_args
 
 
 class DashConfig(ConfBase):

@@ -2,19 +2,14 @@ import ipaddress
 import pprint
 import socket
 import struct
-import macaddress
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 from copy import deepcopy
 from datetime import datetime
 
-
+import macaddress
 from munch import DefaultMunch
 
 from dpugen.dflt_params import dflt_params
-
 
 socket_inet_ntoa = socket.inet_ntoa
 struct_pack = struct.pack

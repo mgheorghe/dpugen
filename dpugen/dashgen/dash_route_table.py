@@ -5,11 +5,7 @@ import os
 import sys
 from operator import itemgetter
 
-from dpugen.confbase import (
-    ConfBase,
-    socket_inet_ntoa,
-    struct_pack,
-)
+from dpugen.confbase import ConfBase, socket_inet_ntoa, struct_pack
 from dpugen.confutils import common_main
 
 

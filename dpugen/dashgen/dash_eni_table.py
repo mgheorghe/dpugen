@@ -3,12 +3,7 @@
 import os
 import sys
 
-from dpugen.confbase import (
-    ConfBase,
-    socket_inet_ntoa,
-    struct_pack,
-    maca
-)
+from dpugen.confbase import ConfBase, maca, socket_inet_ntoa, struct_pack
 from dpugen.confutils import common_main
 
 

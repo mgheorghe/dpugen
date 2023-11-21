@@ -4,11 +4,7 @@
 import os
 import sys
 
-from dpugen.confbase import (
-    ConfBase,
-    ipa,
-    maca
-)
+from dpugen.confbase import ConfBase, ipa, maca
 from dpugen.confutils import common_main
 
 
