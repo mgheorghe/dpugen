@@ -7,7 +7,8 @@ from operator import itemgetter
 
 from dpugen.confbase import (
     ConfBase,
-    ipa
+    socket_inet_ntoa,
+    struct_pack,
 )
 from dpugen.confutils import common_main
 
@@ -18,17 +19,10 @@ class RouteTables(ConfBase):
         super().__init__(params)
         self.num_yields = 0
 
-
-    def get_max_mask_from_count(self, count):
-        return int(math.log2(count))
-
-    def get_max_mask_from_ip(self, ip):
-        IP_RANGE_START_BIN = str(bin(ip))
-        return len(IP_RANGE_START_BIN) - IP_RANGE_START_BIN.rfind('1') - 1
-
     def get_max_mask(self, ip, count):
-        mask_count = self.get_max_mask_from_count(count)
-        mask_ip = self.get_max_mask_from_ip(ip)
+        mask_count = int(math.log2(count))
+        IP_RANGE_START_BIN = str(bin(ip))
+        mask_ip = len(IP_RANGE_START_BIN) - IP_RANGE_START_BIN.rfind('1') - 1
         if mask_count > mask_ip:
             return mask_ip
         else:
@@ -64,7 +58,6 @@ class RouteTables(ConfBase):
         more_routes = []
         nr_of_routes = len(routes)
         more = count - nr_of_routes
-        route_dict = []
 
         if count <= nr_of_routes:
             for route in routes:
@@ -94,52 +87,34 @@ class RouteTables(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
+        ip_int = self.cooked_params
 
-        TOTAL_OUTBOUND_ROUTES = p.TOTAL_OUTBOUND_ROUTES
-        ENI_COUNT = p.ENI_COUNT
-        ACL_NSG_COUNT = p.ACL_NSG_COUNT
-        ACL_RULES_NSG = p.ACL_RULES_NSG
-        IP_R_START = p.IP_R_START
-        IP_STEP_ENI = p.IP_STEP_ENI
-        IP_STEP_NSG = p.IP_STEP_NSG
-        IP_STEP1 = p.IP_STEP1
-        ENI_START = p.ENI_START
-        ENI_STEP = p.ENI_STEP
-        ENI_L2R_STEP = p.ENI_L2R_STEP
-        PAL = p.PAL
-        IP_PER_ACL_RULE = p.IP_PER_ACL_RULE
+        OUTBOUND_ROUTES_PER_ACL = p.TOTAL_OUTBOUND_ROUTES // (p.ENI_COUNT * 2 * p.ACL_NSG_COUNT * p.ACL_RULES_NSG)
 
-        OUTBOUND_ROUTES_PER_ACL = TOTAL_OUTBOUND_ROUTES // (ENI_COUNT * 2 * ACL_NSG_COUNT * ACL_RULES_NSG)
-
-        IP_R_START_int = int(ipa(IP_R_START))
-        IP_STEP_ENI_int = int(ipa(IP_STEP_ENI))
-        IP_STEP1_int = int(ipa(IP_STEP1))
-        IP_STEP_NSG_int = int(ipa(IP_STEP_NSG))
-
-        for eni_index, eni in enumerate(range(ENI_START, ENI_START + ENI_COUNT * ENI_STEP, ENI_STEP)):  # Per ENI (64)
-            print(eni)
-            IP_R_START_eni_int = IP_R_START_int + IP_STEP_ENI_int * eni_index
-            vtep_eni = str(ipa(PAL) + IP_STEP1_int * eni_index)
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
+            print(f'    eni:{eni}', file=sys.stderr)
+            IP_R_START_eni = ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index
+            vtep_eni = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + ip_int.IP_STEP1 * eni_index))
             added_route_count = 0
-            for table_index in range(ACL_NSG_COUNT * 2):  # Per outbound group (5)
-                IP_R_START_nsg_int = IP_R_START_eni_int + IP_STEP_NSG_int * table_index
-                for acl_index in range(0, ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
+            for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
+                IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
+                for acl_index in range(0, p.ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
 
-                    IP_RANGE_START = IP_R_START_nsg_int + IP_PER_ACL_RULE * acl_index - 1
+                    IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
                     #IP_RANGE_END = IP_RANGE_START + 2 * IP_PER_ACL_RULE - 1
 
-                    routes = self.create_routes(IP_RANGE_START, IP_PER_ACL_RULE * 2)
+                    routes = self.create_routes(IP_RANGE_START, p.IP_PER_ACL_RULE * 2)
                     routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
                     routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
 
                     for route in routes:
+                        ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
                         if (eni % 4) == 1:
                             self.num_yields += 1
                             yield {
-                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, str(ipa(route['ip'])), route['mask']): {
+                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet',
-                                    'vnet': 'vnet-%d' % (eni + ENI_L2R_STEP)
+                                    'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                                 },
                                 'OP': 'SET'
                             }
@@ -147,9 +122,9 @@ class RouteTables(ConfBase):
                             # routes that do not have a mac mapping
                             self.num_yields += 1
                             yield {
-                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, str(ipa(route['ip'])), route['mask']): {
+                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet_direct',
-                                    'vnet': 'vnet-%d' % (eni + ENI_L2R_STEP),
+                                    'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
                                     'overlay_ip': vtep_eni
                                 },
                                 'OP': 'SET'
@@ -158,16 +133,15 @@ class RouteTables(ConfBase):
                             
             # TODO: write condition check here to add a default route if no route was added to current ENI'
             if added_route_count == 0:
-                remote_ip_prefix = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
+                remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
                 self.num_yields += 1
                 yield {
                     'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
                         'action_type': 'vnet',
-                        'vnet': 'vnet-%d' % (eni + ENI_L2R_STEP)
+                        'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                     },
                     'OP': 'SET'
                 }
-
 
 if __name__ == '__main__':
     conf = RouteTables()

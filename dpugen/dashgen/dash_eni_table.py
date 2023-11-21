@@ -5,7 +5,8 @@ import sys
 
 from dpugen.confbase import (
     ConfBase,
-    ipa,
+    socket_inet_ntoa,
+    struct_pack,
     maca
 )
 from dpugen.confutils import common_main
@@ -20,11 +21,12 @@ class Enis(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
-        cp = self.cooked_params
+        ip_int = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
-            local_mac = str(maca(int(cp.MAC_L_START) + eni_index * int(maca(p.ENI_MAC_STEP)))).replace('-', ':')
-            vm_underlay_dip = str(ipa(p.PAL) + eni_index * int(ipa(p.IP_STEP1)))
+            local_mac = str(maca(int(ip_int.MAC_L_START) + eni_index * int(maca(p.ENI_MAC_STEP)))).replace('-', ':')
+            #vm_underlay_dip = str(ipa(p.PAL) + eni_index * int(ipa(p.IP_STEP1)))
+            vm_underlay_dip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1))
             r_vni_id = p.ENI_L2R_STEP + eni
             for nsg_index in range(p.ACL_NSG_COUNT * 2):
                 stage = nsg_index % p.ACL_NSG_COUNT + 1

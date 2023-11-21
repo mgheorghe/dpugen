@@ -2,6 +2,7 @@
 """Entry point to generate a DPU Hero test config in DASH format."""
 import copy
 import sys
+import ipaddress
 
 import dpugen.dashgen.acl_group
 import dpugen.dashgen.acl_rule
@@ -14,7 +15,6 @@ import dpugen.dashgen.dash_vnet_table
 
 from .confbase import (
     ConfBase,
-    ipa,
     maca
 )
 from .confutils import (
@@ -38,23 +38,17 @@ class DashConfig(ConfBase):
             dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
             dpugen.dashgen.acl_group.AclGroups(self.params_dict),
             dpugen.dashgen.acl_rule.AclRules(self.params_dict),
-            # dashgen.vpc.Vpcs(self.params_dict),
-            # dashgen.vpcmappingtypes.VpcMappingTypes(self.params_dict),
             dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
             dpugen.dashgen.dash_route_table.RouteTables(self.params_dict),
             dpugen.dashgen.dash_route_rule_table.RouteRules(self.params_dict),
-            # dashgen.prefix_tag.PrefixTags(self.params_dict),
         ]
 
     def items(self):
         result = []
         for c in self.configs:
             result.extend(c.items())
+            #for i in c.items(): pass
         return result
-
-    def write_to_file(self, fformat, outfile):
-        write_list_file_iterator(self.items(), fformat, outfile)
-
 
 if __name__ == '__main__':
 
@@ -73,17 +67,14 @@ if __name__ == '__main__':
         dpu_params['ENI_COUNT']   = ENI_COUNT
         dpu_params['ENI_START']   = conf.params_dict['ENI_START']             + dpu_id * ENI_COUNT * conf.params_dict['ENI_STEP']
 
-        dpu_params['LOOPBACK']    = str(ipa(conf.params_dict['LOOPBACK'])         + dpu_id * ENI_COUNT * int(ipa(conf.params_dict['IP_STEP1'])))
-        dpu_params['PAL']         = str(ipa(conf.params_dict['PAL'])              + dpu_id * ENI_COUNT * int(ipa(conf.params_dict['IP_STEP1'])))
-        dpu_params['PAR']         = str(ipa(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipa(conf.params_dict['IP_STEP1'])))
-        dpu_params['IP_L_START']  = str(ipa(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipa(conf.params_dict['IP_STEP_ENI'])))
-        dpu_params['IP_R_START']  = str(ipa(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipa(conf.params_dict['IP_STEP_ENI'])))
+        dpu_params['LOOPBACK']    = str(ipaddress.ip_address(conf.params_dict['LOOPBACK'])         + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+        dpu_params['PAL']         = str(ipaddress.ip_address(conf.params_dict['PAL'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+        dpu_params['PAR']         = str(ipaddress.ip_address(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+        dpu_params['IP_L_START']  = str(ipaddress.ip_address(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
+        dpu_params['IP_R_START']  = str(ipaddress.ip_address(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
 
         dpu_params['MAC_L_START'] = str(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
         dpu_params['MAC_R_START'] = str(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
-
-        #local_mac = str(maca(int(cp.MAC_L_START)+eni_index*int(maca(p.ENI_MAC_STEP)))).replace('-', ':')
-
 
         import pprint
         pprint.pprint(dpu_conf)

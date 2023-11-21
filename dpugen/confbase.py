@@ -1,5 +1,8 @@
 import ipaddress
 import pprint
+import socket
+import struct
+import macaddress
 from abc import (
     ABC,
     abstractmethod
@@ -7,18 +10,21 @@ from abc import (
 from copy import deepcopy
 from datetime import datetime
 
-import macaddress
+
 from munch import DefaultMunch
 
 from dpugen.dflt_params import dflt_params
 
 
-import macaddress
+socket_inet_ntoa = socket.inet_ntoa
+struct_pack = struct.pack
+
+
 class MAC(macaddress.MAC):
     formats = ('xx:xx:xx:xx:xx:xx',) + macaddress.MAC.formats
 
-ipa = ipaddress.ip_address  # optimization so the . does not get executed multiple times
 maca = MAC       # optimization so the . does not get executed multiple times
+
 
 
 class ConfBase(ABC):
@@ -50,21 +56,21 @@ class ConfBase(ABC):
             'IP_STEP_ENI',
             'IP_STEP_NSG',
             'IP_STEP_ACL',
-            'IP_STEPE'
-        ]:
-            self.cooked_params_dict[ip] = int(ipa(self.params_dict[ip]))
-        for ip in [
+            'IP_STEPE',
             'IP_L_START',
             'IP_R_START',
             'PAL',
             'PAR'
         ]:
-            self.cooked_params_dict[ip] = ipa(self.params_dict[ip])
+            self.cooked_params_dict[ip] = int(ipaddress.ip_address((self.params_dict[ip])))
         for mac in [
             'MAC_L_START',
-            'MAC_R_START'
+            'MAC_R_START',
+            'ACL_NSG_MAC_STEP',
+            'ENI_MAC_STEP',
+            'ACL_POLICY_MAC_STEP'
         ]:
-            self.cooked_params_dict[mac] = maca(self.params_dict[mac])
+            self.cooked_params_dict[mac] = int(maca(self.params_dict[mac]))
 
     @abstractmethod
     def items(self):

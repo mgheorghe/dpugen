@@ -5,6 +5,7 @@ import itertools
 import json
 import sys
 import textwrap
+import orjson
 
 # From https://stackoverflow.com/questions/12670395/json-encoding-very-long-iterators
 # Other articles to consider:
@@ -92,51 +93,27 @@ class IterEncoder(json.JSONEncoder):
 
 def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
     if filename == '<stdout>':
-        write_list_file_pointer_iterator(config, format, sys.stdout)
+        write_list_file_pointer_iterator(config, format, sys.stdout.buffer)
     else:
         # if we have multiple asics we split conigs in diferent files for diferent asics
         if dpu_id is not None:
             tmp = filename.split('.')
             tmp.insert(-1, 'dpu_%d' % dpu_id)
             filename = '.'.join(tmp)
-        with io.open(filename, 'wt') as file_pointer:
+        with io.open(filename, 'wb') as file_pointer:
+            print(f'writing file {filename}', file=sys.stderr)
             write_list_file_pointer_iterator(config, format, file_pointer)
 
 
 def write_list_file_pointer_iterator(config, format, file_pointer):
     if format == 'json':
-        json.dump(config, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
+        file_pointer.write(orjson.dumps(config, option=orjson.OPT_INDENT_2))
     elif format == 'vjson':
         ss = dumps_json(config)
         print(ss)
     else:
         raise NotImplementedError(f'ERROR: unsupported format {format}')
 # TODO - consider generic recursive approach
-
-
-def write_dict_file_iterator(config, format, filename='<stdout>'):
-    def _write_dict_file_iterator(config, file_pointer):
-        file_pointer.write('{\n')
-        first = True
-        for key, list in config.items():
-            if not first:
-                file_pointer.write(',\n')
-            file_pointer.write(f'  "{key}":\n')
-            json.dump(list, file_pointer, cls=IterEncoder, indent=2, separators=(',', ': '))
-            first = False
-        file_pointer.write('\n}\n')
-
-    if format == 'json':
-        print(f'Writing the {format} config to {filename}...', file=sys.stderr)
-        if filename == '<stdout>':
-            file_pointer = sys.stdout
-            _write_dict_file_iterator(config, file_pointer)
-        else:
-            with io.open(filename, 'wt') as file_pointer:
-                _write_dict_file_iterator(config, file_pointer)
-    else:
-        raise NotImplementedError(f'ERROR: unsupported format {format}')
-
 
 def common_arg_parser():
     parser = argparse.ArgumentParser(
