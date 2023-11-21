@@ -3,6 +3,7 @@
 import copy
 import ipaddress
 import sys
+import multiprocessing
 
 import dpugen.dashgen.acl_group
 import dpugen.dashgen.acl_rule
@@ -41,6 +42,11 @@ class DashConfig(ConfBase):
             result.extend(c.items())
         return result
 
+def create_asic_config(dpu_conf, dpu_params, dpu_id):
+    common_parse_args(dpu_conf)
+    dpu_conf.merge_params(dpu_params)
+    dpu_conf.generate()
+    common_output(dpu_conf, dpu_id)
 
 if __name__ == '__main__':
 
@@ -50,32 +56,30 @@ if __name__ == '__main__':
 
     conf = DashConfig()
 
+    threads = []     
     DPUS = conf.params_dict['DPUS']
     for dpu_id in range(DPUS):
         print('dpu %d' % dpu_id)
+
         dpu_conf = copy.deepcopy(conf)
         dpu_params = {}
         ENI_COUNT = conf.params_dict['ENI_COUNT'] // DPUS
         dpu_params['ENI_COUNT']   = ENI_COUNT
         dpu_params['ENI_START']   = conf.params_dict['ENI_START']             + dpu_id * ENI_COUNT * conf.params_dict['ENI_STEP']
-
         dpu_params['LOOPBACK']    = str(ipaddress.ip_address(conf.params_dict['LOOPBACK'])         + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['PAL']         = str(ipaddress.ip_address(conf.params_dict['PAL'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['PAR']         = str(ipaddress.ip_address(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['IP_L_START']  = str(ipaddress.ip_address(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
         dpu_params['IP_R_START']  = str(ipaddress.ip_address(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
-
         dpu_params['MAC_L_START'] = str(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
         dpu_params['MAC_R_START'] = str(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
 
-        import pprint
-        pprint.pprint(dpu_conf)
+        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, dpu_id)))
 
-        common_parse_args(dpu_conf)
+    for p in threads:                                                           
+        p.start()   
 
-        dpu_conf.merge_params(dpu_params)
-        dpu_conf.generate()
-
-        common_output(dpu_conf, dpu_id)
+    for p in threads:                                                           
+        p.join()   
 
     print('done', file=sys.stderr)
