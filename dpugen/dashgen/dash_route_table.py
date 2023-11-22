@@ -107,7 +107,7 @@ class RouteTables(ConfBase):
 
                     for route in routes:
                         ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
-                        if (eni % 4) == 1:
+                        if (eni % 2) == 1:
                             self.num_yields += 1
                             yield {
                                 'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {

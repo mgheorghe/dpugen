@@ -31,7 +31,7 @@ class Mappings(ConfBase):
             remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
             remote_mac_a_eni = ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI
             # 1 in 4 enis will have all its ips mapped
-            if (eni % 4) == 1:
+            if (eni % 2) == 1:
                 # mapped IPs
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
