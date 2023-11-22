@@ -11,7 +11,7 @@ from dpugen.confbase import (
 from dpugen.confutils import common_main
 
 
-class RouteRules(ConfBase):
+class InRouteRules(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
@@ -39,5 +39,5 @@ class RouteRules(ConfBase):
 
 
 if __name__ == '__main__':
-    conf = RouteRules()
+    conf = InRouteRules()
     common_main(conf)

@@ -39,8 +39,8 @@ class DashConfig(ConfBase):
             dpugen.dashgen.acl_group.AclGroups(self.params_dict),
             dpugen.dashgen.acl_rule.AclRules(self.params_dict),
             dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
-            dpugen.dashgen.dash_route_table.RouteTables(self.params_dict),
-            dpugen.dashgen.dash_route_rule_table.RouteRules(self.params_dict),
+            dpugen.dashgen.dash_route_table.OutRouteRules(self.params_dict),
+            dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
         ]
 
     def items(self):
@@ -78,8 +78,8 @@ if __name__ == '__main__':
         dpu_params['PAR']         = str(ipaddress.ip_address(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['IP_L_START']  = str(ipaddress.ip_address(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
         dpu_params['IP_R_START']  = str(ipaddress.ip_address(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
-        dpu_params['MAC_L_START'] = str(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI'])))
-        dpu_params['MAC_R_START'] = str(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI'])))
+        dpu_params['MAC_L_START'] = str(maca(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI']))))
+        dpu_params['MAC_R_START'] = str(maca(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI']))))
 
         threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, dpu_id)))
 

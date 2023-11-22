@@ -113,6 +113,9 @@ def write_list_file_pointer_iterator(config, format, file_pointer):
     elif format == 'vjson':
         ss = dumps_json(config)
         print(ss)
+    elif format == 'conf':
+        for command in config:
+            file_pointer.write(f"{command}".encode('ascii'))
     else:
         raise NotImplementedError(f'ERROR: unsupported format {format}')
 
@@ -149,7 +152,7 @@ ___gen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of
     )
 
     # parser.add_argument('-f', '--format', choices=['json', 'yaml'], default='json',
-    parser.add_argument('-f', '--format', choices=['json', 'vjson'], default='json',
+    parser.add_argument('-f', '--format', choices=['json', 'vjson', 'conf'], default='json',
                         help='Config output format.')
 
     # parser.add_argument('-c', '--content', choices=['dict', 'list'], default='list',

@@ -27,6 +27,7 @@ class AclRules(ConfBase):
             print(f'    acl:{eni}', file=sys.stderr)
             local_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_L_START + eni_index * ip_int.IP_STEP_ENI))
             l_ip_ac = deepcopy(local_ip + '/32')
+
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound group
                 table_id = eni * 1000 + stage_in_index
                 IP_R_START_stage = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI + stage_in_index * ip_int.IP_STEP_NSG
@@ -36,17 +37,17 @@ class AclRules(ConfBase):
 
                     ip_list_all = []
                     if ((stage_in_index % p.ACL_NSG_COUNT) == (p.ACL_NSG_COUNT - 1)) and (ip_index == (p.ACL_RULES_NSG - 2)):
-                        all_ips_stage1 = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI + (stage_in_index + 1) * ip_int.IP_STEP_NSG
+                        all_ips_stage1 = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI + (stage_in_index + 1) * ip_int.IP_STEP_NSG - 1
                         all_ips_stage2 = all_ips_stage1 + 1 * ip_int.IP_STEP_NSG
                         all_ips_stage3 = all_ips_stage1 + 2 * ip_int.IP_STEP_NSG
                         all_ips_stage4 = all_ips_stage1 + 3 * ip_int.IP_STEP_NSG
                         all_ips_stage5 = all_ips_stage1 + 4 * ip_int.IP_STEP_NSG
                         ip_list_all = [
-                            str(all_ips_stage1) + '/15',
-                            str(all_ips_stage2) + '/15',
-                            str(all_ips_stage3) + '/15',
-                            str(all_ips_stage4) + '/15',
-                            str(all_ips_stage5) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage1)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage2)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage3)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage4)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage5)) + '/15',
                         ]
 
                     # Allow
@@ -92,17 +93,17 @@ class AclRules(ConfBase):
 
                     ip_list_all = []
                     if ((stage_out_index % p.ACL_NSG_COUNT)) == (p.ACL_NSG_COUNT - 1) and (ip_index == (p.ACL_RULES_NSG - 2)):
-                        all_ips_stage1 = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
+                        all_ips_stage1 = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI - 1
                         all_ips_stage2 = all_ips_stage1 + 1 * ip_int.IP_STEP_NSG
                         all_ips_stage3 = all_ips_stage1 + 2 * ip_int.IP_STEP_NSG
                         all_ips_stage4 = all_ips_stage1 + 3 * ip_int.IP_STEP_NSG
                         all_ips_stage5 = all_ips_stage1 + 4 * ip_int.IP_STEP_NSG
                         ip_list_all = [
-                            str(all_ips_stage1) + '/15',
-                            str(all_ips_stage2) + '/15',
-                            str(all_ips_stage3) + '/15',
-                            str(all_ips_stage4) + '/15',
-                            str(all_ips_stage5) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage1)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage2)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage3)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage4)) + '/15',
+                            socket_inet_ntoa(struct_pack('>L', all_ips_stage5)) + '/15',
                         ]
                     # allow
                     self.num_yields += 1

@@ -18,6 +18,7 @@ class AclGroups(ConfBase):
         p = self.params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            print(f'    acl_group:eni:{eni}', file=sys.stderr)
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound stage
                 table_id = eni * 1000 + stage_in_index
 

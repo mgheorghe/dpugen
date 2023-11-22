@@ -13,7 +13,7 @@ from dpugen.confbase import (
 from dpugen.confutils import common_main
 
 
-class RouteTables(ConfBase):
+class OutRouteRules(ConfBase):
 
     def __init__(self, params={}):
         super().__init__(params)
@@ -143,5 +143,5 @@ class RouteTables(ConfBase):
 
 
 if __name__ == '__main__':
-    conf = RouteTables()
+    conf = OutRouteRules()
     common_main(conf)
