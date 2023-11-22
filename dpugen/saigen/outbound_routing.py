@@ -5,7 +5,10 @@ import math
 import os
 import sys
 
-from dpugen.confbase import ConfBase, ipa
+from dpugen.confbase import (
+    ConfBase,
+    ipa
+)
 from dpugen.confutils import common_main
 
 

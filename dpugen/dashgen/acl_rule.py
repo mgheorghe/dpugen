@@ -4,7 +4,11 @@ import os
 import sys
 from copy import deepcopy
 
-from dpugen.confbase import ConfBase, socket_inet_ntoa, struct_pack
+from dpugen.confbase import (
+    ConfBase,
+    socket_inet_ntoa,
+    struct_pack
+)
 from dpugen.confutils import common_main
 
 
@@ -25,9 +29,9 @@ class AclRules(ConfBase):
             l_ip_ac = deepcopy(str(local_ip) + '/32')
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound group
                 table_id = eni * 1000 + stage_in_index
-                IP_R_START_stage = ip_int.IP_R_START + (eni_index * ip_int.IP_STEP_ENI) + (stage_in_index * ip_int.IP_STEP_NSG)
+                IP_R_START_stage = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI + stage_in_index * ip_int.IP_STEP_NSG
                 for ip_index in range(0, p.ACL_RULES_NSG, 2):  # Per even ACL rule
-                    remote_ip_a = IP_R_START_stage + ((ip_index // 2) * ip_int.IP_STEP_ACL)
+                    remote_ip_a = IP_R_START_stage + ip_index * p.IP_PER_ACL_RULE
                     ip_list_a = [socket_inet_ntoa(struct_pack('>L', remote_ip_a + expanded_index * ip_int.IP_STEPE)) + '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
                     ip_list_all = []
@@ -83,7 +87,7 @@ class AclRules(ConfBase):
                 table_id = eni * 1000 + 500 + stage_out_index
                 IP_R_START_stage = ip_int.IP_R_START + (eni_index * ip_int.IP_STEP_ENI) + (p.ACL_NSG_COUNT + stage_out_index) * ip_int.IP_STEP_NSG
                 for ip_index in range(0, p.ACL_RULES_NSG, 2):
-                    remote_ip_a = IP_R_START_stage + (ip_index // 2) * ip_int.IP_STEP_ACL
+                    remote_ip_a = IP_R_START_stage + ip_index * p.IP_PER_ACL_RULE
                     ip_list_a = [socket_inet_ntoa(struct_pack('>L', remote_ip_a + expanded_index * ip_int.IP_STEPE)) + '/32' for expanded_index in range(0, p.IP_PER_ACL_RULE)]
 
                     ip_list_all = []

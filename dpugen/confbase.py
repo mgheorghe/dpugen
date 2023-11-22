@@ -2,7 +2,10 @@ import ipaddress
 import pprint
 import socket
 import struct
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod
+)
 from copy import deepcopy
 from datetime import datetime
 
@@ -61,9 +64,9 @@ class ConfBase(ABC):
         for mac in [
             'MAC_L_START',
             'MAC_R_START',
-            'ACL_NSG_MAC_STEP',
-            'ENI_MAC_STEP',
-            'ACL_POLICY_MAC_STEP'
+            'MAC_STEP_ENI',
+            'MAC_STEP_NSG',
+            'MAC_STEP_ACL'
         ]:
             self.cooked_params_dict[mac] = int(maca(self.params_dict[mac]))
 

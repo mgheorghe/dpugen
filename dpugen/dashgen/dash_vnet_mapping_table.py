@@ -3,7 +3,12 @@
 import os
 import sys
 
-from dpugen.confbase import ConfBase, maca, socket_inet_ntoa, struct_pack
+from dpugen.confbase import (
+    ConfBase,
+    maca,
+    socket_inet_ntoa,
+    struct_pack
+)
 from dpugen.confutils import common_main
 
 
@@ -24,16 +29,18 @@ class Mappings(ConfBase):
 
             r_vni_id = eni + p.ENI_L2R_STEP
             remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
+            remote_mac_a_eni = ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI
             # 1 in 4 enis will have all its ips mapped
             if (eni % 4) == 1:
                 # mapped IPs
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
                     remote_ip_a_nsg = remote_ip_a_eni + nsg_index * ip_int.IP_STEP_NSG
+                    remote_mac_a_nsg = remote_mac_a_eni + nsg_index * ip_int.MAC_STEP_NSG
                     # Per half of the rules
                     for acl_index in range(p.ACL_RULES_NSG // 2):
-                        remote_ip_a = remote_ip_a_nsg + acl_index * ip_int.IP_STEP_ACL
-                        remote_mac_a = ip_int.MAC_R_START + eni_index * ip_int.ENI_MAC_STEP + nsg_index * ip_int.ACL_NSG_MAC_STEP + acl_index * ip_int.ACL_POLICY_MAC_STEP
+                        remote_ip_a = remote_ip_a_nsg + acl_index * p.IP_PER_ACL_RULE * 2
+                        remote_mac_a = remote_mac_a_nsg + acl_index * p.IP_PER_ACL_RULE * 2
 
                         # Allow
                         for i in range(p.IP_MAPPED_PER_ACL_RULE):  # Per rule prefix
@@ -55,7 +62,7 @@ class Mappings(ConfBase):
                 # routed IPs
                 print(f'    routed:eni:{eni}', file=sys.stderr)
 
-                remote_expanded_mac = str(maca(ip_int.MAC_R_START + eni_index * ip_int.ENI_MAC_STEP))
+                remote_expanded_mac = str(maca(ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI))
                 self.num_yields += 1
                 yield {
                     'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, vtep_eni): {

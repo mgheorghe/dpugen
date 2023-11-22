@@ -2,8 +2,8 @@
 """Entry point to generate a DPU Hero test config in DASH format."""
 import copy
 import ipaddress
-import sys
 import multiprocessing
+import sys
 
 import dpugen.dashgen.acl_group
 import dpugen.dashgen.acl_rule
@@ -14,8 +14,15 @@ import dpugen.dashgen.dash_route_table
 import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_vnet_table
 
-from .confbase import ConfBase, maca
-from .confutils import common_arg_parser, common_output, common_parse_args
+from .confbase import (
+    ConfBase,
+    maca
+)
+from .confutils import (
+    common_arg_parser,
+    common_output,
+    common_parse_args
+)
 
 
 class DashConfig(ConfBase):
@@ -71,8 +78,8 @@ if __name__ == '__main__':
         dpu_params['PAR']         = str(ipaddress.ip_address(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['IP_L_START']  = str(ipaddress.ip_address(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
         dpu_params['IP_R_START']  = str(ipaddress.ip_address(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
-        dpu_params['MAC_L_START'] = str(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
-        dpu_params['MAC_R_START'] = str(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['ENI_MAC_STEP']))).replace('-', ':')
+        dpu_params['MAC_L_START'] = str(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI'])))
+        dpu_params['MAC_R_START'] = str(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI'])))
 
         threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, dpu_id)))
 

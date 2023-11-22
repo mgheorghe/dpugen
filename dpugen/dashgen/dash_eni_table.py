@@ -3,7 +3,12 @@
 import os
 import sys
 
-from dpugen.confbase import ConfBase, maca, socket_inet_ntoa, struct_pack
+from dpugen.confbase import (
+    ConfBase,
+    maca,
+    socket_inet_ntoa,
+    struct_pack
+)
 from dpugen.confutils import common_main
 
 
@@ -19,7 +24,7 @@ class Enis(ConfBase):
         ip_int = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
-            local_mac = str(maca(int(ip_int.MAC_L_START) + eni_index * int(maca(p.ENI_MAC_STEP))))
+            local_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
             vm_underlay_dip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1))
             r_vni_id = p.ENI_L2R_STEP + eni
             for nsg_index in range(p.ACL_NSG_COUNT * 2):
