@@ -25,8 +25,8 @@ class AclRules(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
             print(f'    acl:{eni}', file=sys.stderr)
-            local_ip = ip_int.IP_L_START + eni_index * ip_int.IP_STEP_ENI
-            l_ip_ac = deepcopy(str(local_ip) + '/32')
+            local_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_L_START + eni_index * ip_int.IP_STEP_ENI))
+            l_ip_ac = deepcopy(local_ip + '/32')
             for stage_in_index in range(p.ACL_NSG_COUNT):  # Per inbound group
                 table_id = eni * 1000 + stage_in_index
                 IP_R_START_stage = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI + stage_in_index * ip_int.IP_STEP_NSG
