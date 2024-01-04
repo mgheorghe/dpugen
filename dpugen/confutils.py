@@ -177,6 +177,10 @@ ___gen/vpcmappingtypes.py -m -M 'Kewl Config!'                - generate dict of
         '-o', '--output', default='<stdout>', metavar='OFILE',
         help='Output file (default: standard output)')
 
+    parser.add_argument(
+        '-t', '--use-threads', action='store_true',
+        help='Use one thread per DPU while generating configurations.  Requires more RAM -- multiply number of DPUs times the memory required to do a single-threaded run.')
+
     return parser
 
 

@@ -62,8 +62,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     conf = DashConfig()
+    common_parse_args(conf)
 
-    threads = []     
+    threads = []
     DPUS = conf.params_dict['DPUS']
     for dpu_id in range(DPUS):
         print('dpu %d' % dpu_id)
@@ -81,12 +82,15 @@ if __name__ == '__main__':
         dpu_params['MAC_L_START'] = str(maca(int(maca(conf.params_dict['MAC_L_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI']))))
         dpu_params['MAC_R_START'] = str(maca(int(maca(conf.params_dict['MAC_R_START'])) + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI']))))
 
-        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, dpu_id)))
+        if args.use_threads:
+            threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, dpu_id)))
+        else:
+            create_asic_config(dpu_conf, dpu_params, dpu_id)
 
-    for p in threads:                                                           
-        p.start()   
-
-    for p in threads:                                                           
-        p.join()   
+    if args.use_threads:
+        for p in threads:
+            p.start()
+        for p in threads:
+            p.join()
 
     print('done', file=sys.stderr)
