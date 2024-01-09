@@ -110,6 +110,8 @@ class AclRules(ConfBase):
             for stage_out_index in range(p.ACL_NSG_COUNT):
                 table_id = eni * 1000 + 500 + stage_out_index
 
+                rules = []
+                acl_append = rules.append
                 for ip_index in range(0, p.ACL_RULES_NSG, 2):
                     # print("        %d" % ip_index)
                     remote_ip_a = cp.IP_R_START + eni_index * cp.IP_STEP_ENI + \
@@ -161,10 +163,10 @@ class AclRules(ConfBase):
                 # add as last rule in last table from ingress and egress an allow rule for all the ip's from egress and ingress
                 if (stage_out_index % p.ACL_NSG_COUNT) == (p.ACL_NSG_COUNT - 1):
                     all_ips_stage1 = cp.IP_R_START + eni_index * cp.IP_STEP_ENI
-                    all_ips_stage2 = all_ips_stage1 + 1 * 4 * cp.IP_STEP_NSG
-                    all_ips_stage3 = all_ips_stage1 + 2 * 4 * cp.IP_STEP_NSG
-                    all_ips_stage4 = all_ips_stage1 + 3 * 4 * cp.IP_STEP_NSG
-                    all_ips_stage5 = all_ips_stage1 + 4 * 4 * cp.IP_STEP_NSG
+                    all_ips_stage2 = all_ips_stage1 + 1 * cp.IP_STEP_NSG
+                    all_ips_stage3 = all_ips_stage1 + 2 * cp.IP_STEP_NSG
+                    all_ips_stage4 = all_ips_stage1 + 3 * cp.IP_STEP_NSG
+                    all_ips_stage5 = all_ips_stage1 + 4 * cp.IP_STEP_NSG
                     ip_list_all = [
                         str(all_ips_stage1) + '/14',
                         str(all_ips_stage2) + '/14',
