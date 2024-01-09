@@ -58,7 +58,8 @@ class ConfBase(ABC):
             'IP_L_START',
             'IP_R_START',
             'PAL',
-            'PAR'
+            'PAR',
+            'GATEWAY'
         ]:
             self.cooked_params_dict[ip] = int(ipaddress.ip_address((self.params_dict[ip])))
         for mac in [

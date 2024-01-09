@@ -93,7 +93,7 @@ class OutRouteRules(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
             print(f'    eni:{eni}', file=sys.stderr)
             IP_R_START_eni = ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index
-            vtep_eni = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + ip_int.IP_STEP1 * eni_index))
+            gateway =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
             added_route_count = 0
             for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
                 IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
@@ -123,7 +123,7 @@ class OutRouteRules(ConfBase):
                                 'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet_direct',
                                     'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
-                                    'overlay_ip': vtep_eni
+                                    'overlay_ip': gateway
                                 },
                                 'OP': 'SET'
                             }

@@ -7,6 +7,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'LOOPBACK':                        '221.0.0.1',                # '221.0.0.1'
     'PAL':                             '221.1.0.1',                # '221.1.0.1'
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
+    'GATEWAY':                         '222.0.0.1',                # '222.0.0.1'
 
     'DPUS':                             8,                         # 1
 
@@ -19,8 +20,8 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
 
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    1000,                      # 1000
-    'IP_PER_ACL_RULE':                  100,                       # 128
-    'IP_MAPPED_PER_ACL_RULE':           100,                       # 128 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
+    'IP_PER_ACL_RULE':                  100,                       # 100
+    'IP_MAPPED_PER_ACL_RULE':           100,                       # 100 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
 
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',

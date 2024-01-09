@@ -99,12 +99,27 @@ def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
         # if we have multiple asics we split conigs in diferent files for diferent asics
         if dpu_id is not None:
             tmp = filename.split('.')
-            tmp.insert(-1, 'dpu_%d' % dpu_id)
+            tmp.insert(-1, dpu_id)
             filename = '.'.join(tmp)
         with io.open(filename, 'wb') as file_pointer:
             print(f'writing file {filename}', file=sys.stderr)
             write_list_file_pointer_iterator(config, format, file_pointer)
+        cjson(filename)
 
+def cjson(jsonfile):
+    from compact_json import Formatter, EolStyle
+    formatter = Formatter()
+    #formatter.indent_spaces = 2
+    #formatter.max_inline_complexity = 10
+    #formatter.json_eol_style = EolStyle.LF
+    formatter.max_inline_length = 1000
+    formatter.max_compact_list_complexity = 1
+    formatter.simple_bracket_padding = False
+    formatter.nested_bracket_padding = False
+    with io.open(jsonfile, "r") as f:
+        obj = json.load(f)
+
+    formatter.dump(obj, output_file=jsonfile, newline_at_eof=True)
 
 # TODO - consider generic recursive approach
 def write_list_file_pointer_iterator(config, format, file_pointer):
