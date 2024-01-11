@@ -90,7 +90,7 @@ if __name__ == '__main__':
         dpu_params['LOOPBACK']    = str(ipaddress.ip_address(conf.params_dict['LOOPBACK'])         + dpu_id * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['PAL']         = str(ipaddress.ip_address(conf.params_dict['PAL'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['PAR']         = str(ipaddress.ip_address(conf.params_dict['PAR'])              + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
-        dpu_params['GATEWAY']     = str(ipaddress.ip_address(conf.params_dict['GATEWAY'])          + dpu_id * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+        dpu_params['GATEWAY']     = str(ipaddress.ip_address(conf.params_dict['GATEWAY'])          + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
         dpu_params['IP_L_START']  = str(ipaddress.ip_address(conf.params_dict['IP_L_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
         dpu_params['IP_R_START']  = str(ipaddress.ip_address(conf.params_dict['IP_R_START'])       + dpu_id * ENI_COUNT * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
         dpu_params['MAC_L_START'] = str(maca(int(maca(conf.params_dict['MAC_L_START']))            + dpu_id * ENI_COUNT * int(maca(conf.params_dict['MAC_STEP_ENI']))))
@@ -110,6 +110,7 @@ if __name__ == '__main__':
             eni_params['LOOPBACK']    = dpu_params['LOOPBACK']
             eni_params['PAL']         = str(ipaddress.ip_address(dpu_params['PAL'])              + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
             eni_params['PAR']         = str(ipaddress.ip_address(dpu_params['PAR'])              + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+            eni_params['GATEWAY']     = str(ipaddress.ip_address(dpu_params['GATEWAY'])          + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
             eni_params['IP_L_START']  = str(ipaddress.ip_address(dpu_params['IP_L_START'])       + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
             eni_params['IP_R_START']  = str(ipaddress.ip_address(dpu_params['IP_R_START'])       + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP_ENI'])))
             eni_params['MAC_L_START'] = str(maca(int(maca(dpu_params['MAC_L_START']))            + eni_index * int(maca(conf.params_dict['MAC_STEP_ENI']))))
