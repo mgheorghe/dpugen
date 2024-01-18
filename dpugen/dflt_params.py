@@ -1,5 +1,5 @@
 dflt_params = {                        # CONFIG VALUE             # DEFAULT VALUE
-    'SCHEMA_VER':                      '0.0.3',
+    'SCHEMA_VER':                      '0.0.4',
 
     'DC_START':                        '220.0.1.1',                # '220.0.1.2'
     'DC_STEP':                         '0.0.1.0',                  # '0.0.1.0'
@@ -21,8 +21,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    1000,                      # 1000
     'IP_PER_ACL_RULE':                  100,                       # 100
-    'IP_MAPPED_PER_ACL_RULE':           100,                       # 100 (must be equal with IP_PER_ACL_RULE) TODO: not implemented
-
+    'ACL_MAPPED_PER_NSG':               500,                       # 500, efective is 250 because denny are skiped
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',

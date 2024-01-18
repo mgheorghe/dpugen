@@ -93,7 +93,13 @@ class OutRouteRules(ConfBase):
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
             print(f'    eni:{eni}', file=sys.stderr)
             IP_R_START_eni = ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index
-            gateway =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
+            if p.ACL_MAPPED_PER_NSG > 0:
+                gateway_ip =  socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
+            elif p.ACL_MAPPED_PER_NSG == 0:
+                gateway_ip =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
+            else:
+                raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
+            
             added_route_count = 0
             for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
                 IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
@@ -107,7 +113,7 @@ class OutRouteRules(ConfBase):
 
                     for route in routes:
                         ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
-                        if (eni % 2) == 1:
+                        if acl_index <= p.ACL_MAPPED_PER_NSG:
                             self.num_yields += 1
                             yield {
                                 'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
@@ -123,7 +129,7 @@ class OutRouteRules(ConfBase):
                                 'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet_direct',
                                     'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
-                                    'overlay_ip': gateway
+                                    'overlay_ip': gateway_ip
                                 },
                                 'OP': 'SET'
                             }
@@ -132,14 +138,28 @@ class OutRouteRules(ConfBase):
             # TODO: write condition check here to add a default route if no route was added to current ENI'
             if added_route_count == 0:
                 remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
-                self.num_yields += 1
-                yield {
-                    'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
-                        'action_type': 'vnet',
-                        'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
-                    },
-                    'OP': 'SET'
-                }
+                if p.MAPPED_ACL_PER_NSG > 0:
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                            'action_type': 'vnet',
+                            'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
+                        },
+                        'OP': 'SET'
+                    }
+                # TODO: we can have a case where we have mapped and routed and we need both routes if route count is 0
+                elif p.ACL_MAPPED_PER_NSG == 0:
+                    self.num_yields += 1
+                    yield {
+                        'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                            'action_type': 'vnet_direct',
+                            'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
+                            'overlay_ip': gateway_ip
+                        },
+                        'OP': 'SET'
+                    }
+                else:
+                    raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
 
 
 if __name__ == '__main__':

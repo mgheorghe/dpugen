@@ -25,7 +25,7 @@ class Mappings(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
             vtep_remote = socket_inet_ntoa(struct_pack('>L', ip_int.PAR + ip_int.IP_STEP1 * eni_index))
-            gateway =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
+            gateway_ip =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
             
             eni_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_L_START + eni_index * ip_int.IP_STEP_ENI))
             eni_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
@@ -33,6 +33,7 @@ class Mappings(ConfBase):
             r_vni_id = eni + p.ENI_L2R_STEP
             remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
             remote_mac_a_eni = ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI
+            gateway_mac = str(maca(remote_mac_a_eni))
 
             self.num_yields += 1
             yield {
@@ -46,7 +47,7 @@ class Mappings(ConfBase):
             }
 
             # 1 in 4 enis will have all its ips mapped
-            if (eni % 2) == 1:
+            if p.ACL_MAPPED_PER_NSG >= 1:
                 # mapped IPs
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
@@ -61,39 +62,44 @@ class Mappings(ConfBase):
                         # time.sleep(10)
                         if (acl_index % 2) == 0:
                             # Allow
-                            for i in range(p.IP_MAPPED_PER_ACL_RULE):  # Per rule prefix
-                                remote_expanded_ip = socket_inet_ntoa(struct_pack('>L', remote_ip_a + i * 2))
-                                remote_expanded_mac = str(maca(remote_mac_a + i * 2))
-                                self.num_yields += 1
-                                yield {
-                                    'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, remote_expanded_ip): {
-                                        'routing_type': 'vnet_encap',
-                                        'underlay_ip': vtep_remote,
-                                        'mac_address': remote_expanded_mac,
-                                        'use_dst_vni': 'true'
-                                    },
-                                    'OP': 'SET'
-                                }
+                            if acl_index <= p.ACL_MAPPED_PER_NSG:
+                                for i in range(p.IP_PER_ACL_RULE):  # Per rule prefix
+                                    remote_expanded_ip = socket_inet_ntoa(struct_pack('>L', remote_ip_a + i * 2))
+                                    remote_expanded_mac = str(maca(remote_mac_a + i * 2))
+                                    self.num_yields += 1
+                                    yield {
+                                        'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, remote_expanded_ip): {
+                                            'routing_type': 'vnet_encap',
+                                            'underlay_ip': vtep_remote,
+                                            'mac_address': remote_expanded_mac,
+                                            'use_dst_vni': 'true'
+                                        },
+                                        'OP': 'SET'
+                                    }
+                            else:
+                                pass
+
                         else:
                             # Deny
                             pass
 
             # 3 in 4 enis will have just mapping for gateway ip, for ip that are only routed and not mapped
-            else:
+            elif p.ACL_MAPPED_PER_NSG == 0:
                 # routed IPs
                 print(f'    routed:eni:{eni}', file=sys.stderr)
-
-                remote_expanded_mac = str(maca(ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI))
                 self.num_yields += 1
                 yield {
-                    'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, gateway): {
+                    'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, gateway_ip): {
                         'routing_type': 'vnet_encap',
                         'underlay_ip': vtep_remote,
-                        'mac_address': remote_expanded_mac,
+                        'mac_address': gateway_mac,
                         'use_dst_vni': 'true'
                     },
                     'OP': 'SET'
                 }
+            
+            else:
+                raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
 
 
 if __name__ == '__main__':
