@@ -51,11 +51,12 @@ class AclRules(ConfBase):
                         ]
 
                     # Allow
-                    self.num_yields += 1
                     if len(ip_list_all) > 0:
                         prefixes = ip_list_a[:] + ip_list_all[:]
                     else:
                         prefixes = ip_list_a
+                    
+                    self.num_yields += 1
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
                             'priority': ip_index,
@@ -105,12 +106,14 @@ class AclRules(ConfBase):
                             socket_inet_ntoa(struct_pack('>L', all_ips_stage4)) + '/15',
                             socket_inet_ntoa(struct_pack('>L', all_ips_stage5)) + '/15',
                         ]
+
                     # allow
-                    self.num_yields += 1
                     if len(ip_list_all) > 0:
                         prefixes = ip_list_a[:] + ip_list_all[:]
                     else:
                         prefixes = ip_list_a
+                        
+                    self.num_yields += 1
                     yield {
                         'DASH_ACL_RULE_TABLE:%d:rule%d' % (table_id, ip_index): {
                             'priority': ip_index,
