@@ -25,7 +25,7 @@ class Mappings(ConfBase):
 
             eni_mac = str(
                 maca(
-                    int(maca(p.MAC_L_START)) + eni_index * int(maca(p.ENI_MAC_STEP))
+                    int(maca(p.MAC_L_START)) + eni_index * int(maca(p.MAC_STEP_ENI))
                 )
             ).replace('-', ':')
 
