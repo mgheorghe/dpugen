@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""DASH generator for ENI"""
 
 import os
 import sys
