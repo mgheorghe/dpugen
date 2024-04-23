@@ -20,14 +20,10 @@ class Mappings(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
+        ip_int = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-
-            eni_mac = str(
-                maca(
-                    int(maca(p.MAC_L_START)) + eni_index * int(maca(p.ENI_MAC_STEP))
-                )
-            ).replace('-', ':')
+            eni_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
 
             self.num_yields += 1
             yield {

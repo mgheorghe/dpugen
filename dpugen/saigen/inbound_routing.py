@@ -21,6 +21,7 @@ class InboundRouting(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
+        ip_int = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
             remote_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index))

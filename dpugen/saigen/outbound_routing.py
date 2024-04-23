@@ -102,8 +102,8 @@ class OutboundRouting(ConfBase):
                 raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
             
             added_route_count = 0
-            for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
-                IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
+            for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
+                IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * nsg_index
                 for acl_index in range(0, p.ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
 
                     IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
@@ -112,14 +112,14 @@ class OutboundRouting(ConfBase):
                     routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
                     routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
 
-                    for route in routes:
+                    for route_index, route in enumerate(routes):
                         ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
                         if acl_index < p.ACL_MAPPED_PER_NSG:
 
                             # routes that have a mac mapping
                             self.num_yields += 1
                             yield {
-                                'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ip{ip_index}p{prefix_index}',
+                                'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ri{route_index}',
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                 'key': {
@@ -136,7 +136,7 @@ class OutboundRouting(ConfBase):
                             # routes that do not have a mac mapping
                             self.num_yields += 1
                             yield {
-                                'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ip{ip_index}p{prefix_index}',
+                                'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ri{route_index}',
                                 'op': 'create',
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                 'key': {
@@ -158,7 +158,7 @@ class OutboundRouting(ConfBase):
                 if p.MAPPED_ACL_PER_NSG > 0:
                     self.num_yields += 1
                     yield {
-                        'name': f'outbound_routing_#eni{eni}',
+                        'name': f'outbound_routing_#eni{eni}mapped',
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                         'key': {
@@ -174,7 +174,7 @@ class OutboundRouting(ConfBase):
                 elif p.ACL_MAPPED_PER_NSG == 0:
                     self.num_yields += 1
                     yield {
-                        'name': f'outbound_routing_#eni{eni}nsg{nsg_index}acl{acl_index}ip{ip_index}p{prefix_index}',
+                        'name': f'outbound_routing_#eni{eni}routed',
                         'op': 'create',
                         'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                         'key': {
