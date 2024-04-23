@@ -9,10 +9,10 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'PAR':                             '221.2.0.1',                # '221.2.0.1'
     'GATEWAY':                         '222.0.0.1',                # '222.0.0.1'
 
-    'DPUS':                             1,                         # 1
+    'DPUS':                             8,                         # 1
 
     'ENI_START':                        1,                         # 1
-    'ENI_COUNT':                        1,                       # 32
+    'ENI_COUNT':                        256,                       # 32
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000
 
@@ -39,5 +39,5 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'IP_STEP_ACL':                      '0.0.1.0',
     'IP_STEPE':                         '0.0.0.2',
 
-    'TOTAL_OUTBOUND_ROUTES':            100000                  # ENI_COUNT * 100K
+    'TOTAL_OUTBOUND_ROUTES':            25600000                  # ENI_COUNT * 100K
 }
