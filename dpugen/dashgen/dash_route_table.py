@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""DASH generator for Outbound Routing"""
 
 import math
 import os
@@ -90,8 +91,8 @@ class OutRouteRules(ConfBase):
 
         OUTBOUND_ROUTES_PER_ACL = p.TOTAL_OUTBOUND_ROUTES // (p.ENI_COUNT * 2 * p.ACL_NSG_COUNT * p.ACL_RULES_NSG)
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI (64)
-            print(f'    eni:{eni}', file=sys.stderr)
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            print(f'    route:eni:{eni}', file=sys.stderr)
             IP_R_START_eni = ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index
             if p.ACL_MAPPED_PER_NSG > 0:
                 gateway_ip =  socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
@@ -113,7 +114,9 @@ class OutRouteRules(ConfBase):
 
                     for route in routes:
                         ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
-                        if acl_index <= p.ACL_MAPPED_PER_NSG:
+                        if acl_index < p.ACL_MAPPED_PER_NSG:
+
+                            # routes that have a mac mapping
                             self.num_yields += 1
                             yield {
                                 'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
@@ -135,7 +138,7 @@ class OutRouteRules(ConfBase):
                             }
                     added_route_count += len(routes)
 
-            # TODO: write condition check here to add a default route if no route was added to current ENI'
+            # add a default route if no route was added to current ENI'
             if added_route_count == 0:
                 remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
                 if p.MAPPED_ACL_PER_NSG > 0:
