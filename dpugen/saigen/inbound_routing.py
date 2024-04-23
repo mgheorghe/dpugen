@@ -6,7 +6,8 @@ import sys
 
 from dpugen.confbase import (
     ConfBase,
-    ipa
+    socket_inet_ntoa,
+    struct_pack
 )
 from dpugen.confutils import common_main
 
@@ -21,8 +22,8 @@ class InboundRouting(ConfBase):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            remote_ip = str(ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)))
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            remote_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + ip_int.IP_STEP_ENI * eni_index))
 
             self.num_yields += 1
             yield {

@@ -1,13 +1,14 @@
 #!/usr/bin/python3
-"""SAI generator for Outbound CA PA"""
+"""SAI generator for Outbound CA PA mapping table"""
 
 import os
 import sys
 
 from dpugen.confbase import (
     ConfBase,
-    ipa,
-    maca
+    maca,
+    socket_inet_ntoa,
+    struct_pack
 )
 from dpugen.confutils import common_main
 
@@ -21,92 +22,60 @@ class OutboundCaToPa(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
+        ip_int = self.cooked_params
 
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            vtep_remote = socket_inet_ntoa(struct_pack('>L', ip_int.PAR + ip_int.IP_STEP1 * eni_index))
+            gateway_ip =  socket_inet_ntoa(struct_pack('>L', ip_int.GATEWAY + ip_int.IP_STEP1 * eni_index))
+            remote_ip_a_eni = ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI
+            remote_mac_a_eni = ip_int.MAC_R_START + eni_index * ip_int.MAC_STEP_ENI
+            gateway_mac = str(maca(remote_mac_a_eni))
 
-            vtep_eni = str(ipa(p.PAL) + int(ipa(p.IP_STEP1)) * eni_index)
-            vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
-
-            # 1 in 4 enis will have all its ips mapped
-            if (eni % 4) == 1:
+            # just some prefixes may have a mapping entry
+            if p.ACL_MAPPED_PER_NSG >= 1:
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
-                for nsg_index in range(1, (p.ACL_NSG_COUNT * 2 + 1)):
-                    for acl_index in range(1, (p.ACL_RULES_NSG // 2 + 1)):
-                        remote_ip_a = ipa(p.IP_R_START) + eni_index * int(ipa(p.IP_STEP_ENI)) + \
-                            (nsg_index - 1) * int(ipa(p.IP_STEP_NSG)) + (acl_index - 1) * int(ipa(p.IP_STEP_ACL))
-                        remote_mac_a = str(
-                            maca(
-                                int(maca(p.MAC_R_START)) +
-                                eni_index * int(maca(p.ENI_MAC_STEP)) +
-                                (nsg_index - 1) * int(maca(p.ACL_NSG_MAC_STEP)) +
-                                (acl_index - 1) * int(maca(p.ACL_POLICY_MAC_STEP))
-                            )
-                        ).replace('-', ':')
+                for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
+                    remote_ip_a_nsg = remote_ip_a_eni + nsg_index * ip_int.IP_STEP_NSG
+                    remote_mac_a_nsg = remote_mac_a_eni + nsg_index * ip_int.MAC_STEP_NSG
+                    
+                    # Per half of the rules
+                    for acl_index in range(p.ACL_RULES_NSG):
+                        remote_ip_a = remote_ip_a_nsg + acl_index * p.IP_PER_ACL_RULE
+                        remote_mac_a = remote_mac_a_nsg + acl_index * p.IP_PER_ACL_RULE
 
-                        # mapping for allow ip
-                        for i in range(p.IP_MAPPED_PER_ACL_RULE):
-                            remote_expanded_ip = str(remote_ip_a + i * 2)
-                            remote_expanded_mac = str(
-                                maca(
-                                    int(maca(remote_mac_a)) + i * 2
-                                )
-                            ).replace('-', ':')
+                        if (acl_index % 2) == 0:
+                            # Allow
+                            if acl_index <= p.ACL_MAPPED_PER_NSG:
+                                for i in range(p.IP_PER_ACL_RULE):  # Per rule prefix
+                                    remote_expanded_ip = socket_inet_ntoa(struct_pack('>L', remote_ip_a + i * 2))
+                                    remote_expanded_mac = str(maca(remote_mac_a + i * 2))
 
-                            self.num_yields += 1
-                            yield {
-                                'name': f'outbound_ca_to_pa_#eni{eni}nsg{nsg_index}acl{acl_index}i{i}A',
-                                'op': 'create',
-                                'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
-                                'key': {
-                                    'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': f'$vnet_#eni{eni}',
-                                    'dip': remote_expanded_ip
-                                },
-                                'attributes': [
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', remote_expanded_mac,
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI', 'True'
-                                ]
-                            }
+                                    self.num_yields += 1
+                                    yield {
+                                        'name': f'outbound_ca_to_pa_#eni{eni}nsg{nsg_index}acl{acl_index}i{i}A',
+                                        'op': 'create',
+                                        'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
+                                        'key': {
+                                            'switch_id': '$SWITCH_ID',
+                                            'dst_vnet_id': f'$vnet_#eni{eni}',
+                                            'dip': remote_expanded_ip
+                                        },
+                                        'attributes': [
+                                            'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
+                                            'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', remote_expanded_mac,
+                                            'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI', 'True'
+                                        ]
+                                    }
+                            else:
+                                pass
 
-                        # mapping for deny ip
-                        # if you want to test that packets are being dropped because of the acl rule keep it
-                        # if you want to test that packets are being dropped because no mapping you can comment this area
-                        for i in range(p.IP_MAPPED_PER_ACL_RULE):
-                            remote_expanded_ip = str(remote_ip_a + i * 2 - 1)
-                            remote_expanded_mac = str(
-                                maca(
-                                    int(maca(remote_mac_a)) + i * 2 - 1
-                                )
-                            ).replace('-', ':')
+                        else:
+                            # Deny
+                            pass
 
-                            self.num_yields += 1
-                            yield {
-                                'name': f'outbound_ca_to_pa_#eni{eni}nsg{nsg_index}acl{acl_index}i{i}D',
-                                'op': 'create',
-                                'type': 'SAI_OBJECT_TYPE_OUTBOUND_CA_TO_PA_ENTRY',
-                                'key': {
-                                    'switch_id': '$SWITCH_ID',
-                                    'dst_vnet_id': f'$vnet_#eni{eni}',
-                                    'dip': remote_expanded_ip
-                                },
-                                'attributes': [
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', remote_expanded_mac,
-                                    'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI', 'True'
-                                ]
-                            }
-
-            # 3 in 4 enis will have just mapping for gateway ip, for ip that are only routed and not mapped
-            else:
+            # some prefixes will be routed through a gateway, need mapping for gateway
+            elif p.ACL_MAPPED_PER_NSG == 0:
                 print(f'    routed:eni:{eni}', file=sys.stderr)
-
-                remote_expanded_mac = str(
-                    maca(
-                        int(maca(p.MAC_R_START)) +
-                        eni_index * int(maca(p.ENI_MAC_STEP))
-                    )
-                ).replace('-', ':')
 
                 self.num_yields += 1
                 yield {
@@ -116,14 +85,17 @@ class OutboundCaToPa(ConfBase):
                     'key': {
                         'switch_id': '$SWITCH_ID',
                         'dst_vnet_id': f'$vnet_#eni{eni}',
-                        'dip': vtep_eni
+                        'dip': gateway_ip
                     },
                     'attributes': [
                         'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
-                        'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', remote_expanded_mac,
+                        'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', gateway_mac,
                         'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI', 'True'
                     ]
                 }
+            
+            else:
+                raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
 
 
 if __name__ == '__main__':

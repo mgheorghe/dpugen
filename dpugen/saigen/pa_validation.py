@@ -6,7 +6,8 @@ import sys
 
 from dpugen.confbase import (
     ConfBase,
-    ipa
+    socket_inet_ntoa,
+    struct_pack
 )
 from dpugen.confutils import common_main
 
@@ -20,9 +21,10 @@ class PaValidation(ConfBase):
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
         p = self.params
+        ip_int = self.cooked_params
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):
-            vtep_remote = str(ipa(p.PAR) + int(ipa(p.IP_STEP1)) * eni_index)
+            vtep_remote = socket_inet_ntoa(struct_pack('>L', ip_int.PAR + ip_int.IP_STEP1 * eni_index))
 
             self.num_yields += 1
             yield {
