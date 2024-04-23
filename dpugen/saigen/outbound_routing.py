@@ -125,7 +125,7 @@ class OutboundRouting(ConfBase):
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
                                     'eni_id': f'$eni_#{eni}',
-                                    'destination': f'{ip}/{route['mask']}'
+                                    'destination': f'{ip}/{route["mask"]}'
                                 },
                                 'attributes': [
                                     'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET',
@@ -142,7 +142,7 @@ class OutboundRouting(ConfBase):
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
                                     'eni_id': f'$eni_#{eni}',
-                                    'destination': f'{ip}/{route['mask']}'
+                                    'destination': f'{ip}/{route["mask"]}'
                                 },
                                 'attributes': [
                                     'SAI_OUTBOUND_ROUTING_ENTRY_ATTR_ACTION', 'SAI_OUTBOUND_ROUTING_ENTRY_ACTION_ROUTE_VNET_DIRECT',
