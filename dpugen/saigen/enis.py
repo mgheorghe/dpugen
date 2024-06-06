@@ -32,13 +32,15 @@ class Enis(ConfBase):
                 'op': 'create',
                 'type': 'SAI_OBJECT_TYPE_ENI',
                 'attributes': [
-                    'SAI_ENI_ATTR_CPS', '10000',
-                    'SAI_ENI_ATTR_PPS', '100000',
-                    'SAI_ENI_ATTR_FLOWS', '100000',
+                    'SAI_ENI_ATTR_CPS', '0',
+                    'SAI_ENI_ATTR_PPS', '0',
+                    'SAI_ENI_ATTR_FLOWS', '0',
                     'SAI_ENI_ATTR_ADMIN_STATE', 'True',
+                    "SAI_ENI_ATTR_HA_SCOPE_ID", "0",
                     'SAI_ENI_ATTR_VM_UNDERLAY_DIP', vm_underlay_dip,
                     'SAI_ENI_ATTR_VM_VNI', f'{eni}',
                     'SAI_ENI_ATTR_VNET_ID', f'$vnet_#eni{eni}',
+                    'SAI_ENI_ATTR_ROUTING_GROUP_ID', f'$routinggid_#{eni}',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE1_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE2_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_INBOUND_V4_STAGE3_DASH_ACL_GROUP_ID', '0',
@@ -59,6 +61,8 @@ class Enis(ConfBase):
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE3_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE4_DASH_ACL_GROUP_ID', '0',
                     'SAI_ENI_ATTR_OUTBOUND_V6_STAGE5_DASH_ACL_GROUP_ID', '0',
+                    "SAI_ENI_ATTR_V4_METER_POLICY_ID", "0",
+                    "SAI_ENI_ATTR_V6_METER_POLICY_ID", "0",
                 ]
             }
             for nsg_index in range(p.ACL_NSG_COUNT * 2):

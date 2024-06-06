@@ -124,7 +124,7 @@ class OutboundRouting(ConfBase):
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'eni_id': f'$eni_#{eni}',
+                                    'routing_group_id': f'$routinggid_#{eni}',
                                     'destination': f'{ip}/{route["mask"]}'
                                 },
                                 'attributes': [
@@ -141,7 +141,7 @@ class OutboundRouting(ConfBase):
                                 'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                                 'key': {
                                     'switch_id': '$SWITCH_ID',
-                                    'eni_id': f'$eni_#{eni}',
+                                    'routing_group_id': f'$routinggid_#{eni}',
                                     'destination': f'{ip}/{route["mask"]}'
                                 },
                                 'attributes': [
@@ -163,7 +163,7 @@ class OutboundRouting(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                         'key': {
                             'switch_id': '$SWITCH_ID',
-                            'eni_id': f'$eni_#{eni}',
+                            'routing_group_id': f'$routinggid_#{eni}',
                             'destination': f'{remote_ip_prefix}/10'
                         },
                         'attributes': [
@@ -179,7 +179,7 @@ class OutboundRouting(ConfBase):
                         'type': 'SAI_OBJECT_TYPE_OUTBOUND_ROUTING_ENTRY',
                         'key': {
                             'switch_id': '$SWITCH_ID',
-                            'eni_id': f'$eni_#{eni}',
+                            'routing_group_id': f'$routinggid_#{eni}',
                             'destination': f'{remote_ip_prefix}/10'
                         },
                         'attributes': [

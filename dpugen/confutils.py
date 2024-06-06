@@ -17,6 +17,13 @@ import orjson
 # https://pythonspeed.com/articles/json-memory-streaming/
 
 
+import uuid
+import hashlib
+
+def create_uuid_from_string(val: str):
+    hex_string = hashlib.md5(val.encode("UTF-8")).hexdigest()
+    return uuid.UUID(hex=hex_string)
+
 def dumps_json(data, indent=2, depth=1):
     assert depth > 0
     space = ' ' * indent

@@ -107,7 +107,7 @@ if __name__ == '__main__':
             eni_id = dpu_id * ENI_COUNT + eni_index
             eni_params['ENI_COUNT']   = 1
             eni_params['ENI_START']   = dpu_params['ENI_START']                                  + eni_index * conf.params_dict['ENI_STEP']
-            eni_params['LOOPBACK']    = str(ipaddress.ip_address(conf.params_dict['LOOPBACK'])   + (eni_id % DPUS) * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
+            eni_params['LOOPBACK']    = dpu_params['LOOPBACK']
             eni_params['PAL']         = str(ipaddress.ip_address(dpu_params['PAL'])              + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
             eni_params['PAR']         = str(ipaddress.ip_address(dpu_params['PAR'])              + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
             eni_params['GATEWAY']     = str(ipaddress.ip_address(dpu_params['GATEWAY'])          + eni_index * int(ipaddress.ip_address(conf.params_dict['IP_STEP1'])))
@@ -118,12 +118,11 @@ if __name__ == '__main__':
 
             eni_params['TOTAL_OUTBOUND_ROUTES'] = dpu_params['TOTAL_OUTBOUND_ROUTES'] // ENI_COUNT
 
-            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.eni%03d' % ((eni_id % DPUS), eni_id))))
+            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.eni%03d' % (dpu_id, eni_id))))
 
-    for p in threads:                                                           
-        p.start()   
-
-    for p in threads:                                                           
-        p.join()   
+    for p in threads:
+        p.start()
+    for p in threads:
+        p.join()
 
     print('done', file=sys.stderr)

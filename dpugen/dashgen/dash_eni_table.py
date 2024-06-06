@@ -52,8 +52,20 @@ class Enis(ConfBase):
 
             self.num_yields += 1
             yield {
+                'DASH_QOS_TABLE:qos-%d' % eni: {
+                    'qos_id': 'qos-%d' % eni,
+                    "bw": 0, 
+                    "cps": 0, 
+                    "flows": 0
+                },
+                'OP': 'SET'
+            }
+
+            self.num_yields += 1
+            yield {
                 'DASH_ENI_TABLE:eni-%d' % eni: {
                     'eni_id': 'eni-%d' % eni,
+                    "qos": 'qos-%d' % eni,
                     'mac_address': local_mac,
                     'underlay_ip': vm_underlay_dip,
                     'admin_state': 'enabled',

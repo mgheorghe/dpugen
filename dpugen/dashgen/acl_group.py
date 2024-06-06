@@ -6,6 +6,7 @@ import sys
 
 from dpugen.confbase import ConfBase
 from dpugen.confutils import common_main
+from dpugen.confutils import create_uuid_from_string
 
 
 class AclGroups(ConfBase):
@@ -27,6 +28,7 @@ class AclGroups(ConfBase):
                 yield {
                     'DASH_ACL_GROUP_TABLE:%d' % table_id: {
                         'ip_version': 'ipv4',
+                        'guid': create_uuid_from_string('DASH_ACL_GROUP_TABLE:%d' % table_id)
                     },
                     'OP': 'SET'
                 }
@@ -38,6 +40,7 @@ class AclGroups(ConfBase):
                 yield {
                     'DASH_ACL_GROUP_TABLE:%d' % table_id: {
                         'ip_version': 'ipv4',
+                        'guid': create_uuid_from_string('DASH_ACL_GROUP_TABLE:%d' % table_id)
                     },
                     'OP': 'SET'
                 }

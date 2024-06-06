@@ -5,6 +5,7 @@ import sys
 
 from dpugen.confbase import ConfBase
 from dpugen.confutils import common_main
+from dpugen.confutils import create_uuid_from_string
 
 
 class Vnets(ConfBase):
@@ -23,6 +24,7 @@ class Vnets(ConfBase):
             yield {
                 'DASH_VNET_TABLE:vnet-%d' % r_vni_id: {
                     'vni': r_vni_id,
+                    'guid': create_uuid_from_string('DASH_VNET_TABLE:vnet-%d' % r_vni_id)
                 },
                 'OP': 'SET'
             }

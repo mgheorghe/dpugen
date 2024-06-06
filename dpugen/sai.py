@@ -14,6 +14,7 @@ import dpugen.saigen.inbound_routing
 import dpugen.saigen.outbound_ca_to_pa
 import dpugen.saigen.outbound_routing
 import dpugen.saigen.pa_validation
+import dpugen.saigen.routing_group
 import dpugen.saigen.vips
 import dpugen.saigen.vnets
 
@@ -41,6 +42,7 @@ class SaiConfig(ConfBase):
             dpugen.saigen.vnets.Vnets(self.params_dict),
             dpugen.saigen.acl_group.AclGroups(self.params_dict),
             dpugen.saigen.acl_rule.AclRules(self.params_dict),
+            dpugen.saigen.routing_group.RoutingGroup(self.params_dict),
             dpugen.saigen.enis.Enis(self.params_dict),
             dpugen.saigen.address_maps.Mappings(self.params_dict),
             dpugen.saigen.inbound_routing.InboundRouting(self.params_dict),
