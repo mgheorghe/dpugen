@@ -27,11 +27,48 @@ class Appliance(ConfBase):
         #     }
         self.num_yields += 1
         yield {
-            'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
-                'sip': f'{p.LOOPBACK}',
-                'vm_vni': f'{p.ENI_START}'
-            },
-            'OP': 'SET'
+                'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
+                    'sip': f'{p.LOOPBACK}',
+                    'vm_vni': f'{p.ENI_START}'
+                },
+                'OP': 'SET'
+        }
+        yield {
+                "DASH_ROUTING_TYPE_TABLE:vnet": {
+                    "action_name": 'action-%d' % p.ENI_START,
+                    "action_type": "maprouting"
+                },
+                "OP": "SET"
+        }
+        yield {
+                "DASH_ROUTING_TYPE_TABLE:vnet_direct": {
+                    "action_name": 'action-%d' % p.ENI_START,
+                    "action_type": "maprouting"
+                },
+                "OP": "SET"
+        }
+        yield {
+                "DASH_ROUTING_TYPE_TABLE:vnet_encap": {
+                    "action_name": 'action-%d' % p.ENI_START,
+                    "action_type": "staticencap",
+                    "encap_type": "vxlan"
+                },
+                "OP": "SET"
+        }
+        yield {
+                "DASH_ROUTING_TYPE_TABLE:privatelink": [
+                    {
+                        "action_name": 'action-%d' % p.ENI_START,
+                        "action_type": "4to6"
+                    },
+                    {
+                        "action_name": 'action-%d' % (p.ENI_START + 1),
+                        "action_type": "staticencap",
+                        "encap_type": "nvgre",
+                        "vni":"%d" % (500 + p.ENI_START)
+                    }
+                ],
+                "OP": "SET"
         }
 
 

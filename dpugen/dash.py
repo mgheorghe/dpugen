@@ -10,6 +10,9 @@ import dpugen.dashgen.acl_rule
 import dpugen.dashgen.dash_appliance_table
 import dpugen.dashgen.dash_eni_table
 import dpugen.dashgen.dash_route_rule_table
+import dpugen.dashgen.dash_route_group_table
+import dpugen.dashgen.dash_eni_route_table
+import dpugen.dashgen.dash_qos_table
 import dpugen.dashgen.dash_route_table
 import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_vnet_table
@@ -36,14 +39,23 @@ class DashConfig(ConfBase):
             dpugen.dashgen.dash_appliance_table.Appliance(self.params_dict)
         ]
 
+    def generate_maps(self):
+        # Pass top-level params to sub-generators.
+        self.configs = [
+            dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            dpugen.dashgen.dash_eni_route_table.EniRoute(self.params_dict)
+        ]
+
     def generate_eni(self):
         # Pass top-level params to sub-generators.
         self.configs = [
             dpugen.dashgen.dash_vnet_table.Vnets(self.params_dict),
+            dpugen.dashgen.dash_qos_table.Qos(self.params_dict),
             dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
             dpugen.dashgen.acl_group.AclGroups(self.params_dict),
-            dpugen.dashgen.acl_rule.AclRules(self.params_dict),
-            dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            #dpugen.dashgen.acl_rule.AclRules(self.params_dict),
+            #dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
+            dpugen.dashgen.dash_route_group_table.RouteGroup(self.params_dict),
             dpugen.dashgen.dash_route_table.OutRouteRules(self.params_dict),
             dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
         ]
@@ -64,6 +76,12 @@ def create_eni_config(dpu_conf, dpu_params, eni_id):
     common_parse_args(dpu_conf)
     dpu_conf.merge_params(dpu_params)
     dpu_conf.generate_eni()
+    common_output(dpu_conf, eni_id)
+
+def create_map_config(dpu_conf, dpu_params, eni_id):
+    common_parse_args(dpu_conf)
+    dpu_conf.merge_params(dpu_params)
+    dpu_conf.generate_maps()
     common_output(dpu_conf, eni_id)
 
 if __name__ == '__main__':
@@ -98,7 +116,7 @@ if __name__ == '__main__':
 
         dpu_params['TOTAL_OUTBOUND_ROUTES'] = conf.params_dict['TOTAL_OUTBOUND_ROUTES'] // DPUS
 
-        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d' % dpu_id)))
+        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d.apl' % dpu_id)))
 
         for eni_index in range(ENI_COUNT):
             eni_conf = copy.deepcopy(dpu_conf)
@@ -119,6 +137,7 @@ if __name__ == '__main__':
             eni_params['TOTAL_OUTBOUND_ROUTES'] = dpu_params['TOTAL_OUTBOUND_ROUTES'] // ENI_COUNT
 
             threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.eni%03d' % (dpu_id, eni_id))))
+            threads.append(multiprocessing.Process(target=create_map_config, args=(eni_conf, eni_params, 'dpu%d.map%03d' % (dpu_id, eni_id))))
 
     for p in threads:
         p.start()

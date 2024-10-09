@@ -119,7 +119,7 @@ class OutRouteRules(ConfBase):
                             # routes that have a mac mapping
                             self.num_yields += 1
                             yield {
-                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
+                                'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet',
                                     'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                                 },
@@ -129,7 +129,7 @@ class OutRouteRules(ConfBase):
                             # routes that do not have a mac mapping
                             self.num_yields += 1
                             yield {
-                                'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, ip, route['mask']): {
+                                'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
                                     'action_type': 'vnet_direct',
                                     'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
                                     'overlay_ip': gateway_ip
@@ -144,7 +144,7 @@ class OutRouteRules(ConfBase):
                 if p.MAPPED_ACL_PER_NSG > 0:
                     self.num_yields += 1
                     yield {
-                        'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                        'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
                             'action_type': 'vnet',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                         },
@@ -154,7 +154,7 @@ class OutRouteRules(ConfBase):
                 elif p.ACL_MAPPED_PER_NSG == 0:
                     self.num_yields += 1
                     yield {
-                        'DASH_ROUTE_TABLE:eni-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                        'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
                             'action_type': 'vnet_direct',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
                             'overlay_ip': gateway_ip
