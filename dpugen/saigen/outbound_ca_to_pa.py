@@ -36,19 +36,19 @@ class OutboundCaToPa(ConfBase):
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
                 for nsg_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound stage
                     remote_ip_a_nsg = remote_ip_a_eni + nsg_index * ip_int.IP_STEP_NSG
-                    remote_mac_a_nsg = remote_mac_a_eni + nsg_index * ip_int.MAC_STEP_NSG
+                    #remote_mac_a_nsg = remote_mac_a_eni + nsg_index * ip_int.MAC_STEP_NSG
                     
                     # Per half of the rules
                     for acl_index in range(p.ACL_RULES_NSG):
                         remote_ip_a = remote_ip_a_nsg + acl_index * p.IP_PER_ACL_RULE
-                        remote_mac_a = remote_mac_a_nsg + acl_index * p.IP_PER_ACL_RULE
+                        #remote_mac_a = remote_mac_a_nsg + acl_index * p.IP_PER_ACL_RULE
 
                         if (acl_index % 2) == 0:
                             # Allow
-                            if acl_index <= p.ACL_MAPPED_PER_NSG:
+                            if acl_index < p.ACL_MAPPED_PER_NSG:
                                 for i in range(p.IP_PER_ACL_RULE):  # Per rule prefix
                                     remote_expanded_ip = socket_inet_ntoa(struct_pack('>L', remote_ip_a + i * 2))
-                                    remote_expanded_mac = str(maca(remote_mac_a + i * 2))
+                                    #remote_expanded_mac = str(maca(remote_mac_a + i * 2))
 
                                     self.num_yields += 1
                                     yield {
@@ -62,10 +62,11 @@ class OutboundCaToPa(ConfBase):
                                         },
                                         'attributes': [
                                             'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_UNDERLAY_DIP', vtep_remote,
-                                            'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', remote_expanded_mac,
+                                            'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_OVERLAY_DMAC', str(maca(remote_mac_a_eni)),
                                             'SAI_OUTBOUND_CA_TO_PA_ENTRY_ATTR_USE_DST_VNET_VNI', 'True'
                                         ]
                                     }
+                                    remote_mac_a_eni = remote_mac_a_eni + 2
                             else:
                                 pass
 

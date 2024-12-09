@@ -5,6 +5,8 @@ import ipaddress
 import multiprocessing
 import sys
 
+import multiprocessing.pool as mpool
+
 import dpugen.dashgen.acl_group
 import dpugen.dashgen.acl_rule
 import dpugen.dashgen.dash_appliance_table
@@ -57,7 +59,7 @@ class DashConfig(ConfBase):
             #dpugen.dashgen.dash_vnet_mapping_table.Mappings(self.params_dict),
             dpugen.dashgen.dash_route_group_table.RouteGroup(self.params_dict),
             dpugen.dashgen.dash_route_table.OutRouteRules(self.params_dict),
-            dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
+            #dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
         ]
 
     def items(self):
@@ -116,7 +118,7 @@ if __name__ == '__main__':
 
         dpu_params['TOTAL_OUTBOUND_ROUTES'] = conf.params_dict['TOTAL_OUTBOUND_ROUTES'] // DPUS
 
-        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d.apl' % dpu_id)))
+        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d.000apl' % dpu_id)))
 
         for eni_index in range(ENI_COUNT):
             eni_conf = copy.deepcopy(dpu_conf)
@@ -136,12 +138,30 @@ if __name__ == '__main__':
 
             eni_params['TOTAL_OUTBOUND_ROUTES'] = dpu_params['TOTAL_OUTBOUND_ROUTES'] // ENI_COUNT
 
-            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.eni%03d' % (dpu_id, eni_id))))
-            threads.append(multiprocessing.Process(target=create_map_config, args=(eni_conf, eni_params, 'dpu%d.map%03d' % (dpu_id, eni_id))))
+            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.%03deni' % (dpu_id, eni_id))))
+            threads.append(multiprocessing.Process(target=create_map_config, args=(eni_conf, eni_params, 'dpu%d.%03dmap' % (dpu_id, eni_id))))
 
+
+
+    # pool = mpool.ThreadPool(10)
+    # for p in threads:
+    #     pool.apply_async(p)
+
+    # for p in threads:
+    #     p.start()
+    # for p in threads:
+    #     p.join()
+
+    started_threads = []
     for p in threads:
         p.start()
-    for p in threads:
-        p.join()
+        started_threads.append(p)
+        if len(started_threads) > 10:
+            for st in started_threads:
+                st.join()
+            started_threads = []
+    for st in started_threads:
+        st.join()
+
 
     print('done', file=sys.stderr)

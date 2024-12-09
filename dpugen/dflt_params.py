@@ -16,12 +16,12 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'ENI_STEP':                         1,                         # 1
     'ENI_L2R_STEP':                     1000,                      # 1000
 
-    'VNET_PER_ENI':                     1,                         # 16 TODO: partialy implemented
+    'VNET_PER_ENI':                     1,                         # 16 TODO: partially implemented
 
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
     'ACL_RULES_NSG':                    1000,                      # 1000
-    'IP_PER_ACL_RULE':                  100,                       # 100
-    'ACL_MAPPED_PER_NSG':               500,                       # 500, efective is 250 because denny are skiped
+    'IP_PER_ACL_RULE':                  1,                         # 100
+    'ACL_MAPPED_PER_NSG':               500,                       # 500, effective is 250 because denny are skipped
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',
@@ -39,5 +39,5 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'IP_STEP_ACL':                      '0.0.1.0',
     'IP_STEPE':                         '0.0.0.2',
 
-    'TOTAL_OUTBOUND_ROUTES':            25600000                  # ENI_COUNT * 100K
+    'TOTAL_OUTBOUND_ROUTES':            256000                  # ENI_COUNT * 100K
 }
