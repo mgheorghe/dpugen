@@ -114,6 +114,7 @@ def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
         cjson(filename)
 
 def cjson(jsonfile):
+    print(f'formatting file {jsonfile}', file=sys.stderr)
     from compact_json import Formatter, EolStyle
     formatter = Formatter()
     #formatter.indent_spaces = 2
@@ -125,7 +126,6 @@ def cjson(jsonfile):
     formatter.nested_bracket_padding = False
     with io.open(jsonfile, "r") as f:
         obj = json.load(f)
-
     formatter.dump(obj, output_file=jsonfile, newline_at_eof=True)
 
 # TODO - consider generic recursive approach
