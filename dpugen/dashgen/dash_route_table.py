@@ -141,7 +141,7 @@ class OutRouteRules(ConfBase):
             # add a default route if no route was added to current ENI'
             if added_route_count == 0:
                 remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
-                if p.MAPPED_ACL_PER_NSG > 0:
+                if p.ACL_MAPPED_PER_NSG > 0:
                     self.num_yields += 1
                     yield {
                         'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
