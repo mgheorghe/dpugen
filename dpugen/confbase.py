@@ -70,6 +70,7 @@ class ConfBase(ABC):
             'MAC_STEP_ACL'
         ]:
             self.cooked_params_dict[mac] = int(maca(self.params_dict[mac]))
+        self.cooked_params_dict['OUTBOUND_ROUTES_DIST'] = self.params_dict['OUTBOUND_ROUTES_DIST']
 
     @abstractmethod
     def items(self):
