@@ -61,7 +61,7 @@ class DashConfig(ConfBase):
             dpugen.dashgen.acl_group.AclGroups(self.params_dict),
             dpugen.dashgen.dash_route_group_table.RouteGroup(self.params_dict),
             dpugen.dashgen.dash_route_table.OutRouteRules(self.params_dict),
-            dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
+            #dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
         ]
 
     def items(self):
