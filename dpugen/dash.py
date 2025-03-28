@@ -147,9 +147,9 @@ if __name__ == '__main__':
 
             eni_params['TOTAL_OUTBOUND_ROUTES'] = dpu_params['TOTAL_OUTBOUND_ROUTES'] // ENI_COUNT
 
-            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.eni%03d' % (dpu_id, eni_id))))
-            threads.append(multiprocessing.Process(target=create_map_config, args=(eni_conf, eni_params, 'dpu%d.map%03d' % (dpu_id, eni_id))))
-            threads.append(multiprocessing.Process(target=create_acl_config, args=(eni_conf, eni_params, 'dpu%d.acl%03d' % (dpu_id, eni_id))))
+            threads.append(multiprocessing.Process(target=create_eni_config, args=(eni_conf, eni_params, 'dpu%d.%03deni' % (dpu_id, eni_id))))
+            threads.append(multiprocessing.Process(target=create_map_config, args=(eni_conf, eni_params, 'dpu%d.%03dmap' % (dpu_id, eni_id))))
+            #threads.append(multiprocessing.Process(target=create_acl_config, args=(eni_conf, eni_params, 'dpu%d.%03dacl' % (dpu_id, eni_id))))
 
     for p in threads:
         p.start()
