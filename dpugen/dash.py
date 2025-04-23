@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
         dpu_params['TOTAL_OUTBOUND_ROUTES'] = conf.params_dict['TOTAL_OUTBOUND_ROUTES'] // DPUS
 
-        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d.apl' % dpu_id)))
+        threads.append(multiprocessing.Process(target=create_asic_config, args=(dpu_conf, dpu_params, 'dpu%d.000apl' % dpu_id)))
 
         for eni_index in range(ENI_COUNT):
             eni_conf = copy.deepcopy(dpu_conf)
