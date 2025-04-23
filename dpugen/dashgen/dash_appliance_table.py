@@ -27,49 +27,51 @@ class Appliance(ConfBase):
         #     }
         self.num_yields += 1
         yield {
-                'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
-                    'sip': f'{p.LOOPBACK}',
-                    'vm_vni': f'{p.ENI_START}'
-                },
-                'OP': 'SET'
+            'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
+                'sip': f'{p.LOOPBACK}',
+                'vm_vni': f'{p.ENI_START}'
+            },
+            'OP': 'SET'
         }
         yield {
-                "DASH_ROUTING_TYPE_TABLE:vnet": {
-                    "action_name": 'action-%d' % p.ENI_START,
-                    "action_type": "maprouting"
-                },
-                "OP": "SET"
+            "DASH_ROUTING_TYPE_TABLE:vnet": {
+                "action_name": 'action-%d' % p.ENI_START,
+                "action_type": "maprouting"
+            },
+            "OP": "SET"
         }
         yield {
-                "DASH_ROUTING_TYPE_TABLE:vnet_direct": {
-                    "action_name": 'action-%d' % p.ENI_START,
-                    "action_type": "maprouting"
-                },
-                "OP": "SET"
+            "DASH_ROUTING_TYPE_TABLE:vnet_direct": {
+                "action_name": 'action-%d' % p.ENI_START,
+                "action_type": "maprouting"
+            },
+            "OP": "SET"
         }
         yield {
-                "DASH_ROUTING_TYPE_TABLE:vnet_encap": {
-                    "action_name": 'action-%d' % p.ENI_START,
-                    "action_type": "staticencap",
-                    "encap_type": "vxlan"
-                },
-                "OP": "SET"
+            "DASH_ROUTING_TYPE_TABLE:vnet_encap": {
+                "action_name": 'action-%d' % p.ENI_START,
+                "action_type": "staticencap",
+                "encap_type": "vxlan"
+            },
+            "OP": "SET"
         }
-        yield {
-                "DASH_ROUTING_TYPE_TABLE:privatelink": [
+        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
+            nvgre_vni = p.NVGRE_VNI_START + eni_index * p.ENI_STEP
+            yield {
+                "DASH_ROUTING_TYPE_TABLE:privatelink-%d" % eni: [
                     {
-                        "action_name": 'action-%d' % p.ENI_START,
+                        "action_name": 'action-1',
                         "action_type": "4to6"
                     },
                     {
-                        "action_name": 'action-%d' % (p.ENI_START + 1),
+                        "action_name": 'action-2',
                         "action_type": "staticencap",
                         "encap_type": "nvgre",
-                        "vni":"%d" % (500 + p.ENI_START)
+                        "vni":"%d" % nvgre_vni
                     }
                 ],
                 "OP": "SET"
-        }
+            }
 
 
 if __name__ == '__main__':
