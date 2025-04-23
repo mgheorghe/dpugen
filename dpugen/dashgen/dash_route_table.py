@@ -12,6 +12,7 @@ from dpugen.confbase import (
     struct_pack
 )
 from dpugen.confutils import common_main
+import ipaddress
 
 
 class OutRouteRules(ConfBase):
@@ -109,8 +110,10 @@ class OutRouteRules(ConfBase):
                     IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
 
                     routes = self.create_routes(IP_RANGE_START, p.IP_PER_ACL_RULE * 2)
-                    routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
-                    routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
+                    if len(routes) < OUTBOUND_ROUTES_PER_ACL:
+                        routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
+                    if len(routes) < OUTBOUND_ROUTES_PER_ACL:
+                        routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
 
                     for route in routes:
                         ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
@@ -141,10 +144,11 @@ class OutRouteRules(ConfBase):
             # add a default route if no route was added to current ENI'
             if added_route_count == 0:
                 remote_ip_prefix = socket_inet_ntoa(struct_pack('>L', ip_int.IP_R_START + eni_index * ip_int.IP_STEP_ENI))
+                network = ipaddress.IPv4Network('%s/10' % remote_ip_prefix, strict=False)
                 if p.ACL_MAPPED_PER_NSG > 0:
                     self.num_yields += 1
                     yield {
-                        'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                        'DASH_ROUTE_TABLE:route-group-%d:%s' % (eni, network): {
                             'action_type': 'vnet',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                         },
@@ -154,7 +158,7 @@ class OutRouteRules(ConfBase):
                 elif p.ACL_MAPPED_PER_NSG == 0:
                     self.num_yields += 1
                     yield {
-                        'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, remote_ip_prefix, 10): {
+                        'DASH_ROUTE_TABLE:route-group-%d:%s' % (eni, network): {
                             'action_type': 'vnet_direct',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
                             'overlay_ip': gateway_ip
