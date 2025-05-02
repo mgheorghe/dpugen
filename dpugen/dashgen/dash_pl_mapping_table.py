@@ -24,6 +24,10 @@ class PlMappings(ConfBase):
         for i in range(len(hex_str), 8):
             hex_str = '0' + hex_str
         return hex_str
+    
+    def dec2hex(self, dec):
+        hex_str = hex(dec)[2:]
+        return hex_str
 
     def items(self):
         print('  Generating %s ...' % os.path.basename(__file__), file=sys.stderr)
@@ -72,15 +76,16 @@ class PlMappings(ConfBase):
                                     remote_expanded_ip_int = remote_ip_a + i * 2
                                     remote_expanded_ip = socket_inet_ntoa(struct_pack('>L', remote_expanded_ip_int))
                                     remote_expanded_mac = str(maca(remote_mac_a + i * 2))
-                                    overlay_sip_prefix = "fd41:100:%s:0:0::0/ffff:ffff:ffff:ffff:ffff:ffff::" % eni
-                                    overlay_dip_prefix = "2603:100:%s:0::%s:%s/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" % (eni, self.dec2hex8(remote_expanded_ip_int)[:4], self.dec2hex8(remote_expanded_ip_int)[4:])
+                                    overlay_sip_prefix = "fd41:100:%s:0:0::0/ffff:ffff:ffff:ffff:ffff:ffff::" % self.dec2hex(eni)
+                                    overlay_dip_prefix = "2603:100:%s:0::%s:%s/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" % (self.dec2hex(eni), self.dec2hex8(remote_expanded_ip_int)[:4], self.dec2hex8(remote_expanded_ip_int)[4:])
 
 
 
                                     self.num_yields += 1
                                     yield {
                                         'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, remote_expanded_ip): {
-                                            'routing_type': 'privatelink-%d' % eni,
+                                            #'routing_type': 'privatelink-%d' % eni,
+                                            'routing_type': 'privatelink',
                                             'underlay_ip': vtep_remote,
                                             'mac_address': remote_expanded_mac,
                                             'use_dst_vni': 'true',
