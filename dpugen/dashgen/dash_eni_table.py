@@ -46,11 +46,11 @@ class Enis(ConfBase):
 
         for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
             local_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
+            #loopback = socket_inet_ntoa(struct_pack('>L', ip_int.LOOPBACK + eni_index * ip_int.IP_STEP1))
             vm_underlay_dip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1))
-            pl_underlay_sip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1 + 256))
-            pl_sip_encoding = self.get_pl_sip_encoding(eni)
+            pl_underlay_sip = socket_inet_ntoa(struct_pack('>L', ip_int.LOOPBACK + eni_index * ip_int.IP_STEP1 + 256))
             r_vni_id = p.ENI_L2R_STEP + eni
-            r_vni_id = p.ENI_L2R_STEP + eni
+            pl_sip_encoding = self.get_pl_sip_encoding(r_vni_id)
             for nsg_index in range(p.ACL_NSG_COUNT * 2):
                 stage = nsg_index % p.ACL_NSG_COUNT + 1
                 if nsg_index < p.ACL_NSG_COUNT:
@@ -72,17 +72,6 @@ class Enis(ConfBase):
                         },
                         'OP': 'SET'
                     }
-
-            self.num_yields += 1
-            yield {
-                'DASH_QOS_TABLE:qos-%d' % eni: {
-                    'qos_id': 'qos-%d' % eni,
-                    "bw": 0, 
-                    "cps": 0, 
-                    "flows": 0
-                },
-                'OP': 'SET'
-            }
 
             self.num_yields += 1
             yield {
