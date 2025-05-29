@@ -29,7 +29,8 @@ class Appliance(ConfBase):
         yield {
             'DASH_APPLIANCE_TABLE:appliance-%d' % p.ENI_START: {
                 'sip': f'{p.LOOPBACK}',
-                'vm_vni': f'{p.ENI_START}'
+                'vm_vni': f'{p.ENI_START}',
+                'local_region_id': '100'
             },
             'OP': 'SET'
         }
@@ -55,23 +56,23 @@ class Appliance(ConfBase):
             },
             "OP": "SET"
         }
-        for eni_index, eni in enumerate(range(p.ENI_START, p.ENI_START + p.ENI_COUNT * p.ENI_STEP, p.ENI_STEP)):  # Per ENI
-            nvgre_vni = p.NVGRE_VNI_START + eni_index * p.ENI_STEP
-            yield {
-                "DASH_ROUTING_TYPE_TABLE:privatelink-%d" % eni: [
-                    {
-                        "action_name": 'action-1',
-                        "action_type": "4to6"
-                    },
-                    {
-                        "action_name": 'action-2',
-                        "action_type": "staticencap",
-                        "encap_type": "nvgre",
-                        "vni":"%d" % nvgre_vni
-                    }
-                ],
-                "OP": "SET"
-            }
+        yield {
+            "DASH_ROUTING_TYPE_TABLE:privatelink": [
+                {
+                    "action_name": 'action-1',
+                    "action_type": "4to6"
+                },
+                {
+                    "action_name": 'action-2',
+                    "action_type": "staticencap",
+                    "encap_type": "nvgre",
+                    "vni":"100"
+                }
+            ],
+            "OP": "SET"
+        }
+
+
 
 
 if __name__ == '__main__':
