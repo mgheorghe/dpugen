@@ -3,18 +3,21 @@
 import copy
 import ipaddress
 import multiprocessing
+import os
+import shutil
 import sys
+import pathlib
 
-import dpugen.dashgen.acl_group
-import dpugen.dashgen.acl_rule
+#import dpugen.dashgen.acl_group
+#import dpugen.dashgen.acl_rule
 import dpugen.dashgen.dash_appliance_table
 import dpugen.dashgen.dash_eni_table
 import dpugen.dashgen.dash_route_rule_table
 import dpugen.dashgen.dash_route_group_table
 import dpugen.dashgen.dash_eni_route_table
-import dpugen.dashgen.dash_qos_table
+#import dpugen.dashgen.dash_qos_table
 import dpugen.dashgen.dash_route_table
-import dpugen.dashgen.dash_vnet_mapping_table
+#import dpugen.dashgen.dash_vnet_mapping_table
 import dpugen.dashgen.dash_pl_mapping_table
 import dpugen.dashgen.dash_vnet_table
 
@@ -43,7 +46,7 @@ class DashConfig(ConfBase):
     def generate_maps(self):
         # Pass top-level params to sub-generators.
         self.configs = [
-            dpugen.dashgen.dash_vnet_mapping_table.VnetMappings(self.params_dict),
+            #dpugen.dashgen.dash_vnet_mapping_table.VnetMappings(self.params_dict),
             dpugen.dashgen.dash_pl_mapping_table.PlMappings(self.params_dict),
             dpugen.dashgen.dash_eni_route_table.EniRoute(self.params_dict)
         ]
@@ -58,12 +61,12 @@ class DashConfig(ConfBase):
         # Pass top-level params to sub-generators.
         self.configs = [
             dpugen.dashgen.dash_vnet_table.Vnets(self.params_dict),
-            dpugen.dashgen.dash_qos_table.Qos(self.params_dict),
+            #dpugen.dashgen.dash_qos_table.Qos(self.params_dict),
             dpugen.dashgen.dash_eni_table.Enis(self.params_dict),
-            dpugen.dashgen.acl_group.AclGroups(self.params_dict),
+            #dpugen.dashgen.acl_group.AclGroups(self.params_dict),
             dpugen.dashgen.dash_route_group_table.RouteGroup(self.params_dict),
             dpugen.dashgen.dash_route_table.OutRouteRules(self.params_dict),
-            #dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
+            dpugen.dashgen.dash_route_rule_table.InRouteRules(self.params_dict),
         ]
 
     def items(self):
@@ -110,8 +113,16 @@ if __name__ == '__main__':
 
     ENI_COUNT = conf.params_dict['ENI_COUNT'] // DPUS
 
+    if args.output != '<stdout>':
+        folder_name = pathlib.Path(args.output).stem
+        os.makedirs(folder_name, exist_ok=True)
+        shutil.copyfile('dpugen/dflt_params.py', folder_name + '/dflt_params.py')
+
     for dpu_id in range(DPUS):
         print('dpu %d' % dpu_id)
+
+        dpu_folder = folder_name + '/dpu%d' % dpu_id
+        os.makedirs(dpu_folder, exist_ok=True)
 
         dpu_conf = copy.deepcopy(conf)
         dpu_params = {}

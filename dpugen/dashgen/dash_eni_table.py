@@ -48,42 +48,41 @@ class Enis(ConfBase):
             local_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
             #loopback = socket_inet_ntoa(struct_pack('>L', ip_int.LOOPBACK + eni_index * ip_int.IP_STEP1))
             vm_underlay_dip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1))
-            pl_underlay_sip = socket_inet_ntoa(struct_pack('>L', ip_int.LOOPBACK + eni_index * ip_int.IP_STEP1 + 256))
             r_vni_id = p.ENI_L2R_STEP + eni
-            pl_sip_encoding = self.get_pl_sip_encoding(r_vni_id)
-            for nsg_index in range(p.ACL_NSG_COUNT * 2):
-                stage = nsg_index % p.ACL_NSG_COUNT + 1
-                if nsg_index < p.ACL_NSG_COUNT:
-                    nsg_id = eni * 1000 + nsg_index
-                    self.num_yields += 1
-                    yield {
-                        'DASH_ACL_IN_TABLE:eni-%d:%d' % (eni, stage): {
-                            'acl_group_id': f'{nsg_id}'
-                        },
-                        'OP': 'SET'
-                    }
+            pl_sip_encoding = self.get_pl_sip_encoding(eni)
+            # for nsg_index in range(p.ACL_NSG_COUNT * 2):
+            #     stage = nsg_index % p.ACL_NSG_COUNT + 1
+            #     if nsg_index < p.ACL_NSG_COUNT:
+            #         nsg_id = eni * 1000 + nsg_index
+            #         self.num_yields += 1
+            #         yield {
+            #             'DASH_ACL_IN_TABLE:eni-%d:%d' % (eni, stage): {
+            #                 'acl_group_id': f'{nsg_id}'
+            #             },
+            #             'OP': 'SET'
+            #         }
 
-                else:
-                    nsg_id = eni * 1000 + 500 + nsg_index - p.ACL_NSG_COUNT
-                    self.num_yields += 1
-                    yield {
-                        'DASH_ACL_OUT_TABLE:eni-%d:%d' % (eni, stage): {
-                            'acl_group_id': f'{nsg_id}'
-                        },
-                        'OP': 'SET'
-                    }
+            #     else:
+            #         nsg_id = eni * 1000 + 500 + nsg_index - p.ACL_NSG_COUNT
+            #         self.num_yields += 1
+            #         yield {
+            #             'DASH_ACL_OUT_TABLE:eni-%d:%d' % (eni, stage): {
+            #                 'acl_group_id': f'{nsg_id}'
+            #             },
+            #             'OP': 'SET'
+            #         }
 
             self.num_yields += 1
             yield {
                 'DASH_ENI_TABLE:eni-%d' % eni: {
                     'eni_id': 'eni-%d' % eni,
-                    "qos": 'qos-%d' % eni,
                     'mac_address': local_mac,
                     'underlay_ip': vm_underlay_dip,
                     'admin_state': 'enabled',
                     'vnet': 'vnet-%d' % r_vni_id,
-                    "pl_underlay_sip": pl_underlay_sip,
+                    "pl_underlay_sip": p.LOOPBACK,
                     "pl_sip_encoding": pl_sip_encoding,
+                    "trusted_vnis_list": [{"value": p.ENI_START}]
                 },
                 'OP': 'SET'
             }

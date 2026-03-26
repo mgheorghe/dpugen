@@ -1,10 +1,13 @@
 import argparse
 import collections
+from html import parser
 import io
 import itertools
 import json
+import os
 import sys
 import textwrap
+import pathlib
 
 import orjson
 
@@ -108,6 +111,11 @@ def write_list_file_iterator(config, format, filename='<stdout>', dpu_id=None):
             tmp = filename.split('.')
             tmp.insert(-1, dpu_id)
             filename = '.'.join(tmp)
+            folder_name = pathlib.Path(filename).stem
+            folder_name = pathlib.Path(folder_name).stem
+            folder_name = pathlib.Path(folder_name).stem
+            dpu_folder = folder_name + '/' + pathlib.Path(dpu_id).stem
+            filename = dpu_folder + '/' + filename
         with io.open(filename, 'wb') as file_pointer:
             print(f'writing file {filename}', file=sys.stderr)
             write_list_file_pointer_iterator(config, format, file_pointer)

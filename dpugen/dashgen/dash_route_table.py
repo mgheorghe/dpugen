@@ -103,43 +103,43 @@ class OutRouteRules(ConfBase):
                 raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
             
             added_route_count = 0
-            for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
-                IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
-                for acl_index in range(0, p.ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
+            # for table_index in range(p.ACL_NSG_COUNT * 2):  # Per outbound group (5)
+            #     IP_R_START_nsg = IP_R_START_eni + ip_int.IP_STEP_NSG * table_index
+            #     for acl_index in range(0, p.ACL_RULES_NSG, 2):  # Per even rule (1000 / 2)
 
-                    IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
+            #         IP_RANGE_START = IP_R_START_nsg + p.IP_PER_ACL_RULE * acl_index - 1
 
-                    routes = self.create_routes(IP_RANGE_START, p.IP_PER_ACL_RULE * 2)
-                    if len(routes) < OUTBOUND_ROUTES_PER_ACL:
-                        routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
-                    if len(routes) < OUTBOUND_ROUTES_PER_ACL:
-                        routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
+            #         routes = self.create_routes(IP_RANGE_START, p.IP_PER_ACL_RULE * 2)
+            #         if len(routes) < OUTBOUND_ROUTES_PER_ACL:
+            #             routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
+            #         if len(routes) < OUTBOUND_ROUTES_PER_ACL:
+            #             routes = self.make_more_routes(routes, OUTBOUND_ROUTES_PER_ACL * 2)
 
-                    for route in routes:
-                        ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
-                        if acl_index < p.ACL_MAPPED_PER_NSG:
+            #         for route in routes:
+            #             ip = socket_inet_ntoa(struct_pack('>L', route['ip']))
+            #             if acl_index < p.ACL_MAPPED_PER_NSG:
 
-                            # routes that have a mac mapping
-                            self.num_yields += 1
-                            yield {
-                                'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
-                                    'action_type': 'vnet',
-                                    'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
-                                },
-                                'OP': 'SET'
-                            }
-                        else:
-                            # routes that do not have a mac mapping
-                            self.num_yields += 1
-                            yield {
-                                'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
-                                    'action_type': 'vnet_direct',
-                                    'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
-                                    'overlay_ip': gateway_ip
-                                },
-                                'OP': 'SET'
-                            }
-                    added_route_count += len(routes)
+            #                 # routes that have a mac mapping
+            #                 self.num_yields += 1
+            #                 yield {
+            #                     'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
+            #                         'routing_type': 'vnet',
+            #                         'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
+            #                     },
+            #                     'OP': 'SET'
+            #                 }
+            #             else:
+            #                 # routes that do not have a mac mapping
+            #                 self.num_yields += 1
+            #                 yield {
+            #                     'DASH_ROUTE_TABLE:route-group-%d:%s/%d' % (eni, ip, route['mask']): {
+            #                         'routing_type': 'vnet_direct',
+            #                         'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
+            #                         'overlay_ip': gateway_ip
+            #                     },
+            #                     'OP': 'SET'
+            #                 }
+            #         added_route_count += len(routes)
 
             # add a default route if no route was added to current ENI'
             if added_route_count == 0:
@@ -149,7 +149,7 @@ class OutRouteRules(ConfBase):
                     self.num_yields += 1
                     yield {
                         'DASH_ROUTE_TABLE:route-group-%d:%s' % (eni, network): {
-                            'action_type': 'vnet',
+                            'routing_type': 'vnet',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
                         },
                         'OP': 'SET'
@@ -159,7 +159,7 @@ class OutRouteRules(ConfBase):
                     self.num_yields += 1
                     yield {
                         'DASH_ROUTE_TABLE:route-group-%d:%s' % (eni, network): {
-                            'action_type': 'vnet_direct',
+                            'routing_type': 'vnet_direct',
                             'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP),
                             'overlay_ip': gateway_ip
                         },
@@ -167,6 +167,17 @@ class OutRouteRules(ConfBase):
                     }
                 else:
                     raise Exception('ACL_MAPPED_PER_NSG <%d> cannot be < 0' % p.ACL_MAPPED_PER_NSG)
+
+            # add local ENI IP route
+            local_ip = socket_inet_ntoa(struct_pack('>L', ip_int.IP_L_START + eni_index * ip_int.IP_STEP_ENI))
+            self.num_yields += 1
+            yield {
+                'DASH_ROUTE_TABLE:route-group-%d:%s/32' % (eni, local_ip): {
+                    'routing_type': 'vnet',
+                    'vnet': 'vnet-%d' % (eni + p.ENI_L2R_STEP)
+                },
+                'OP': 'SET'
+            }
 
 
 if __name__ == '__main__':

@@ -46,17 +46,6 @@ class PlMappings(ConfBase):
             eni_mac = str(maca(ip_int.MAC_L_START + eni_index * ip_int.MAC_STEP_ENI))
             r_vni_id = eni + p.ENI_L2R_STEP
             
-            self.num_yields += 1
-            yield {
-                'DASH_VNET_MAPPING_TABLE:vnet-%d:%s' % (r_vni_id, eni_ip): {
-                    'routing_type': 'vnet_encap',
-                    'underlay_ip': p.LOOPBACK,
-                    'mac_address': eni_mac,
-                    'use_dst_vni': 'true'
-                },
-                'OP': 'SET'
-            }
-
             # just some prefixes may have a mapping entry
             if p.ACL_MAPPED_PER_NSG >= 1:
                 print(f'    mapped:eni:{eni}', file=sys.stderr)
@@ -87,8 +76,8 @@ class PlMappings(ConfBase):
                                             #'routing_type': 'privatelink-%d' % eni,
                                             'routing_type': 'privatelink',
                                             'underlay_ip': vtep_remote,
-                                            'mac_address': remote_expanded_mac,
-                                            'use_dst_vni': 'true',
+                                            #'mac_address': remote_expanded_mac,
+                                            #'use_dst_vni': 'true',
                                             "overlay_sip_prefix": overlay_sip_prefix,
                                             "overlay_dip_prefix": overlay_dip_prefix
                                         },

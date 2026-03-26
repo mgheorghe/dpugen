@@ -9,19 +9,20 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'PAR':                             '221.2.0.0',                # '221.2.0.0'
     'GATEWAY':                         '222.0.0.1',                # '222.0.0.1'
 
-    'DPUS':                             8,                         # 8
+    'DPUS':                             4,                         # 8
 
-    'ENI_START':                        1,                         # 1
+    'ENI_START':                        1000,                      # 1
     'ENI_COUNT':                        256,                       # 256
     'ENI_STEP':                         1,                         # 1
-    'ENI_L2R_STEP':                     1000,                      # 1000
+    'ENI_L2R_STEP':                     1000,                         # 1000
+    #'NVGRE_VNI_START':                  3000,                      # 3000
 
     'VNET_PER_ENI':                     1,                         # 16 TODO: partialy implemented
 
     'ACL_NSG_COUNT':                    5,                         # 5 (per direction per ENI)
-    'ACL_RULES_NSG':                    1000,                      # 1000
-    'IP_PER_ACL_RULE':                  100,                       # 100
-    'ACL_MAPPED_PER_NSG':               500,                       # 500, efective is 250 because denny are skiped
+    'ACL_RULES_NSG':                    128,                       # 1000
+    'IP_PER_ACL_RULE':                  1,                        # 100
+    'ACL_MAPPED_PER_NSG':               128,                      # 500, efective is 250 because denny are skiped
 
     'MAC_L_START':                      '00:1A:C5:00:00:01',
     'MAC_R_START':                      '00:1B:6E:00:00:01',
@@ -39,5 +40,9 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'IP_STEP_ACL':                      '0.0.1.0',
     'IP_STEPE':                         '0.0.0.2',
 
-    'TOTAL_OUTBOUND_ROUTES':            25600000                  # ENI_COUNT * 100K
+    'TOTAL_OUTBOUND_ROUTES':            128000,                  # ENI_COUNT * 100K
+    'OUTBOUND_ROUTES_DIST': {
+        32: 100,
+        31: 100
+    }
 }
