@@ -147,6 +147,7 @@ if __name__ == '__main__':
             eni_params = {}
 
             eni_id = dpu_id * ENI_COUNT + eni_index
+            eni_params['VM_VNI']      = conf.params_dict['VM_VNI'] + dpu_id * ENI_COUNT
             eni_params['ENI_COUNT']   = 1
             eni_params['ENI_START']   = dpu_params['ENI_START']                                  + eni_index * conf.params_dict['ENI_STEP']
             eni_params['LOOPBACK']    = dpu_params['LOOPBACK']

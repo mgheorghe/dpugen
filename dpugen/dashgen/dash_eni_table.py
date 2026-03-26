@@ -82,7 +82,7 @@ class Enis(ConfBase):
                     'vnet': 'vnet-%d' % r_vni_id,
                     "pl_underlay_sip": p.LOOPBACK,
                     "pl_sip_encoding": pl_sip_encoding,
-                    "trusted_vnis_list": [{"value": p.ENI_START}]
+                    "trusted_vnis_list": [{"value": p.VM_VNI}]
                 },
                 'OP': 'SET'
             }
