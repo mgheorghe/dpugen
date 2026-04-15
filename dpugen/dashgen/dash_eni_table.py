@@ -49,7 +49,7 @@ class Enis(ConfBase):
             #loopback = socket_inet_ntoa(struct_pack('>L', ip_int.LOOPBACK + eni_index * ip_int.IP_STEP1))
             vm_underlay_dip = socket_inet_ntoa(struct_pack('>L', ip_int.PAL + eni_index * ip_int.IP_STEP1))
             r_vni_id = p.ENI_L2R_STEP + eni
-            pl_sip_encoding = self.get_pl_sip_encoding(eni)
+            pl_sip_encoding = self.get_pl_sip_encoding(r_vni_id) # vnet_vni needs to be used for PL SIP encoding, as PL mapping is per VNI
             # for nsg_index in range(p.ACL_NSG_COUNT * 2):
             #     stage = nsg_index % p.ACL_NSG_COUNT + 1
             #     if nsg_index < p.ACL_NSG_COUNT:
