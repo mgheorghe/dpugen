@@ -41,7 +41,7 @@ dflt_params = {                        # CONFIG VALUE             # DEFAULT VALU
     'IP_STEP_ACL':                      '0.0.1.0',
     'IP_STEPE':                         '0.0.0.2',
 
-    'TOTAL_OUTBOUND_ROUTES':            128000,                  # ENI_COUNT * 100K
+    'TOTAL_OUTBOUND_ROUTES':            2560000,                  # for VNET: 256 ENIs * 100K routes per ENI, for PL: 256 ENIs * 10K routes per ENI
     'OUTBOUND_ROUTES_DIST': {
         32: 100,
         31: 100
